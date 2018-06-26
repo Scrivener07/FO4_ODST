@@ -9,7 +9,7 @@ Scriptname ODSTVISRControlScript extends Quest Conditional
 Form Property SlowTimeAid Auto
 Form Property SlowTimeConfigurator Auto
 
-Function OnInit()
+Event OnInit()
 	Actor PlayerREF = Game.GetPlayer()
 
 	If (PlayerREF.GetItemCount(SlowTimeAid) == 0)
@@ -18,4 +18,5 @@ Function OnInit()
 	If (PlayerREF.GetItemCount(SlowTimeConfigurator) == 0)
 		PlayerREF.AddItem(SlowTimeConfigurator, 1, False)
 	EndIf
-EndFunction
+EndEvent
+
