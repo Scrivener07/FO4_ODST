@@ -19,4 +19,3 @@ Event OnInit()
 		PlayerREF.AddItem(SlowTimeConfigurator, 1, False)
 	EndIf
 EndEvent
-

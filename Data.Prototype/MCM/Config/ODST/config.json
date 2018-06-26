@@ -1,0 +1,74 @@
+{
+	"modName": "ODST",
+	"displayName": "ODST - Project Helljumper",
+	"content":
+	[
+		{
+			"text": "Emblem Designer",
+			"type": "section"
+		},
+		{
+			"type": "image",
+			"libName": "ODST",
+			"className": "Preview"
+		},
+		{
+			"text": "Use the dropdown controls to design a custom emblem.",
+			"type": "text"
+		},
+		{
+			"text": "Background",
+			"type": "dropdown",
+			"help": "The emblems background shape.",
+			"valueOptions":
+			{
+				"options":
+				[
+					"Clear",
+					"Circle",
+					"Display",
+					"Shield"
+				],
+				"sourceType": "PropertyValueInt",
+				"sourceForm": "ODST.esp|802",
+				"propertyName": "Background"
+			}
+		},
+		{
+			"text": "Primary",
+			"type": "dropdown",
+			"help": "The emblems primary icon shape.",
+			"valueOptions":
+			{
+				"options":
+				[
+					"Clear",
+					"Grenade",
+					"Spartan",
+					"Spartan Helmet"
+				],
+				"sourceType": "PropertyValueInt",
+				"sourceForm": "ODST.esp|802",
+				"propertyName": "Primary"
+			}
+		},
+		{
+			"text": "Secondary",
+			"type": "dropdown",
+			"help": "The emblems secondary icon shape.",
+			"valueOptions":
+			{
+				"options":
+				[
+					"Clear",
+					"Grenade",
+					"Spartan",
+					"Spartan Helmet"
+				],
+				"sourceType": "PropertyValueInt",
+				"sourceForm": "ODST.esp|802",
+				"propertyName": "Secondary"
+			}
+		}
+	]
+}
