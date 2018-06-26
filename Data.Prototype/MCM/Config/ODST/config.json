@@ -13,10 +13,6 @@
 			"className": "Preview"
 		},
 		{
-			"text": "Use the dropdown controls to design a custom emblem.",
-			"type": "text"
-		},
-		{
 			"text": "Background",
 			"type": "dropdown",
 			"help": "The emblems background shape.",
@@ -35,9 +31,36 @@
 			}
 		},
 		{
-			"text": "Primary",
+			"text": "Background Color",
 			"type": "dropdown",
-			"help": "The emblems primary icon shape.",
+			"help": "The emblems background color.",
+			"valueOptions":
+			{
+				"options":
+				[
+					"Black",
+					"Blue",
+					"Cyan",
+					"Green",
+					"Orange",
+					"Purple",
+					"Red",
+					"White",
+					"Yellow"
+				],
+				"sourceType": "PropertyValueInt",
+				"sourceForm": "ODST.esp|802",
+				"propertyName": "BackgroundColor"
+			}
+		},
+		{
+			"type": "spacer",
+			"numLines": 1
+		},
+		{
+			"text": "Icon",
+			"type": "dropdown",
+			"help": "The emblems icon shape.",
 			"valueOptions":
 			{
 				"options":
@@ -53,21 +76,49 @@
 			}
 		},
 		{
-			"text": "Secondary",
+			"text": "Icon Primary Color",
 			"type": "dropdown",
-			"help": "The emblems secondary icon shape.",
+			"help": "The emblems primary color.",
 			"valueOptions":
 			{
 				"options":
 				[
-					"Clear",
-					"Grenade",
-					"Spartan",
-					"Spartan Helmet"
+					"Black",
+					"Blue",
+					"Cyan",
+					"Green",
+					"Orange",
+					"Purple",
+					"Red",
+					"White",
+					"Yellow"
 				],
 				"sourceType": "PropertyValueInt",
 				"sourceForm": "ODST.esp|802",
-				"propertyName": "Secondary"
+				"propertyName": "PrimaryColor"
+			}
+		},
+		{
+			"text": "Icon Secondary Color",
+			"type": "dropdown",
+			"help": "The emblems secondary color.",
+			"valueOptions":
+			{
+				"options":
+				[
+					"Black",
+					"Blue",
+					"Cyan",
+					"Green",
+					"Orange",
+					"Purple",
+					"Red",
+					"White",
+					"Yellow"
+				],
+				"sourceType": "PropertyValueInt",
+				"sourceForm": "ODST.esp|802",
+				"propertyName": "SecondaryColor"
 			}
 		}
 	]
