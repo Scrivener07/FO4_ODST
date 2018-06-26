@@ -1,5 +1,5 @@
 # Fallout 4 - ODST
-A Fallout 4 modification by [Darkman32197](https://www.nexusmods.com/users/5280910) and [NovaFinch](https://www.nexusmods.com/users/38614105).
+A Fallout 4 modification by [Darkman32197](https://www.nexusmods.com/users/5280910), [NovaFinch](https://www.nexusmods.com/users/38614105) and Soda.
 This file should help authors get started developing for ODST.
 
 ### WIP
