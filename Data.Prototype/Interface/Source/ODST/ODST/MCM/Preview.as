@@ -18,11 +18,9 @@
 		public var BackgroundTexture:TextureLoader;
 		public static const BackgroundMountID:String = "ODST_EmblemBackground";
 
+
 		public function Preview()
 		{
-			var menu:* = stage.getChildAt(0);
-			menu.f4se.SendExternalEvent("ODST_TestEvent");
-
 			Debug.WriteLine("Preview", "ctor", "Constructor Code", "Hello");
 
 			PrimaryTexture.ImageMountID = PrimaryMountID;
@@ -33,20 +31,6 @@
 
 			BackgroundTexture.ImageMountID = BackgroundMountID;
 			BackgroundTexture.Load("ProjectHelljumper\\H3ODST\\1Decals\\Decals\\Background\\Shield.dds");
-		}
-
-
-
-		private function derp():void
-		{
-			// var value:*;
-			// value = stage.getChildAt(0).f4se;
-
-			// Debug.TraceObject(value);
-
-			// value.f4se.SendExternalEvent("ODST_TestEvent");
-
-			//	Debug.TraceDisplayList(this);
 		}
 
 
