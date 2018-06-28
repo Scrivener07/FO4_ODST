@@ -13,6 +13,78 @@
 			"className": "Preview"
 		},
 		{
+			"type": "spacer",
+			"numLines": 1
+		},
+		{
+			"text": "Decal",
+			"type": "dropdown",
+			"help": "The emblems decal shape.",
+			"valueOptions":
+			{
+				"options":
+				[
+					"Clear",
+					"Grenade",
+					"Spartan",
+					"Spartan Helmet"
+				],
+				"sourceType": "PropertyValueInt",
+				"sourceForm": "ODST.esp|805",
+				"propertyName": "Decal"
+			}
+		},
+		{
+			"text": "Decal Primary Color",
+			"type": "dropdown",
+			"help": "The emblems primary decal color.",
+			"valueOptions":
+			{
+				"options":
+				[
+					"Black",
+					"Blue",
+					"Cyan",
+					"Green",
+					"Orange",
+					"Purple",
+					"Red",
+					"White",
+					"Yellow"
+				],
+				"sourceType": "PropertyValueInt",
+				"sourceForm": "ODST.esp|805",
+				"propertyName": "PrimaryColor"
+			}
+		},
+		{
+			"text": "Decal Secondary Color",
+			"type": "dropdown",
+			"help": "The emblems secondary decal color.",
+			"valueOptions":
+			{
+				"options":
+				[
+					"Black",
+					"Blue",
+					"Cyan",
+					"Green",
+					"Orange",
+					"Purple",
+					"Red",
+					"White",
+					"Yellow"
+				],
+				"sourceType": "PropertyValueInt",
+				"sourceForm": "ODST.esp|805",
+				"propertyName": "SecondaryColor"
+			}
+		},
+		{
+			"type": "spacer",
+			"numLines": 1
+		},
+		{
 			"text": "Background",
 			"type": "dropdown",
 			"help": "The emblems background shape.",
@@ -26,7 +98,7 @@
 					"Shield"
 				],
 				"sourceType": "PropertyValueInt",
-				"sourceForm": "ODST.esp|802",
+				"sourceForm": "ODST.esp|805",
 				"propertyName": "Background"
 			}
 		},
@@ -49,76 +121,8 @@
 					"Yellow"
 				],
 				"sourceType": "PropertyValueInt",
-				"sourceForm": "ODST.esp|802",
+				"sourceForm": "ODST.esp|805",
 				"propertyName": "BackgroundColor"
-			}
-		},
-		{
-			"type": "spacer",
-			"numLines": 1
-		},
-		{
-			"text": "Icon",
-			"type": "dropdown",
-			"help": "The emblems icon shape.",
-			"valueOptions":
-			{
-				"options":
-				[
-					"Clear",
-					"Grenade",
-					"Spartan",
-					"Spartan Helmet"
-				],
-				"sourceType": "PropertyValueInt",
-				"sourceForm": "ODST.esp|802",
-				"propertyName": "Primary"
-			}
-		},
-		{
-			"text": "Icon Primary Color",
-			"type": "dropdown",
-			"help": "The emblems primary color.",
-			"valueOptions":
-			{
-				"options":
-				[
-					"Black",
-					"Blue",
-					"Cyan",
-					"Green",
-					"Orange",
-					"Purple",
-					"Red",
-					"White",
-					"Yellow"
-				],
-				"sourceType": "PropertyValueInt",
-				"sourceForm": "ODST.esp|802",
-				"propertyName": "PrimaryColor"
-			}
-		},
-		{
-			"text": "Icon Secondary Color",
-			"type": "dropdown",
-			"help": "The emblems secondary color.",
-			"valueOptions":
-			{
-				"options":
-				[
-					"Black",
-					"Blue",
-					"Cyan",
-					"Green",
-					"Orange",
-					"Purple",
-					"Red",
-					"White",
-					"Yellow"
-				],
-				"sourceType": "PropertyValueInt",
-				"sourceForm": "ODST.esp|802",
-				"propertyName": "SecondaryColor"
 			}
 		}
 	]
