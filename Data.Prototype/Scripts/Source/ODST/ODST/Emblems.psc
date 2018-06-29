@@ -27,22 +27,23 @@ Event OnQuestInit()
 	Remapping = new MatSwap:RemapData[0]
 
 	RemapBackground = new MatSwap:RemapData
-	RemapBackground.Source = Folder+"\\Background\\Blank.BGEM"
+	RemapBackground.Source = Folder+"\\Background\\Blank.bgem"
 	RemapBackground.Target = none
 	Remapping.Add(RemapBackground)
 
 	RemapPrimary = new MatSwap:RemapData
-	RemapPrimary.Source = Folder+"\\Primary\\Blank.BGEM"
+	RemapPrimary.Source = Folder+"\\Primary\\Blank.bgem"
 	RemapPrimary.Target = none
 	Remapping.Add(RemapPrimary)
 
 	RemapSecondary = new MatSwap:RemapData
-	RemapSecondary.Source = Folder+"\\Secondary\\Blank.BGEM"
+	RemapSecondary.Source = Folder+"\\Secondary\\Blank.bgem"
 	RemapSecondary.Target = none
 	Remapping.Add(RemapSecondary)
 
 	RegisterForMenuOpenCloseEvent(PauseMenu)
 	RegisterForExternalEvent("ODST_TestEvent", "OnODST")
+	WriteLine(self, "OnQuestInit", "Started emblems script.")
 EndEvent
 
 
@@ -50,52 +51,37 @@ EndEvent
 ;---------------------------------------------
 
 Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
+	WriteLine(self, "OnMenuOpenCloseEvent", "asMenuName="+asMenuName+", abOpening="+abOpening+"")
 	If (!abOpening)
 		UpdateSwap()
 		ApplySwap()
-		WriteLine(self, "OnMenuOpenCloseEvent(asMenuName="+asMenuName+", abOpening="+abOpening+")", "Hot swapped ODST emblem.")
 	EndIf
 EndEvent
+
 
 Function OnODST()
 	WriteLine(self, "OnODST", "We have the callback!")
 EndFunction
 
+
 ; Methods
 ;---------------------------------------------
 
-
-
 Function UpdateSwap()
 	; TODO: The option index and colors are not matching in MCM!
-	If (Settings.Decal == 0)
+
+	If (Settings.Decal == Settings.Cancel)
 		RemapPrimary.Target = RemapPrimary.Source
 		RemapSecondary.Target = RemapSecondary.Source
-
-	ElseIf(Settings.Decal == 1)
-		RemapPrimary.Target = Folder+"\\Primary\\"+Settings.ColorToString(Settings.PrimaryColor)+"\\Grenade.BGEM"
-		RemapSecondary.Target = Folder+"\\Secondary\\"+Settings.ColorToString(Settings.SecondaryColor)+"\\Grenade.BGEM"
-
-	ElseIf(Settings.Decal == 2)
-		RemapPrimary.Target = Folder+"\\Primary\\"+Settings.ColorToString(Settings.PrimaryColor)+"\\Spartan.BGEM"
-		RemapSecondary.Target = Folder+"\\Secondary\\"+Settings.ColorToString(Settings.SecondaryColor)+"\\Spartan.BGEM"
-
-	ElseIf(Settings.Decal == 3)
-		RemapPrimary.Target = Folder+"\\Primary\\"+Settings.ColorToString(Settings.PrimaryColor)+"\\SpartanHelmet.BGEM"
-		RemapSecondary.Target = Folder+"\\Secondary\\"+Settings.ColorToString(Settings.SecondaryColor)+"\\SpartanHelmet.BGEM"
+	Else
+		RemapPrimary.Target = GetPathFor("Primary", Settings.ColorToString(Settings.PrimaryColor), Settings.Shape1ToString(Settings.Decal))
+		RemapSecondary.Target = GetPathFor("Secondary", Settings.ColorToString(Settings.SecondaryColor), Settings.Shape1ToString(Settings.Decal))
 	EndIf
 
 	If (Settings.Background == Settings.Cancel)
 		RemapBackground.Target = RemapBackground.Source
-
-	ElseIf(Settings.Background == Settings.Circle)
-		RemapBackground.Target = Folder+"\\Background\\"+Settings.ColorToString(Settings.BackgroundColor)+"\\Circle.BGEM"
-
-	ElseIf(Settings.Background == Settings.Display)
-		RemapBackground.Target = Folder+"\\Background\\"+Settings.ColorToString(Settings.BackgroundColor)+"\\Display.BGEM"
-
-	ElseIf(Settings.Background == Settings.Shield)
-		RemapBackground.Target = Folder+"\\Background\\"+Settings.ColorToString(Settings.BackgroundColor)+"\\Shield.BGEM"
+	Else
+		RemapBackground.Target = GetPathFor("Background", Settings.ColorToString(Settings.BackgroundColor), Settings.Shape2ToString(Settings.Background))
 	EndIf
 EndFunction
 
@@ -103,6 +89,19 @@ EndFunction
 Function ApplySwap()
 	ODST_Decals_Menu_Start.SetRemapData(Remapping)
 	Player.ApplyMaterialSwap(ODST_Decals_Menu_Start)
+EndFunction
+
+
+; Functions
+;---------------------------------------------
+
+string Function GetPathFor(string layer, string color, string decal)
+	If (layer && color && decal)
+		return Folder+"\\"+layer+"\\"+color+"\\"+decal+".bgem"
+	Else
+		WriteUnexpected(self, "GetPathFor", "Parameters cannot be none.")
+		return none
+	EndIf
 EndFunction
 
 

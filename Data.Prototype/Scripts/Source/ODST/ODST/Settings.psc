@@ -42,8 +42,7 @@ EndFunction
 ; Functions
 ;---------------------------------------------
 
-
-string Function ShapeToString(int value)
+string Function Shape1ToString(int value)
 	{Converts a color index into the colors name as a string.}
 	If (value == Cancel)
 		return none
@@ -54,6 +53,24 @@ string Function ShapeToString(int value)
 	ElseIf (value == SpartanHelmet)
 		return "SpartanHelmet"
 	Else
+		WriteUnexpected(self, "Shape1ToString", "The value of "+value+" was out of range.")
+		return none
+	EndIf
+EndFunction
+
+
+string Function Shape2ToString(int value)
+	{Converts a color index into the colors name as a string.}
+	If (value == Cancel)
+		return none
+	ElseIf (value == Circle)
+		return "Circle"
+	ElseIf (value == Display)
+		return "Display"
+	ElseIf (value == Shield)
+		return "Shield"
+	Else
+		WriteUnexpected(self, "Shape2ToString", "The value of "+value+" was out of range.")
 		return none
 	EndIf
 EndFunction
@@ -80,6 +97,7 @@ string Function ColorToString(int value)
 	ElseIf (value == Yellow)
 		return "Yellow"
 	Else
+		WriteUnexpected(self, "ColorToString", "The value of "+value+" was out of range.")
 		return none
 	EndIf
 EndFunction

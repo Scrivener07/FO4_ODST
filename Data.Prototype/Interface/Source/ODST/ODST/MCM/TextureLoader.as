@@ -10,16 +10,13 @@ package
 	import AS3.*;
 	import F4SE.*;
 
-	public dynamic class TextureLoader extends MovieClip
+	public dynamic class TextureLoader extends MovieClip implements IExtensions
 	{
-		private var f4se:*; // I cant get the f4se native object from MCM?
+		public var ImageMountID:String; // must set from Preview.as
+		private var f4se:*;
 
 		// Files
-		private var Uri:String;
-		private var LastFile:String;
-		public var ImageMountID:String; // must set from Preview.as
-
-		private static const DDS:String = "dds";
+		private var FilePath:String;
 
 		// Stage
 		private function get Resolution():Number { return stage.height; }
@@ -42,7 +39,7 @@ package
 			ContentLoader = new Loader();
 			Info.addEventListener(Event.COMPLETE, this.OnLoadComplete);
 			Info.addEventListener(IOErrorEvent.IO_ERROR, this.OnLoadError);
-			Debug.WriteLine("TextureLoader", "(ctor)", "Constructor Code");
+			Debug.WriteLine("[TextureLoader]", "(ctor)", "Constructor Code");
 		}
 
 
@@ -51,12 +48,11 @@ package
 			if(codeObject != null)
 			{
 				f4se = codeObject;
-				Debug.WriteLine("[TextureLoader]", "(onF4SEObjCreated)", "Received F4SE code object.");
-				Debug.TraceObject(f4se);
+				Debug.WriteLine("[TextureLoader]"+ImageMountID, "(onF4SEObjCreated)", "Received F4SE code object.");
 			}
 			else
 			{
-				Debug.WriteLine("[TextureLoader]", "(onF4SEObjCreated)", "The f4se object is null.");
+				Debug.WriteLine("[TextureLoader]"+ImageMountID, "(onF4SEObjCreated)", "The f4se object is null.");
 			}
 		}
 
@@ -64,25 +60,23 @@ package
 		// Methods
 		//---------------------------------------------
 
-		private function Load(filepath:String):void
+		private function Load(filepath:String):Boolean
 		{
-			Clear();
-			var urlRequest:URLRequest;
-
-			// if(GetTextureExists(filepath))
-			// {
+			Unload();
+			if(GetTextureExists(filepath))
+			{
 				F4SE.Extensions.MountImage(f4se, Preview.MenuName, filepath, ImageMountID);
-				urlRequest = new URLRequest("img://"+ImageMountID);
-				Debug.WriteLine("[TextureLoader]", "(Load)", "'"+urlRequest.url+"' as '"+filepath+"' to "+Preview.MenuName+" with resource ID "+ImageMountID);
-			// }
-			// else
-			// {
-			// 	Debug.WriteLine("[TextureLoader]", "(Load)", "'"+filepath+"' does not exist.");
-			// 	return;
-			// }
-
-			LastFile = filepath;
-			ContentLoader.load(urlRequest);
+				var urlRequest:URLRequest = new URLRequest("img://"+ImageMountID);
+				ContentLoader.load(urlRequest);
+				FilePath = filepath;
+				Debug.WriteLine("[TextureLoader]"+ImageMountID, "(Load)", "'"+urlRequest.url+"' as '"+filepath+"' to "+Preview.MenuName+" with resource ID "+ImageMountID);
+				return true;
+			}
+			else
+			{
+				Debug.WriteLine("[TextureLoader]"+ImageMountID, "(Load)", "'"+filepath+"' does not exist.");
+				return false;
+			}
 		}
 
 
@@ -95,60 +89,46 @@ package
 
 		private function OnLoadComplete(e:Event):void
 		{
+			Debug.WriteLine("[TextureLoader]"+ImageMountID, "(OnLoadComplete)", e.toString()+"\n"+toString());
 			addChild(Content);
 			this.visible = true;
-			Debug.WriteLine("[TextureLoader]", "(OnLoadComplete)", e.toString()+"\n"+toString());
 		}
 
 
 		private function OnLoadError(e:IOErrorEvent):void
 		{
-			Clear();
-			Debug.WriteLine("[TextureLoader]", "(OnLoadError)", e.toString()+"\n"+toString());
+			Debug.WriteLine("[TextureLoader]"+ImageMountID, "(OnLoadError)", e.toString()+"\n"+toString());
+			Unload();
 		}
 
 
 		// Methods
 		//---------------------------------------------
 
-		private function Clear():void
+		private function Unload():void
 		{
 			this.visible = false;
-			Unmount(LastFile);
-			Unload();
-		}
 
-
-		private function Unmount(filepath:String):Boolean
-		{
-			if (filepath != null)
+			if (FilePath != null)
 			{
-				F4SE.Extensions.UnmountImage(f4se, Preview.MenuName, filepath);
-				Debug.WriteLine("[TextureLoader]", "(Unmount)", "Unmounted the image '"+filepath+"' from "+Preview.MenuName+" with resource ID "+ImageMountID);
-				return true;
+				F4SE.Extensions.UnmountImage(f4se, Preview.MenuName, FilePath);
+				Debug.WriteLine("[TextureLoader]"+ImageMountID, "(Unload)", "Unmounted the image '"+FilePath+"' from "+Preview.MenuName+" with resource ID "+ImageMountID);
 			}
 			else
 			{
-				Debug.WriteLine("[TextureLoader]", "(Unmount)", "Cannot unmount file null filepath.");
-				return false;
+				// Debug.WriteLine("[TextureLoader]"+ImageMountID, "(Unload)", "Cannot unmount file null filepath.");
 			}
-		}
 
-
-		private function Unload():Boolean
-		{
 			if (Content)
 			{
 				this.visible = false;
 				removeChild(Content);
 				Content.loaderInfo.loader.unload();
-				Debug.WriteLine("[TextureLoader]", "(Unload)", "Unloaded content from loader.");
-				return true;
+				Debug.WriteLine("[TextureLoader]"+ImageMountID, "(Unload)", "Unloaded content from loader.");
 			}
 			else
 			{
-				Debug.WriteLine("[TextureLoader]", "(Unload)", "No existing content to unload.");
-				return false;
+				// Debug.WriteLine("[TextureLoader]"+ImageMountID, "(Unload)", "No existing content to unload.");
 			}
 		}
 
@@ -159,10 +139,9 @@ package
 		public override function toString():String
 		{
 			var sResolution = "Resolution: "+stage.width+"x"+stage.height+" ("+this.x+"x"+this.y+")";
-			var sURI = "Uri: '"+Uri+"'";
-			var sLastFile = "LastFile: '"+LastFile+"'";
+			var sLastFile = "FilePath: '"+FilePath+"'";
 			var sUrl = "Url: '"+Url+"'";
-			return sResolution+"\n"+sURI+"\n"+sLastFile+"\n"+sUrl;
+			return sResolution+"\n"+sLastFile+"\n"+sUrl;
 		}
 
 
