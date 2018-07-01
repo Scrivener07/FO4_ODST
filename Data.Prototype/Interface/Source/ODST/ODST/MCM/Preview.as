@@ -11,13 +11,13 @@
 		public static const MenuName:String = "PauseMenu"; // use root menu?
 
 		public var PrimaryTexture:TextureLoader;
-		public static const PrimaryMountID:String = "ODST_EmblemPrimary";
+		public static const PrimaryMountID:String = "ODST_MCM_EmblemPrimary";
 
 		public var SecondaryTexture:TextureLoader;
-		public static const SecondaryMountID:String = "ODST_EmblemSecondary";
+		public static const SecondaryMountID:String = "ODST_MCM_EmblemSecondary";
 
 		public var BackgroundTexture:TextureLoader;
-		public static const BackgroundMountID:String = "ODST_EmblemBackground";
+		public static const BackgroundMountID:String = "ODST_MCM_EmblemBackground";
 
 
 		public function Preview()
@@ -35,7 +35,7 @@
 
 			SecondaryTexture.onF4SEObjCreated(f4seCodeObject);
 			SecondaryTexture.ImageMountID = SecondaryMountID;
-			SecondaryTexture.Load("ProjectHelljumper\\H3ODST\\1Decals\\Decals\\Primary\\Spartan2.dds");
+			SecondaryTexture.Load("ProjectHelljumper\\H3ODST\\1Decals\\Decals\\Secondary\\Spartan2.dds");
 
 			BackgroundTexture.onF4SEObjCreated(f4seCodeObject);
 			BackgroundTexture.ImageMountID = BackgroundMountID;

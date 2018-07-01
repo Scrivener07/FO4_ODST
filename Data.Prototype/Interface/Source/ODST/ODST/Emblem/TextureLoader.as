@@ -12,7 +12,8 @@ package
 
 	public dynamic class TextureLoader extends MovieClip implements IExtensions
 	{
-		public var ImageMountID:String; // must set from Preview.as
+		public var MenuName:String;
+		public var ImageMountID:String;
 		private var f4se:*;
 
 		// Files
@@ -65,11 +66,11 @@ package
 			Unload();
 			if(GetTextureExists(filepath))
 			{
-				F4SE.Extensions.MountImage(f4se, Preview.MenuName, filepath, ImageMountID);
+				F4SE.Extensions.MountImage(f4se, MenuName, filepath, ImageMountID);
 				var urlRequest:URLRequest = new URLRequest("img://"+ImageMountID);
 				ContentLoader.load(urlRequest);
 				FilePath = filepath;
-				Debug.WriteLine(toString(), "(Load)", "'"+urlRequest.url+"' as '"+filepath+"' to "+Preview.MenuName+" with resource ID "+ImageMountID);
+				Debug.WriteLine(toString(), "(Load)", "'"+urlRequest.url+"' as '"+filepath+"' to "+MenuName+" with resource ID "+ImageMountID);
 				return true;
 			}
 			else
@@ -91,6 +92,7 @@ package
 		{
 			Debug.WriteLine(toString(), "(OnLoadComplete)", e.toString()+"\n"+toString());
 			addChild(Content);
+			Utility.ScaleToHeight(this, 75);
 			this.visible = true;
 		}
 
@@ -111,8 +113,8 @@ package
 
 			if (FilePath != null)
 			{
-				F4SE.Extensions.UnmountImage(f4se, Preview.MenuName, FilePath);
-				Debug.WriteLine(toString(), "(Unload)", "Unmounted the image '"+FilePath+"' from "+Preview.MenuName+" with resource ID "+ImageMountID);
+				F4SE.Extensions.UnmountImage(f4se, MenuName, FilePath);
+				Debug.WriteLine(toString(), "(Unload)", "Unmounted the image '"+FilePath+"' from "+MenuName+" with resource ID "+ImageMountID);
 			}
 
 			if (Content)

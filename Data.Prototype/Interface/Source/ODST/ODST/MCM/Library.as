@@ -16,6 +16,7 @@
 		public function onLibLoaded(mcmCodeObject:*, f4seCodeObject:*):void
 		{
 			Debug.WriteLine("Library", "(onLibLoaded)", "MCM scaleform callback has been received.");
+			f4seCodeObject.SendExternalEvent("ODST_TestEvent");
 			Debug.TraceObject(f4seCodeObject);
 			Debug.TraceObject(mcmCodeObject);
 			EmblemPreview.onLibLoaded(mcmCodeObject, f4seCodeObject);

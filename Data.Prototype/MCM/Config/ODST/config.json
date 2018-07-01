@@ -17,27 +17,27 @@
 			"numLines": 1
 		},
 		{
+			"id": "iEmblem_Foreground:Main",
 			"text": "Decal",
 			"type": "dropdown",
-			"help": "The emblems decal shape.",
+			"help": "The emblems foreground decal.",
 			"valueOptions":
 			{
 				"options":
 				[
-					"Clear",
+					"Blank",
 					"Grenade",
 					"Spartan",
 					"Spartan Helmet"
 				],
-				"sourceType": "PropertyValueInt",
-				"sourceForm": "ODST.esp|805",
-				"propertyName": "Decal"
+				"sourceType": "ModSettingInt"
 			}
 		},
 		{
+			"id": "iEmblem_Foreground_Color_Primary:Main",
 			"text": "Decal Primary Color",
 			"type": "dropdown",
-			"help": "The emblems primary decal color.",
+			"help": "The emblems primary color.",
 			"valueOptions":
 			{
 				"options":
@@ -52,15 +52,14 @@
 					"White",
 					"Yellow"
 				],
-				"sourceType": "PropertyValueInt",
-				"sourceForm": "ODST.esp|805",
-				"propertyName": "PrimaryColor"
+				"sourceType": "ModSettingInt"
 			}
 		},
 		{
+			"id": "iEmblem_Foreground_Color_Secondary:Main",
 			"text": "Decal Secondary Color",
 			"type": "dropdown",
-			"help": "The emblems secondary decal color.",
+			"help": "The emblems secondary color.",
 			"valueOptions":
 			{
 				"options":
@@ -75,9 +74,7 @@
 					"White",
 					"Yellow"
 				],
-				"sourceType": "PropertyValueInt",
-				"sourceForm": "ODST.esp|805",
-				"propertyName": "SecondaryColor"
+				"sourceType": "ModSettingInt"
 			}
 		},
 		{
@@ -85,24 +82,24 @@
 			"numLines": 1
 		},
 		{
+			"id": "iEmblem_Background:Main",
 			"text": "Background",
 			"type": "dropdown",
-			"help": "The emblems background shape.",
+			"help": "The emblems background decal.",
 			"valueOptions":
 			{
 				"options":
 				[
-					"Clear",
+					"Blank",
 					"Circle",
 					"Display",
 					"Shield"
 				],
-				"sourceType": "PropertyValueInt",
-				"sourceForm": "ODST.esp|805",
-				"propertyName": "Background"
+				"sourceType": "ModSettingInt"
 			}
 		},
 		{
+			"id": "iEmblem_Background_Color:Main",
 			"text": "Background Color",
 			"type": "dropdown",
 			"help": "The emblems background color.",
@@ -120,9 +117,7 @@
 					"White",
 					"Yellow"
 				],
-				"sourceType": "PropertyValueInt",
-				"sourceForm": "ODST.esp|805",
-				"propertyName": "BackgroundColor"
+				"sourceType": "ModSettingInt"
 			}
 		}
 	]

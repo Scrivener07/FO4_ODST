@@ -42,7 +42,7 @@ package AS3
 			AS3.Debug.WriteLine("AS3", "ScaleToHeight", "object="+object+", height="+height);
 			object.height = height;
 			object.scaleX = object.scaleY;
-			CenterOnStage(object);
+		//	CenterOnStage(object);
 		}
 
 

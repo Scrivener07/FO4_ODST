@@ -1,10 +1,17 @@
 Scriptname ODST:Settings extends ODST:Type
 import ODST:Log
 
+string PauseMenu = "PauseMenu" const
 ;---------------------------------------------
-
 string OnMCMOpen = "OnMCMOpen" const
+string OnMCMClose = "OnMCMClose" const
 string OnMCMSettingChange = "OnMCMSettingChange" const
+;---------------------------------------------
+string emblem_foreground = "iEmblem_Foreground:Main" const
+string emblem_foreground_color_primary = "iEmblem_Foreground_Color_Primary:Main" const
+string emblem_foreground_color_secondary = "iEmblem_Foreground_Color_Secondary:Main" const
+string emblem_background = "iEmblem_Background:Main" const
+string emblem_background_color = "iEmblem_Background_Color:Main" const
 
 
 ; Events
@@ -13,95 +20,63 @@ string OnMCMSettingChange = "OnMCMSettingChange" const
 Event OnQuestInit()
 	OnGameReload()
 	RegisterForGameReload(self)
-	WriteMessage(self, "ODST Prototype", "The ODST prototype features have started.")
+	WriteLine(self, "OnQuestInit")
 EndEvent
 
 
 Event OnGameReload()
-	RegisterForExternalEvent(OnMCMOpen, "OnOpen");
-	RegisterForExternalEvent("OnMCMSettingChange|ODST", "OnSettingChange")
+	RegisterForMenuOpenCloseEvent(PauseMenu)
+	RegisterForExternalEvent(OnMCMOpen, "OnMCMOpen")
+	RegisterForExternalEvent(OnMCMClose, "OnMCMClose")
+	RegisterForExternalEvent(OnMCMSettingChange+"|"+PluginName, "OnMCMSettingChange")
+	RegisterForExternalEvent("ODST_TestEvent", "OnODST")
 	WriteLine(self, "OnGameReload", "Re-registered for external events.")
+EndEvent
+
+
+Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
+	WriteLine(self, "OnMenuOpenCloseEvent", "asMenuName="+asMenuName+", abOpening="+abOpening+"")
+	If (!abOpening)
+		Option.Apply()
+	EndIf
 EndEvent
 
 
 ; Callbacks
 ;---------------------------------------------
 
-Function OnOpen()
-	WriteLine(self, "OnOpen", "The settings menu was opened.")
+Function OnMCMOpen()
+	WriteLine(self, "OnMCMOpen", "The mcm menu was opened.")
 EndFunction
 
 
-Function OnSettingChange(string modName, string identifier)
-	WriteLine(self, "OnSettingChange(modName="+modName+", identifier="+identifier+")", "A setting has changed.")
-	Emblems.UpdateSwap()
-	Emblems.ApplySwap()
+Function OnMCMClose()
+	WriteLine(self, "OnMCMClose", "The mcm menu was closed.")
+EndFunction
+
+
+Function OnODST()
+	WriteLine(self, "OnODST", "We have the callback!")
+EndFunction
+
+
+Function OnMCMSettingChange(string modName, string identifier)
+	WriteLine(self, "OnMCMSettingChange(modName="+modName+", identifier="+identifier+")", "An mcm setting has changed.")
+	If (modName == PluginName)
+		Option.Foreground = MCM.GetModSettingInt(modName, emblem_foreground)
+		Option.ForegroundColorPrimary = MCM.GetModSettingInt(modName, emblem_foreground_color_primary)
+		Option.ForegroundColorSecondary = MCM.GetModSettingInt(modName, emblem_foreground_color_secondary)
+		Option.Background = MCM.GetModSettingInt(modName, emblem_background)
+		Option.BackgroundColor = MCM.GetModSettingInt(modName, emblem_background_color)
+		Option.Apply()
+	Else
+		WriteUnexpected(self, "OnMCMSettingChange", "The "+modName+" modName was unhandled.")
+	EndIf
 EndFunction
 
 
 ; Functions
 ;---------------------------------------------
-
-string Function Shape1ToString(int value)
-	{Converts a color index into the colors name as a string.}
-	If (value == Cancel)
-		return none
-	ElseIf (value == Grenade)
-		return "Grenade"
-	ElseIf (value == Spartan)
-		return "Spartan"
-	ElseIf (value == SpartanHelmet)
-		return "SpartanHelmet"
-	Else
-		WriteUnexpected(self, "Shape1ToString", "The value of "+value+" was out of range.")
-		return none
-	EndIf
-EndFunction
-
-
-string Function Shape2ToString(int value)
-	{Converts a color index into the colors name as a string.}
-	If (value == Cancel)
-		return none
-	ElseIf (value == Circle)
-		return "Circle"
-	ElseIf (value == Display)
-		return "Display"
-	ElseIf (value == Shield)
-		return "Shield"
-	Else
-		WriteUnexpected(self, "Shape2ToString", "The value of "+value+" was out of range.")
-		return none
-	EndIf
-EndFunction
-
-
-string Function ColorToString(int value)
-	{Converts a color index into the colors name as a string.}
-	If (value == Black)
-		return "Black"
-	ElseIf (value == Blue)
-		return "Blue"
-	ElseIf (value == Cyan)
-		return "Cyan"
-	ElseIf (value == Green)
-		return "Green"
-	ElseIf (value == Orange)
-		return "Orange"
-	ElseIf (value == Purple)
-		return "Purple"
-	ElseIf (value == Red)
-		return "Red"
-	ElseIf (value == White)
-		return "White"
-	ElseIf (value == Yellow)
-		return "Yellow"
-	Else
-		WriteUnexpected(self, "ColorToString", "The value of "+value+" was out of range.")
-		return none
-	EndIf
-EndFunction
-
 
 string Function ToString()
 	{The string representation of this type.}
@@ -113,7 +88,7 @@ EndFunction
 ;---------------------------------------------
 
 Group Properties
-	ODST:Properties Property Properties Auto Const Mandatory
+	ODST:Emblems:Option Property Option Auto Const Mandatory
 
 	string Property PluginName Hidden
 		string Function Get()
@@ -128,38 +103,4 @@ Group Properties
 			return PluginName+".esp"
 		EndFunction
 	EndProperty
-EndGroup
-
-Group Emblems
-	ODST:Emblems Property Emblems Auto Const Mandatory
-	int Property Decal Auto Hidden
-	int Property PrimaryColor Auto Hidden
-	int Property SecondaryColor Auto Hidden
-	int Property Background Auto Hidden
-	int Property BackgroundColor Auto Hidden
-EndGroup
-
-Group EmblemDecal
-	int Property Cancel = 0 AutoReadOnly
-	int Property Grenade = 1 AutoReadOnly
-	int Property Spartan = 2 AutoReadOnly
-	int Property SpartanHelmet = 3 AutoReadOnly
-EndGroup
-
-Group EmblemBackground
-	int Property Circle = 1 AutoReadOnly
-	int Property Display = 2 AutoReadOnly
-	int Property Shield = 3 AutoReadOnly
-EndGroup
-
-Group EmblemColor
-	int Property Black = 0 AutoReadOnly
-	int Property Blue = 1 AutoReadOnly
-	int Property Cyan = 2 AutoReadOnly
-	int Property Green = 3 AutoReadOnly
-	int Property Orange = 4 AutoReadOnly
-	int Property Purple = 5 AutoReadOnly
-	int Property Red = 6 AutoReadOnly
-	int Property White = 7 AutoReadOnly
-	int Property Yellow = 8 AutoReadOnly
 EndGroup
