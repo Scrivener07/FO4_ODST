@@ -6,7 +6,8 @@ A Fallout 4 modification by [Darkman32197](https://www.nexusmods.com/users/52809
 * [ODST WIP 2](https://www.nexusmods.com/fallout4/images/111188)
 * [ODST WIP 3](https://www.nexusmods.com/fallout4/images/115593)
 * [ODST WIP 4](https://www.nexusmods.com/fallout4/images/119187)
-* [ODST - WIP Video](https://youtu.be/Rwcv4ZNj16A) *Emblem Designer*
+* [ODST - WIP Video 1](https://youtu.be/Rwcv4ZNj16A) *Emblem Designer*
+* [ODST - WIP Video 2](https://youtu.be/NLYbu99T0ko) *Emblem Designer*
 
 ### Resources
 * [Fallout 4 Creation Kit](https://www.creationkit.com/fallout4/index.php?title=Main_Page)
