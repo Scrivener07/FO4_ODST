@@ -16,60 +16,62 @@ Like in most of the Halo games the player can design custom emblems and apply th
 #### Foreground
 | Option | Name           | File           |
 |--------|----------------|----------------|
-| 0      | 117            | 117            |
-| 1      | Active Rooster | ActiveRooster  |
-| 2      | Arrowhead      | Arrowhead      |
-| 3      | Assassin       | Assassin       |
-| 4      | Bulletproof    | Bulletproof    |
-| 5      | Cone           | Cone           |
-| 6      | Covenant       | Covenant       |
-| 7      | Cup Of Death   | CupOfDeath     |
-| 8      | Grenade        | Grenade        |
-| 9      | Guilty         | Guilty         |
-| 10     | Headshot       | Headshot       |
-| 11     | Infected       | Infected       |
-| 12     | LASO           | LASO           |
-| 13     | Mjolnir        | Mjolnir        |
-| 14     | Noble          | Noble          |
-| 15     | ONI            | ONI            |
-| 16     | On Your Shield | OnYourShield   |
-| 17     | Planetary      | Planetary      |
+| 0      | Blank (None)   | Blank          |
+| 1      | 117            | 117            |
+| 2      | Active Rooster | ActiveRooster  |
+| 3      | Arrowhead      | Arrowhead      |
+| 4      | Assassin       | Assassin       |
+| 5      | Bulletproof    | Bulletproof    |
+| 6      | Cone           | Cone           |
+| 7      | Covenant       | Covenant       |
+| 8      | Cup Of Death   | CupOfDeath     |
+| 9      | Grenade        | Grenade        |
+| 10     | Guilty         | Guilty         |
+| 11     | Headshot       | Headshot       |
+| 12     | Infected       | Infected       |
+| 13     | LASO           | LASO           |
+| 14     | Mjolnir        | Mjolnir        |
+| 15     | Noble          | Noble          |
+| 16     | ONI            | ONI            |
+| 17     | On Your Shield | OnYourShield   |
+| 18     | Planetary      | Planetary      |
 | 18     | Seven          | Seven          |
 | 19     | Sinner         | Sinner         |
-| 20     | Spartan        | Spartan        |
-| 21     | Spartan Helmet | SpartanHelmet  |
-| 22     | Splatter       | Splatter       |
-| 23     | Superintendent | Superintendent |
-| 24     | Unicorn        | Unicorn        |
-| 25     | Valkyrie       | Valkyrie       |
-| 26     | Wolf           | Wolf           |
-| 27     | Ying Yang      | YingYang       |
+| 21     | Spartan        | Spartan        |
+| 22     | Spartan Helmet | SpartanHelmet  |
+| 23     | Splatter       | Splatter       |
+| 24     | Superintendent | Superintendent |
+| 25     | Unicorn        | Unicorn        |
+| 26     | Valkyrie       | Valkyrie       |
+| 27     | Wolf           | Wolf           |
+| 28     | Ying Yang      | YingYang       |
 
 
 #### Background
-| Name               | File              | Option |
-|--------------------|-------------------|--------|
-| 4 Diamonds         | 4Diamonds         | 0      |
-| Asterisk           | Asterisk          | 1      |
-| BallOFire          | BallOFire         | 2      |
-| Blank One          | BlankOne          | 3      |
-| Cancel             | Cancel            | 4      |
-| Chevron            | Chevron           | 5      |
-| Circle             | Circle            | 6      |
-| Cog                | Cog               | 7      |
-| Cowboy Hat         | CowboyHat         | 8      |
-| Criss Cross        | CrissCross        | 9      |
-| Crown              | Crown             | 10     |
-| Diamond            | Diamond           | 11     |
-| Display            | Display           | 12     |
-| Hexagon            | Hexagon           | 13     |
-| Horizontal Stripes | HorizontalStripes | 14     |
-| Limited            | Limited           | 15     |
-| Power              | Power             | 16     |
-| Shield             | Shield            | 17     |
-| Star               | Star              | 18     |
-| Structure          | Structure         | 19     |
-| Vortex             | Vortex            | 20     |
+| Option | Name               | File              |
+|--------|--------------------|-------------------|
+| 0      | Blank (None)       | Blank             |
+| 1      | 4 Diamonds         | 4Diamonds         |
+| 2      | Asterisk           | Asterisk          |
+| 3      | BallOFire          | BallOFire         |
+| 4      | Blank One          | BlankOne          |
+| 5      | Cancel             | Cancel            |
+| 6      | Chevron            | Chevron           |
+| 7      | Circle             | Circle            |
+| 8      | Cog                | Cog               |
+| 9      | Cowboy Hat         | CowboyHat         |
+| 10     | Criss Cross        | CrissCross        |
+| 11     | Crown              | Crown             |
+| 12     | Diamond            | Diamond           |
+| 13     | Display            | Display           |
+| 14     | Hexagon            | Hexagon           |
+| 15     | Horizontal Stripes | HorizontalStripes |
+| 16     | Limited            | Limited           |
+| 17     | Power              | Power             |
+| 18     | Shield             | Shield            |
+| 19     | Star               | Star              |
+| 20     | Structure          | Structure         |
+| 21     | Vortex             | Vortex            |
 
 
 #### Colors
