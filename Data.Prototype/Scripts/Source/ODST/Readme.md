@@ -15,39 +15,39 @@ The Visual Intelligence System, Reconnaissance, abbreviated as VISR, is a propri
 ## Emblem Designer
 
 #### Colors
-| Color    | Folder    | Hex | Option |
-|----------|-----------|-----|--------|
-| Black    | 1Black    | 0x  | 0      |
-| Silver   | 1Silver   | 0x  | 1      |
-| Steel    | 1Steel    | 0x  | 2      |
-| White    | 1White    | 0x  | 3      |
-| Mauve    | 2Mauve    | 0x  | 4      |
-| Red      | 2Red      | 0x  | 5      |
-| Salmon   | 2Salmon   | 0x  | 6      |
-| Coral    | 3Coral    | 0x  | 7      |
-| Orange   | 3Orange   | 0x  | 8      |
-| Peach    | 3Peach    | 0x  | 9      |
-| Gold     | 4Gold     | 0x  | 10     |
-| Pale     | 4Pale     | 0x  | 11     |
-| Yellow   | 4Yellow   | 0x  | 12     |
-| Green    | 5Green    | 0x  | 13     |
-| Olive    | 5Olive    | 0x  | 14     |
-| Sage     | 5Sage     | 0x  | 15     |
-| Aqua     | 6Aqua     | 0x  | 16     |
-| Cyan     | 6Cyan     | 0x  | 17     |
-| Teal     | 6Teal     | 0x  | 18     |
-| Blue     | 7Blue     | 0x  | 19     |
-| Cobalt   | 7Cobalt   | 0x  | 20     |
-| Sapphire | 7Sapphire | 0x  | 21     |
-| Lavendar | 8Lavendar | 0x  | 22     |
-| Orchid   | 8Orchid   | 0x  | 23     |
-| Violet   | 8Violet   | 0x  | 24     |
-| Crimson  | 9Crimson  | 0x  | 25     |
-| Pink     | 9Pink     | 0x  | 26     |
-| Rubine   | 9Rubine   | 0x  | 27     |
-| Brown    | Brown     | 0x  | 28     |
-| Khaki    | Khaki     | 0x  | 29     |
-| Tan      | Tan       | 0x  | 30     |
+| Name     | Folder    | Hex      | Option |
+|----------|-----------|----------|--------|
+| Black    | 1Black    | 0x000000 | 0      |
+| Silver   | 1Silver   | 0xB1B1B1 | 1      |
+| Steel    | 1Steel    | 0x656565 | 2      |
+| White    | 1White    | 0xFFFFFF | 3      |
+| Mauve    | 2Mauve    | 0xDB6B6A | 4      |
+| Red      | 2Red      | 0x9C3433 | 5      |
+| Salmon   | 2Salmon   | 0xEF8383 | 6      |
+| Coral    | 3Coral    | 0xF7AF5B | 7      |
+| Orange   | 3Orange   | 0xDA8E07 | 8      |
+| Peach    | 3Peach    | 0xFECBA0 | 9      |
+| Gold     | 4Gold     | 0xCDAE31 | 10     |
+| Pale     | 4Pale     | 0xFBD87E | 11     |
+| Yellow   | 4Yellow   | 0xF1BE31 | 12     |
+| Green    | 5Green    | 0x92A764 | 13     |
+| Olive    | 5Olive    | 0xD9F0A8 | 14     |
+| Sage     | 5Sage     | 0x5D7720 | 15     |
+| Aqua     | 6Aqua     | 0x4DBDC1 | 16     |
+| Cyan     | 6Cyan     | 0x92ECEC | 17     |
+| Teal     | 6Teal     | 0x367B80 | 18     |
+| Blue     | 7Blue     | 0x385D94 | 19     |
+| Cobalt   | 7Cobalt   | 0x598AD9 | 20     |
+| Sapphire | 7Sapphire | 0x9AB7F3 | 21     |
+| Lavendar | 8Lavendar | 0xC5B5FC | 22     |
+| Orchid   | 8Orchid   | 0x9377E5 | 23     |
+| Violet   | 8Violet   | 0x594292 | 24     |
+| Crimson  | 9Crimson  | 0x85064B | 25     |
+| Pink     | 9Pink     | 0xFD8DBB | 26     |
+| Rubine   | 9Rubine   | 0xD24186 | 27     |
+| Brown    | Brown     | 0x553B1A | 28     |
+| Khaki    | Khaki     | 0xE1BFA3 | 29     |
+| Tan      | Tan       | 0xAC8D70 | 30     |
 
 ## Cheats
 * H3 Armor
