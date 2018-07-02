@@ -1,5 +1,6 @@
-Scriptname ODST_Test:Cheat extends Quest
+Scriptname ODST:Cheat extends Quest
 import ODST:Papyrus
+import ODST:Log
 
 Actor Player
 bool Silent = true const
@@ -16,6 +17,7 @@ EndEvent
 Event OnQuestInit()
 	AddItem(Properties.PluginFile, Properties.Armor_H3_ODST)
 	AddItem(Properties.PluginFile, Properties.Armor_H3_ODST_Helmet)
+	Writeline(self, "OnQuestInit", "Cheated the ODST H3 items for the player.")
 EndEvent
 
 
@@ -26,6 +28,8 @@ Function AddItem(string plugin, int formID)
 	Form item = GetExternal(plugin, formID)
 	If (item)
 		Player.AddItem(item, 1, Silent)
+	Else
+		WriteUnexpected(self, "AddItem", "Could not get the "+formID+" form ID from "+plugin)
 	EndIf
 EndFunction
 

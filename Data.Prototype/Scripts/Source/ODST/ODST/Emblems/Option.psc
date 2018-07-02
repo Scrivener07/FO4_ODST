@@ -138,9 +138,6 @@ int Function ColorToHex(int value)
 EndFunction
 
 
-
-
-
 string Function ToString()
 	{The string representation of this type.}
 	string sForeground = "Foreground:"+ForegroundToString(Foreground)+" ("+ColorToString(ForegroundColorPrimary)+"/"+ColorToString(ForegroundColorSecondary)+")"

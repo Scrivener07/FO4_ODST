@@ -61,6 +61,11 @@ EndFunction
 
 
 Event OnKeyDown(int aiKeyCode)
+
+	If (UI.IsMenuOpen("Console"))
+		return
+	EndIf
+
 	If (IsOpen)
 		If(Close())
 			WriteLine(self, "OnKeyDown", ToString()+" closed.")
