@@ -1,124 +1,362 @@
 {
-	"modName": "ODST",
-	"displayName": "ODST - Project Helljumper",
+	"modName": "ProjectHelljumper",
+	"displayName": "ODST",
 	"content":
 	[
 		{
-			"text": "Emblem Designer",
-			"type": "section"
-		},
-		{
 			"type": "image",
 			"libName": "ODST",
-			"className": "Preview"
+			"className": "Splash"
 		},
 		{
 			"type": "spacer",
 			"numLines": 1
 		},
 		{
-			"id": "iEmblem_Foreground:Main",
-			"text": "Decal",
-			"type": "dropdown",
-			"help": "The emblems foreground decal.",
-			"valueOptions":
-			{
-				"options":
-				[
-					"Blank",
-					"Grenade",
-					"Spartan",
-					"Spartan Helmet"
-				],
-				"sourceType": "ModSettingInt"
-			}
+			"text": "<b>Orbital Drop Shock Trooper (ODST)</b>",
+			"type": "text",
+			"html": true
 		},
 		{
-			"id": "iEmblem_Foreground_Color_Primary:Main",
-			"text": "Decal Primary Color",
-			"type": "dropdown",
-			"help": "The emblems primary color.",
-			"valueOptions":
-			{
-				"options":
-				[
-					"Black",
-					"Blue",
-					"Cyan",
-					"Green",
-					"Orange",
-					"Purple",
-					"Red",
-					"White",
-					"Yellow"
-				],
-				"sourceType": "ModSettingInt"
-			}
+			"text": "The Orbital Drop Shock Troopers (ODST) are a special operations capable organization of the UNSC Marine Corps that specialize in orbital-dropped shock infantry and special warfare tactics. The ODSTs are one of the primary special operations units of the United Nations Space Command, and is under the supervision of Naval Special Warfare Command. The ODST primary HQ is located at Kenosha, Mars.",
+			"type": "text"
+		}
+	],
+	"pages":
+	[
+		{
+			"pageDisplayName": "Emblem Designer",
+			"content":
+			[
+				{
+					"type": "image",
+					"libName": "ODST",
+					"className": "Preview",
+					"width": 100,
+					"height": 100
+				},
+				{
+					"type": "spacer",
+					"numLines": 1
+				},
+				{
+					"id": "iEmblem_Selected:Main",
+					"text": "Selected",
+					"type": "dropdown",
+					"help": "Select an emblem to edit.",
+					"valueOptions":
+					{
+						"sourceType": "ModSettingInt",
+						"options":
+						[
+							"Emblem 1",
+							"Emblem 2",
+							"Emblem 3",
+							"Emblem 4",
+							"Emblem 5"
+						]
+					}
+				},
+				{
+					"text": "Foreground",
+					"type": "section"
+				},
+				{
+					"id": "iEmblem_Foreground:Main",
+					"text": "Decal",
+					"type": "dropdown",
+					"help": "The emblems foreground decal.",
+					"valueOptions":
+					{
+						"sourceType": "ModSettingInt",
+						"options":
+						[
+							"Blank",
+							"117",
+							"Active Rooster",
+							"Arrowhead",
+							"Assassin",
+							"Bulletproof",
+							"Cone",
+							"Covenant",
+							"Cup Of Death",
+							"Grenade",
+							"Guilty",
+							"Headshot",
+							"Infected",
+							"LASO",
+							"Mjolnir",
+							"Noble",
+							"ONI",
+							"On Your Shield",
+							"Planetary",
+							"Seven",
+							"Sinner",
+							"Spartan",
+							"Spartan Helmet",
+							"Splatter",
+							"Superintendent",
+							"Unicorn",
+							"Valkyrie",
+							"Wolf",
+							"Ying Yang"
+						]
+					}
+				},
+				{
+					"id": "iEmblem_Foreground_Color_Primary:Main",
+					"text": "Primary Color",
+					"type": "dropdown",
+					"help": "The emblems primary color.",
+					"valueOptions":
+					{
+						"sourceType": "ModSettingInt",
+						"options":
+						[
+							"Black",
+							"Silver",
+							"Steel",
+							"White",
+							"Mauve",
+							"Red",
+							"Salmon",
+							"Coral",
+							"Orange",
+							"Peach",
+							"Gold",
+							"Pale",
+							"Yellow",
+							"Green",
+							"Olive",
+							"Sage",
+							"Aqua",
+							"Cyan",
+							"Teal",
+							"Blue",
+							"Cobalt",
+							"Sapphire",
+							"Lavendar",
+							"Orchid",
+							"Violet",
+							"Crimson",
+							"Pink",
+							"Rubine",
+							"Brown",
+							"Khaki",
+							"Tan"
+
+						]
+					}
+				},
+				{
+					"id": "iEmblem_Foreground_Color_Secondary:Main",
+					"text": "Secondary Color",
+					"type": "dropdown",
+					"help": "The emblems secondary color.",
+					"valueOptions":
+					{
+						"sourceType": "ModSettingInt",
+						"options":
+						[
+							"Black",
+							"Silver",
+							"Steel",
+							"White",
+							"Mauve",
+							"Red",
+							"Salmon",
+							"Coral",
+							"Orange",
+							"Peach",
+							"Gold",
+							"Pale",
+							"Yellow",
+							"Green",
+							"Olive",
+							"Sage",
+							"Aqua",
+							"Cyan",
+							"Teal",
+							"Blue",
+							"Cobalt",
+							"Sapphire",
+							"Lavendar",
+							"Orchid",
+							"Violet",
+							"Crimson",
+							"Pink",
+							"Rubine",
+							"Brown",
+							"Khaki",
+							"Tan"
+
+						]
+					}
+				},
+				{
+					"text": "Background",
+					"type": "section"
+				},
+				{
+					"id": "iEmblem_Background:Main",
+					"text": "Decal",
+					"type": "dropdown",
+					"help": "The emblems background decal.",
+					"valueOptions":
+					{
+						"sourceType": "ModSettingInt",
+						"options":
+						[
+							"Blank",
+							"4 Diamonds",
+							"Asterisk",
+							"BallOFire",
+							"Blank One",
+							"Cancel",
+							"Chevron",
+							"Circle",
+							"Cog",
+							"Cowboy Hat",
+							"Criss Cross",
+							"Crown",
+							"Diamond",
+							"Display",
+							"Hexagon",
+							"Horizontal Stripes",
+							"Limited",
+							"Power",
+							"Shield",
+							"Star",
+							"Structure",
+							"Vortex"
+						]
+					}
+				},
+				{
+					"id": "iEmblem_Background_Color:Main",
+					"text": "Color",
+					"type": "dropdown",
+					"help": "The emblems background color.",
+					"valueOptions":
+					{
+						"sourceType": "ModSettingInt",
+						"options":
+						[
+							"Black",
+							"Silver",
+							"Steel",
+							"White",
+							"Mauve",
+							"Red",
+							"Salmon",
+							"Coral",
+							"Orange",
+							"Peach",
+							"Gold",
+							"Pale",
+							"Yellow",
+							"Green",
+							"Olive",
+							"Sage",
+							"Aqua",
+							"Cyan",
+							"Teal",
+							"Blue",
+							"Cobalt",
+							"Sapphire",
+							"Lavendar",
+							"Orchid",
+							"Violet",
+							"Crimson",
+							"Pink",
+							"Rubine",
+							"Brown",
+							"Khaki",
+							"Tan"
+						]
+					}
+				}
+			]
 		},
 		{
-			"id": "iEmblem_Foreground_Color_Secondary:Main",
-			"text": "Decal Secondary Color",
-			"type": "dropdown",
-			"help": "The emblems secondary color.",
-			"valueOptions":
-			{
-				"options":
-				[
-					"Black",
-					"Blue",
-					"Cyan",
-					"Green",
-					"Orange",
-					"Purple",
-					"Red",
-					"White",
-					"Yellow"
-				],
-				"sourceType": "ModSettingInt"
-			}
-		},
-		{
-			"type": "spacer",
-			"numLines": 1
-		},
-		{
-			"id": "iEmblem_Background:Main",
-			"text": "Background",
-			"type": "dropdown",
-			"help": "The emblems background decal.",
-			"valueOptions":
-			{
-				"options":
-				[
-					"Blank",
-					"Circle",
-					"Display",
-					"Shield"
-				],
-				"sourceType": "ModSettingInt"
-			}
-		},
-		{
-			"id": "iEmblem_Background_Color:Main",
-			"text": "Background Color",
-			"type": "dropdown",
-			"help": "The emblems background color.",
-			"valueOptions":
-			{
-				"options":
-				[
-					"Black",
-					"Blue",
-					"Cyan",
-					"Green",
-					"Orange",
-					"Purple",
-					"Red",
-					"White",
-					"Yellow"
-				],
-				"sourceType": "ModSettingInt"
-			}
+			"pageDisplayName": "Cheats",
+			"content":
+			[
+				{
+					"text": "ODST",
+					"type": "section"
+				},
+				{
+					"text": "Add Item, ODST Armor",
+					"type": "button",
+					"help": "Adds the item to your inventory.",
+					"action":
+					{
+						"type": "CallFunction",
+						"form": "ProjectHelljumper.esp|4D79",
+						"function": "Armor_ODST"
+					}
+				},
+				{
+					"text": "Add Item, ODST Helmet",
+					"type": "button",
+					"help": "Adds the item to your inventory.",
+					"action":
+					{
+						"type": "CallFunction",
+						"form": "ProjectHelljumper.esp|4D79",
+						"function": "Armor_ODST_Helmet"
+					}
+				},
+				{
+					"text": "Add Item, ODST Recon Helmet",
+					"type": "button",
+					"help": "Adds the item to your inventory.",
+					"action":
+					{
+						"type": "CallFunction",
+						"form": "ProjectHelljumper.esp|4D79",
+						"function": "Armor_ODST_Recon_Helmet"
+					}
+				},
+				{
+					"text": "H3 ODST",
+					"type": "section"
+				},
+				{
+					"text": "Add Item, H3 ODST Armor",
+					"type": "button",
+					"help": "Adds the item to your inventory.",
+					"action":
+					{
+						"type": "CallFunction",
+						"form": "ProjectHelljumper.esp|4D79",
+						"function": "Armor_H3_ODST"
+					}
+				},
+				{
+					"text": "Add Item, H3 ODST Helmet",
+					"type": "button",
+					"help": "Adds the item to your inventory.",
+					"action":
+					{
+						"type": "CallFunction",
+						"form": "ProjectHelljumper.esp|4D79",
+						"function": "Armor_H3_ODST_Helmet"
+					}
+				},
+				{
+					"text": "Add Item, H3 ODST Haunted Helmet",
+					"type": "button",
+					"help": "Adds the item to your inventory.",
+					"action":
+					{
+						"type": "CallFunction",
+						"form": "ProjectHelljumper.esp|803",
+						"function": "Armor_H3_ODST_HelmetHaunted"
+					}
+				}
+			]
 		}
 	]
 }

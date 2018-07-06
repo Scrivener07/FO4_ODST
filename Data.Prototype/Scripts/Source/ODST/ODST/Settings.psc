@@ -1,17 +1,14 @@
 Scriptname ODST:Settings extends ODST:Type
 import ODST:Log
 
+CustomEvent OnMenu
+CustomEvent OnChanged
+
 string PauseMenu = "PauseMenu" const
 ;---------------------------------------------
 string OnMCMOpen = "OnMCMOpen" const
 string OnMCMClose = "OnMCMClose" const
 string OnMCMSettingChange = "OnMCMSettingChange" const
-;---------------------------------------------
-string emblem_foreground = "iEmblem_Foreground:Main" const
-string emblem_foreground_color_primary = "iEmblem_Foreground_Color_Primary:Main" const
-string emblem_foreground_color_secondary = "iEmblem_Foreground_Color_Secondary:Main" const
-string emblem_background = "iEmblem_Background:Main" const
-string emblem_background_color = "iEmblem_Background_Color:Main" const
 
 
 ; Events
@@ -25,19 +22,24 @@ EndEvent
 
 
 Event OnGameReload()
+	WriteLine(self, "OnGameReload", "Re-registering for external events.")
 	RegisterForMenuOpenCloseEvent(PauseMenu)
 	RegisterForExternalEvent(OnMCMOpen, "OnMCMOpen")
 	RegisterForExternalEvent(OnMCMClose, "OnMCMClose")
-	RegisterForExternalEvent(OnMCMSettingChange+"|"+PluginName, "OnMCMSettingChange")
-	RegisterForExternalEvent("ODST_TestEvent", "OnODST")
-	WriteLine(self, "OnGameReload", "Re-registered for external events.")
+	RegisterForExternalEvent(OnMCMSettingChange+"|"+Properties.PluginName, "OnMCMSettingChange")
 EndEvent
 
 
 Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
 	WriteLine(self, "OnMenuOpenCloseEvent", "asMenuName="+asMenuName+", abOpening="+abOpening+"")
-	If (!abOpening)
-		Option.Apply()
+	If (abOpening)
+		var[] arguments = new var[1]
+		arguments[0] = MenuOpened
+		SendCustomEvent("OnMenu", arguments)
+	Else
+		var[] arguments = new var[1]
+		arguments[0] = MenuClosed
+		SendCustomEvent("OnMenu", arguments)
 	EndIf
 EndEvent
 
@@ -47,30 +49,107 @@ EndEvent
 
 Function OnMCMOpen()
 	WriteLine(self, "OnMCMOpen", "The mcm menu was opened.")
+	var[] arguments = new var[1]
+	arguments[0] = MenuShown
+	SendCustomEvent("OnMenu", arguments)
 EndFunction
 
 
 Function OnMCMClose()
 	WriteLine(self, "OnMCMClose", "The mcm menu was closed.")
-EndFunction
-
-
-Function OnODST()
-	WriteLine(self, "OnODST", "We have the callback!")
+	var[] arguments = new var[1]
+	arguments[0] = MenuHidden
+	SendCustomEvent("OnMenu", arguments)
 EndFunction
 
 
 Function OnMCMSettingChange(string modName, string identifier)
 	WriteLine(self, "OnMCMSettingChange(modName="+modName+", identifier="+identifier+")", "An mcm setting has changed.")
-	If (modName == PluginName)
-		Option.Foreground = MCM.GetModSettingInt(modName, emblem_foreground)
-		Option.ForegroundColorPrimary = MCM.GetModSettingInt(modName, emblem_foreground_color_primary)
-		Option.ForegroundColorSecondary = MCM.GetModSettingInt(modName, emblem_foreground_color_secondary)
-		Option.Background = MCM.GetModSettingInt(modName, emblem_background)
-		Option.BackgroundColor = MCM.GetModSettingInt(modName, emblem_background_color)
-		Option.Apply()
+	If (modName == Properties.PluginName)
+		ChangedEventArgs e = new ChangedEventArgs
+		e.ModName = modName
+		e.Identifier = identifier
+		var[] arguments = new var[1]
+		arguments[0] = e
+		SendCustomEvent("OnChanged", arguments)
 	Else
 		WriteUnexpected(self, "OnMCMSettingChange", "The "+modName+" modName was unhandled.")
+	EndIf
+EndFunction
+
+
+; OnMenu
+;---------------------------------------------
+
+bool Function RegisterForMenuEvent(ScriptObject script)
+	If (script)
+		script.RegisterForCustomEvent(self, "OnMenu")
+		return true
+	Else
+		WriteUnexpectedValue(self, "RegisterForMenuEvent", "script", "Cannot register a none script for changed events.")
+		return false
+	EndIf
+EndFunction
+
+
+bool Function UnregisterForMenuEvent(ScriptObject script)
+	If (script)
+		script.UnregisterForCustomEvent(self, "OnMenu")
+		return true
+	Else
+		WriteUnexpectedValue(self, "UnregisterForMenuEvent", "script", "Cannot register a none script for changed events.")
+		return false
+	EndIf
+EndFunction
+
+
+int Function GetMenuEventArgs(var[] arguments)
+	If (arguments)
+		return arguments[0] as int
+	Else
+		WriteUnexpectedValue(self, "GetMenuEventArgs", "arguments", "The changed event arguments are empty or none.")
+		return -1
+	EndIf
+EndFunction
+
+
+; OnChanged
+;---------------------------------------------
+
+Struct ChangedEventArgs
+	string ModName
+	string Identifier
+EndStruct
+
+
+bool Function RegisterForChangedEvent(ScriptObject script)
+	If (script)
+		script.RegisterForCustomEvent(self, "OnChanged")
+		return true
+	Else
+		WriteUnexpectedValue(self, "RegisterForChangedEvent", "script", "Cannot register a none script for changed events.")
+		return false
+	EndIf
+EndFunction
+
+
+bool Function UnregisterForChangedEvent(ScriptObject script)
+	If (script)
+		script.UnregisterForCustomEvent(self, "OnChanged")
+		return true
+	Else
+		WriteUnexpectedValue(self, "UnregisterForChangedEvent", "script", "Cannot register a none script for changed events.")
+		return false
+	EndIf
+EndFunction
+
+
+ChangedEventArgs Function GetChangedEventArgs(var[] arguments)
+	If (arguments)
+		return arguments[0] as ChangedEventArgs
+	Else
+		WriteUnexpectedValue(self, "GetChangedEventArgs", "arguments", "The changed event arguments are empty or none.")
+		return none
 	EndIf
 EndFunction
 
@@ -88,19 +167,12 @@ EndFunction
 ;---------------------------------------------
 
 Group Properties
-	ODST:Emblems:Option Property Option Auto Const Mandatory
+	ODST:Properties Property Properties Auto Const Mandatory
+EndGroup
 
-	string Property PluginName Hidden
-		string Function Get()
-			{The main project plugin file.}
-			return "ODST"
-		EndFunction
-	EndProperty
-
-	string Property PluginFile Hidden
-		string Function Get()
-			{The main project plugin file.}
-			return PluginName+".esp"
-		EndFunction
-	EndProperty
+Group Menu
+	int Property MenuOpened = 1 AutoReadOnly
+	int Property MenuShown = 2 AutoReadOnly
+	int Property MenuHidden = 3 AutoReadOnly
+	int Property MenuClosed = 4 AutoReadOnly
 EndGroup

@@ -10,8 +10,38 @@ Similar technology, photoreactive panels, were physically integrated into the SP
 The Visual Intelligence System, Reconnaissance, abbreviated as VISR, is a proprietary integrated data management system incorporated into the helmets of Orbital Drop Shock Troopers.
 
 
+## Workbench Decals
+These are popular emblems which can be applied at the armor workbench. These will be compatible with Xbox.
+
+
 ## Emblem Designer
 Like in most of the Halo games the player can design custom emblems and apply them to their armors.
+
+
+#### Creation Kit
+**Quest**
+Quest: ODST (0x00004D78) @ProjectHelljumper.esp
+Quest: ODST_Cheats (0x00004D79) @ProjectHelljumper.esp
+Quest: ODST_Emblems (0x00004D7A) @ProjectHelljumper.esp
+
+**Armor**
+Armor_H3_ODST                   (ARMO)
+ma_ODST_H3_Decals               (KYWD - Mod Association)
+ap_ODST_Decal_Symbols           (KYWD - Attach Point)
+
+**Custom000**
+co_mod_ODST_Emblems_Custom001   (COBJ - Armor Workbench)
+mod_ODST_Emblems_Custom000      (OMOD)
+miscmod_mod_ODST_Decals_1Blank  (MISC - Loose Mod)
+ODST_Emblems_Custom000          (MSWP)
+
+
+**Custom001**
+co_mod_ODST_Emblems_Custom001   (COBJ - Armor Workbench)
+mod_ODST_Emblems_Custom001      (OMOD)
+miscmod_mod_ODST_Decals_1Blank  (MISC - Loose Mod)
+ODST_Emblems_Custom001          (MSWP)
+
 
 #### Foreground
 | Option | Name           | File           |
@@ -109,5 +139,11 @@ Like in most of the Halo games the player can design custom emblems and apply th
 | 29     | Khaki    | Khaki     | 0xE1BFA3 |
 | 30     | Tan      | Tan       | 0xAC8D70 |
 
+
 ## Cheats
-* H3 Armor
+* ODST Armor
+* ODST H3 Armor
+
+
+## HUD Overlays
+To be annouced..

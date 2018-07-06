@@ -15,7 +15,6 @@ Struct DisplayData
 	{The asset file to load within the given menu. The root directory is "Data\Interface".}
 EndStruct
 
-int Property P = 80 AutoReadOnly
 
 ; Events
 ;---------------------------------------------
@@ -25,7 +24,6 @@ Event OnQuestInit()
 	RegisterForGameReload(self)
 	WriteLine(self, "OnQuestInit")
 EndEvent
-
 
 
 Event OnGameReload()
@@ -61,7 +59,6 @@ EndFunction
 
 
 Event OnKeyDown(int aiKeyCode)
-
 	If (UI.IsMenuOpen("Console"))
 		return
 	EndIf
@@ -257,4 +254,8 @@ Group ExtendedFlags
 	; If you set extendedFlags & 2, it will disable your ShowCursor if the Gamepad is enabled
 	int Property FlagInheritColors = 1 AutoReadOnly
 	int Property FlagCheckForGamepad = 2 AutoReadOnly
+EndGroup
+
+Group Keyboard
+	int Property P = 80 AutoReadOnly
 EndGroup
