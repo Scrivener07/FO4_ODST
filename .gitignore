@@ -1,3 +1,21 @@
+# ODST
+# =========================
 Data/
-*.swf
+
+# Bethesda Modding
+# =========================
 *.pex
+*.swf
+
+# Windows
+# =========================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.exe
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
