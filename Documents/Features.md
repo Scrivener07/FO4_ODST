@@ -146,4 +146,14 @@ ODST_Emblems_Custom001          (MSWP)
 
 
 ## HUD Overlays
-To be annouced..
+**Armor_H3_ODST_Helmet**
+* **World Model (Male):** `Data\Meshes`\\`ProjectHelljumper\ODSTHelmetGO.nif`
+* **HUD Overlay (DDS):** `Data\Textures`\\`ProjectHelljumper\ODSTHelmetGO.dds`
+
+
+**Armor_ODST_Helmet**
+* **World Model (Male):** `Data\Meshes`\\`ProjectHelljumper\ODSTHelmetGO.nif`
+* **HUD Overlay (DDS):** `Data\Textures`\\`ProjectHelljumper\ODSTHelmetGO.dds`
+
+
+LastFile: 'ProjectHelljumper\H3ODSTHelmetM.dds'
