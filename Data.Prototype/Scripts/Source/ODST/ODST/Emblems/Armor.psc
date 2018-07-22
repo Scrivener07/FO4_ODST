@@ -12,22 +12,22 @@ int BodySlot = 3 const
 Event OnEquipped(Actor akActor)
 	WriteLine(self, "OnEquipped")
 	If (akActor == Game.GetPlayer())
-		ObjectMod[] mods = akActor.GetWornItemMods(BodySlot)
-		If (mods)
-			int index = 0
-			While (index < mods.Length)
-				; MatSwap swap = Material.GetSwapFor(mods[index])
-				; If (swap)
-				; 	Material.SetSwap(swap)
-				; 	Material.Apply()
-				; 	return
-				; EndIf
-				index += 1
-			EndWhile
-			WriteLine(self, "OnEquipped", "No Materials were valid.")
-		Else
-			WriteLine(self, "OnEquipped", "No Materials were found.")
-		EndIf
+		; ObjectMod[] mods = akActor.GetWornItemMods(BodySlot)
+		; If (mods)
+		; 	int index = 0
+		; 	While (index < mods.Length)
+		; 		MatSwap swap = Material.GetSwapFor(mods[index])
+		; 		If (swap)
+		; 			Material.SetSwap(swap)
+		; 			Material.Apply()
+		; 			return
+		; 		EndIf
+		; 		index += 1
+		; 	EndWhile
+		; 	WriteLine(self, "OnEquipped", "No Materials were valid.")
+		; Else
+		; 	WriteLine(self, "OnEquipped", "No Materials were found.")
+		; EndIf
 	Else
 		WriteLine(self, "OnEquipped", "Emblems are only supported on the player.")
 	EndIf
@@ -45,7 +45,7 @@ EndEvent
 ; Properties
 ;---------------------------------------------
 
-Group Properties
-	ODST:Properties Property Properties Auto Const Mandatory
-	ODST:Emblems:Material Property Material Auto Const Mandatory
-EndGroup
+; Group Properties
+; 	ODST:Properties Property Properties Auto Const Mandatory
+; 	ODST:Emblems:Material Property Material Auto Const Mandatory
+; EndGroup

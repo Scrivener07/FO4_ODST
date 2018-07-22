@@ -53,28 +53,74 @@ Event OnQuestInit()
 EndEvent
 
 
+
+
+
+
+Struct ChangedData
+	string Foreground
+	string ForegroundColorPrimary
+	string ForegroundColorSecondary
+	string Background
+	string BackgroundColor
+EndStruct
+ChangedData Function FromChanged(ODST:Emblems:Option sender, Option:ChangedEventArgs e)
+	ChangedData value = new ChangedData
+	value.Foreground = sender.ForegroundToString(e.Foreground)
+	value.ForegroundColorPrimary = sender.ColorToString(e.ForegroundColorPrimary)
+	value.ForegroundColorSecondary = sender.ColorToString(e.ForegroundColorSecondary)
+	value.Background = sender.BackgroundToString(e.Background)
+	value.BackgroundColor = sender.ColorToString(e.BackgroundColor)
+	return value
+EndFunction
+
+
+
+
 Event ODST:Emblems:Option.OnChanged(ODST:Emblems:Option sender, var[] arguments)
 	If (arguments)
 		Option:ChangedEventArgs e = sender.GetChangedEventArgs(arguments)
-		WriteLine(self, "ODST:Emblems:Option.OnChanged", e)
+		ChangedData data = FromChanged(sender, e)
 
-		If (e.Foreground == sender.Blank)
+
+		Apply()
+
+
+
+		If (data.Foreground == sender.Blank)
 			Primary = PrimaryDefault
 			Secondary = SecondaryDefault
 		Else
-			Primary = ToMaterialPath("Primary", e.ForegroundColorPrimary, e.Foreground)
-			Secondary = ToMaterialPath("Secondary", e.ForegroundColorSecondary, e.Foreground)
+			Primary = ToMaterialPath("Primary", data.ForegroundColorPrimary, data.Foreground)
+			Secondary = ToMaterialPath("Secondary", data.ForegroundColorSecondary, data.Foreground)
 		EndIf
 
-		If (e.Background == sender.Blank)
+
+		If (data.Background == sender.Blank)
 			Background = BackgroundDefault
 		Else
-			Background = ToMaterialPath("Background", e.BackgroundColor, e.Background)
+			Background = ToMaterialPath("Background", data.BackgroundColor, data.Background)
 		EndIf
+
+
 	Else
 		WriteUnexpectedValue(self, "ODST:Emblems:Option.OnChanged", "arguments", "The arguments are none or empty.")
 	EndIf
 EndEvent
+
+
+; States
+;---------------------------------------------
+
+State Custom001
+	Event OnBeginState(string asOldState)
+
+	EndEvent
+
+	Event OnEndState(string asNewState)
+
+	EndEvent
+EndState
 
 
 ; Methods
@@ -87,6 +133,7 @@ Function SetSwap(MatSwap value)
 		WriteUnexpected(self, "SetSwap", "The parameter cannot be none.")
 	EndIf
 EndFunction
+
 
 Function Apply()
 	If (Swap)

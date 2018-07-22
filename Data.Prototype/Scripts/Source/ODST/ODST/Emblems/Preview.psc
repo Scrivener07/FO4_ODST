@@ -1,19 +1,7 @@
 Scriptname ODST:Emblems:Preview extends ODST:Type
+import ODST
 import ODST:Log
 import ODST:Papyrus
-
-DisplayData Display
-
-Struct DisplayData
-	string Menu
-	{The name of the menu to load within.}
-
-	string Root = "root1"
-	{The root display object.}
-
-	string Asset
-	{The asset file to load within the given menu. The root directory is "Data\Interface".}
-EndStruct
 
 
 ; Events
@@ -22,43 +10,50 @@ EndStruct
 Event OnQuestInit()
 	OnGameReload()
 	RegisterForGameReload(self)
+	Option.RegisterForChangedEvent(self)
 	WriteLine(self, "OnQuestInit")
 EndEvent
 
 
 Event OnGameReload()
-	Display = NewDisplay()
 	UI:MenuData data = new UI:MenuData
 	data.MenuFlags = FlagDoNotPreventGameSave
 	data.ExtendedFlags = FlagNone
-	If (UI.RegisterCustomMenu(Display.Menu, Display.Asset, Display.Root, data))
+	If (UI.RegisterCustomMenu(Menu, Asset, Root, data))
 		WriteLine(self, ToString()+" has registered as a custom menu.")
 	Else
 		WriteUnexpected(self, "OnGameReload", ToString()+" failed to register as a custom menu.")
 	EndIf
 
-	TestMenu()
+	RegisterForKey(P) ; DebugOnly
 EndEvent
 
 
-; Display
-;---------------------------------------------
+Event ODST:Emblems:Option.OnChanged(ODST:Emblems:Option sender, var[] arguments)
+	If (arguments)
+		ODST:Emblems:Option:ChangedEventArgs e = sender.GetChangedEventArgs(arguments)
+		WriteLine(self, "ODST:Emblems:Option.OnChanged", e)
 
-DisplayData Function NewDisplay()
-	DisplayData this = new DisplayData
-	this.Menu = "ODST_EmblemMenu"
-	this.Asset = "Preview"
-	this.Root = "root1"
-	return this
-EndFunction
+		string sLayerPrimary = sender.ForegroundToString(e.Foreground)
+		string sTexturePathPrimary = Material.ToTexturePath("Primary", sLayerPrimary)
+		int iColorPrimary = sender.ColorToHex(e.ForegroundColorPrimary)
+		SetPrimary(sTexturePathPrimary, iColorPrimary)
+
+		string sTexturePathSecondary = Material.ToTexturePath("Secondary", sLayerPrimary)
+		int iColorSecondary = sender.ColorToHex(e.ForegroundColorSecondary)
+		SetSecondary(sTexturePathSecondary, iColorSecondary)
+
+		string sLayerBackground = sender.BackgroundToString(e.Background)
+		string sTexturePathBackground = Material.ToTexturePath("Background", sLayerBackground)
+		int iColorBackground = sender.ColorToHex(e.BackgroundColor)
+		SetBackground(sTexturePathBackground, iColorBackground)
+	Else
+		WriteUnexpectedValue(self, "ODST:Emblems:Option.OnChanged", "arguments", "The arguments are none or empty.")
+	EndIf
+EndEvent
 
 
-Function TestMenu() DebugOnly
-	RegisterForKey(P)
-EndFunction
-
-
-Event OnKeyDown(int aiKeyCode)
+Event OnKeyDown(int aiKeyCode) ; DebugOnly
 	If (UI.IsMenuOpen("Console"))
 		return
 	EndIf
@@ -83,7 +78,7 @@ EndEvent
 ;---------------------------------------------
 
 bool Function Open()
-	If (UI.IsMenuRegistered(Menu))
+	If (IsRegistered)
 		return UI.OpenMenu(Menu)
 	Else
 		WriteUnexpected(self, "Open", "The menu is not registered.")
@@ -93,7 +88,7 @@ EndFunction
 
 
 bool Function Close()
-	If (UI.IsMenuRegistered(Menu))
+	If (IsRegistered)
 		return UI.CloseMenu(Menu)
 	Else
 		WriteUnexpected(self, "Close", "The menu is not registered.")
@@ -103,7 +98,7 @@ EndFunction
 
 
 bool Function GetVisible()
-	If (UI.IsMenuOpen(Menu))
+	If (IsOpen)
 		return UI.Get(Menu, GetMember("Visible")) as bool
 	Else
 		WriteUnexpected(self, "GetVisible", "The menu is not open.")
@@ -112,9 +107,9 @@ bool Function GetVisible()
 EndFunction
 
 
-bool Function SetVisible(bool filepath)
-	If (UI.IsMenuOpen(Menu))
-		return UI.Set(Menu, GetMember("Visible"), filepath)
+bool Function SetVisible(bool value)
+	If (IsOpen)
+		return UI.Set(Menu, GetMember("Visible"), value)
 	Else
 		WriteUnexpected(self, "SetVisible", "The menu is not open.")
 		return false
@@ -208,52 +203,51 @@ EndFunction
 ; Properties
 ;---------------------------------------------
 
+Group Properties
+ 	ODST:Emblems:Option Property Option Auto Const Mandatory
+	ODST:Emblems:Material Property Material Auto Const Mandatory
+EndGroup
+
 Group Display
 	string Property Menu Hidden
+		{The name of the menu to load within.}
 		string Function Get()
-			return Display.Menu
+			return "ODST_EmblemMenu"
 		EndFunction
 	EndProperty
 
 	string Property Root Hidden
+		{The root display object.}
 		string Function Get()
-			return Display.Root
+			return "root1"
 		EndFunction
 	EndProperty
 
 	string Property Asset Hidden
+		{The asset file to load within the given menu. The root directory is "Data\Interface".}
 		string Function Get()
-			return Display.Asset
+			return "Preview"
 		EndFunction
 	EndProperty
 
 	bool Property IsOpen Hidden
 		bool Function Get()
 			{Returns true if this menu is open.}
-			return UI.IsMenuOpen(Display.Menu)
+			return UI.IsMenuOpen(Menu)
 		EndFunction
 	EndProperty
 
 	bool Property IsRegistered Hidden
 		bool Function Get()
 			{Returns true if this menu is registered.}
-			return UI.IsMenuRegistered(Display.Menu)
+			return UI.IsMenuRegistered(Menu)
 		EndFunction
 	EndProperty
 EndGroup
 
 Group MenuFlags
 	int Property FlagNone = 0x0 AutoReadOnly
-	int Property FlagPauseGame = 0x01 AutoReadOnly
-	int Property FlagShowCursor = 0x04 AutoReadOnly
-	int Property FlagEnableMenuControl = 0x08 AutoReadOnly
 	int Property FlagDoNotPreventGameSave = 0x800 AutoReadOnly
-EndGroup
-
-Group ExtendedFlags
-	; If you set extendedFlags & 2, it will disable your ShowCursor if the Gamepad is enabled
-	int Property FlagInheritColors = 1 AutoReadOnly
-	int Property FlagCheckForGamepad = 2 AutoReadOnly
 EndGroup
 
 Group Keyboard

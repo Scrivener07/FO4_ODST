@@ -6,20 +6,14 @@
 		{
 			"type": "image",
 			"libName": "ODST",
-			"className": "Splash"
-		},
-		{
-			"type": "spacer",
-			"numLines": 1
+			"className": "Splash",
+			"width": 100,
+			"height": 100
 		},
 		{
 			"text": "<b>Orbital Drop Shock Trooper (ODST)</b>",
 			"type": "text",
 			"html": true
-		},
-		{
-			"text": "The Orbital Drop Shock Troopers (ODST) are a special operations capable organization of the UNSC Marine Corps that specialize in orbital-dropped shock infantry and special warfare tactics. The ODSTs are one of the primary special operations units of the United Nations Space Command, and is under the supervision of Naval Special Warfare Command. The ODST primary HQ is located at Kenosha, Mars.",
-			"type": "text"
 		}
 	],
 	"pages":
@@ -46,7 +40,6 @@
 					"help": "Select an emblem to edit.",
 					"valueOptions":
 					{
-						"sourceType": "ModSettingInt",
 						"options":
 						[
 							"Emblem 1",
@@ -54,7 +47,8 @@
 							"Emblem 3",
 							"Emblem 4",
 							"Emblem 5"
-						]
+						],
+						"sourceType": "ModSettingInt"
 					}
 				},
 				{
@@ -68,7 +62,6 @@
 					"help": "The emblems foreground decal.",
 					"valueOptions":
 					{
-						"sourceType": "ModSettingInt",
 						"options":
 						[
 							"Blank",
@@ -100,7 +93,8 @@
 							"Valkyrie",
 							"Wolf",
 							"Ying Yang"
-						]
+						],
+						"sourceType": "ModSettingInt"
 					}
 				},
 				{
@@ -110,7 +104,6 @@
 					"help": "The emblems primary color.",
 					"valueOptions":
 					{
-						"sourceType": "ModSettingInt",
 						"options":
 						[
 							"Black",
@@ -144,8 +137,8 @@
 							"Brown",
 							"Khaki",
 							"Tan"
-
-						]
+						],
+						"sourceType": "ModSettingInt"
 					}
 				},
 				{
@@ -155,7 +148,6 @@
 					"help": "The emblems secondary color.",
 					"valueOptions":
 					{
-						"sourceType": "ModSettingInt",
 						"options":
 						[
 							"Black",
@@ -189,8 +181,8 @@
 							"Brown",
 							"Khaki",
 							"Tan"
-
-						]
+						],
+						"sourceType": "ModSettingInt"
 					}
 				},
 				{
@@ -204,7 +196,6 @@
 					"help": "The emblems background decal.",
 					"valueOptions":
 					{
-						"sourceType": "ModSettingInt",
 						"options":
 						[
 							"Blank",
@@ -229,7 +220,8 @@
 							"Star",
 							"Structure",
 							"Vortex"
-						]
+						],
+						"sourceType": "ModSettingInt"
 					}
 				},
 				{
@@ -239,7 +231,6 @@
 					"help": "The emblems background color.",
 					"valueOptions":
 					{
-						"sourceType": "ModSettingInt",
 						"options":
 						[
 							"Black",
@@ -273,7 +264,8 @@
 							"Brown",
 							"Khaki",
 							"Tan"
-						]
+						],
+						"sourceType": "ModSettingInt"
 					}
 				}
 			]

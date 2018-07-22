@@ -1,15 +1,15 @@
 Scriptname ODST:Emblems:Option extends ODST:Type
+import ODST
 import ODST:Log
 import ODST:Papyrus
-;import ODST:Settings
 
-int OptionForeground
-int OptionForegroundColorPrimary
-int OptionForegroundColorSecondary
-int OptionBackground
-int OptionBackgroundColor
+int Foreground
+int ForegroundColorPrimary
+int ForegroundColorSecondary
+int Background
+int BackgroundColor
 ;---------------------------------------------
-string iEmblem_Selected = "iEmblem_Selected:Main" const
+string Emblem_Selected = "iEmblem_Selected:Main" const
 string emblem_foreground = "iEmblem_Foreground:Main" const
 string emblem_foreground_color_primary = "iEmblem_Foreground_Color_Primary:Main" const
 string emblem_foreground_color_secondary = "iEmblem_Foreground_Color_Secondary:Main" const
@@ -24,11 +24,12 @@ string emblem_background_color = "iEmblem_Background_Color:Main" const
 ;---------------------------------------------
 
 Event OnQuestInit()
-	OptionForeground = Blank
-	OptionForegroundColorPrimary = Blank
-	OptionForegroundColorSecondary = Blank
-	OptionBackground = Blank
-	OptionBackgroundColor = Blank
+	WriteLine(self, "OnQuestInit")
+	Foreground = Blank
+	ForegroundColorPrimary = Blank
+	ForegroundColorSecondary = Blank
+	Background = Blank
+	BackgroundColor = Blank
 	Settings.RegisterForMenuEvent(self)
 	Settings.RegisterForChangedEvent(self)
 EndEvent
@@ -36,11 +37,17 @@ EndEvent
 
 Event ODST:Settings.OnMenu(ODST:Settings sender, var[] arguments)
 	If (arguments)
-		int e = sender.GetMenuEventArgs(arguments)
-		If (e == sender.MenuOpened)
+		Settings:MenuEventArgs e = sender.GetMenuEventArgs(arguments)
+
+		If (e.MenuState == sender.MenuOpened)
 			WriteLine(self, "ODST:Settings.OnMenu", "Opened")
-			UpdateSettings()
-		ElseIf (e == sender.MenuClosed)
+			Foreground = MCM.GetModSettingInt(Properties.PluginName, emblem_foreground)
+			ForegroundColorPrimary = MCM.GetModSettingInt(Properties.PluginName, emblem_foreground_color_primary)
+			ForegroundColorSecondary = MCM.GetModSettingInt(Properties.PluginName, emblem_foreground_color_secondary)
+			Background = MCM.GetModSettingInt(Properties.PluginName, emblem_background)
+			BackgroundColor = MCM.GetModSettingInt(Properties.PluginName, emblem_background_color)
+
+		ElseIf (e.MenuState == sender.MenuClosed)
 			WriteLine(self, "ODST:Settings.OnMenu", "Closed")
 			ApplyChanges()
 		EndIf
@@ -52,20 +59,19 @@ EndEvent
 
 Event ODST:Settings.OnChanged(ODST:Settings sender, var[] arguments)
 	If (arguments)
-		ODST:Settings:ChangedEventArgs e = sender.GetChangedEventArgs(arguments)
+		Settings:ChangedEventArgs e = sender.GetChangedEventArgs(arguments)
 		WriteLine(self, "ODST:Settings.OnChanged", e)
 		If (e.ModName == Properties.PluginName)
-			self.Foreground = MCM.GetModSettingInt(e.ModName, emblem_foreground)
-			self.ForegroundColorPrimary = MCM.GetModSettingInt(e.ModName, emblem_foreground_color_primary)
-			self.ForegroundColorSecondary = MCM.GetModSettingInt(e.ModName, emblem_foreground_color_secondary)
-			self.Background = MCM.GetModSettingInt(e.ModName, emblem_background)
-			self.BackgroundColor = MCM.GetModSettingInt(e.ModName, emblem_background_color)
+			WriteMessage(self, "ODST:Settings.OnChanged", "e.Identifier:"+e.Identifier)
+
+			Foreground = MCM.GetModSettingInt(e.ModName, emblem_foreground)
+			ForegroundColorPrimary = MCM.GetModSettingInt(e.ModName, emblem_foreground_color_primary)
+			ForegroundColorSecondary = MCM.GetModSettingInt(e.ModName, emblem_foreground_color_secondary)
+			Background = MCM.GetModSettingInt(e.ModName, emblem_background)
+			BackgroundColor = MCM.GetModSettingInt(e.ModName, emblem_background_color)
 
 			MCM.RefreshMenu()
-
 			self.ApplyChanges()
-
-			WriteMessage(self, "ODST:Settings.OnChanged", "e.Identifier:"+e.Identifier)
 		Else
 			WriteUnexpected(self, "ODST:Settings.OnChanged", "The "+e.ModName+" mod name was unhandled.")
 		EndIf
@@ -78,34 +84,17 @@ EndEvent
 ; Methods
 ;---------------------------------------------
 
-Function UpdateSettings()
-	WriteLine(self, "UpdateSettings")
-	self.Foreground = MCM.GetModSettingInt(Properties.PluginName, emblem_foreground)
-	self.ForegroundColorPrimary = MCM.GetModSettingInt(Properties.PluginName, emblem_foreground_color_primary)
-	self.ForegroundColorSecondary = MCM.GetModSettingInt(Properties.PluginName, emblem_foreground_color_secondary)
-	self.Background = MCM.GetModSettingInt(Properties.PluginName, emblem_background)
-	self.BackgroundColor = MCM.GetModSettingInt(Properties.PluginName, emblem_background_color)
-EndFunction
-
-
 Function ApplyChanges()
 	{Updates the material file paths.}
-	WriteLine(self, "ApplyChanges", "Updating the material file paths.")
+	WriteLine(self, "ApplyChanges", "Sending the changed event.")
 
 	ChangedEventArgs e = new ChangedEventArgs
-	e.Preset = 1
-	e.Foreground = ForegroundToString(Foreground)
-	e.ForegroundColorPrimary = ColorToString(ForegroundColorPrimary)
-	e.ForegroundColorSecondary = ColorToString(ForegroundColorSecondary)
-	e.Background = BackgroundToString(Background)
-	e.BackgroundColor = ColorToString(BackgroundColor)
+	e.Foreground = Foreground
+	e.ForegroundColorPrimary = ForegroundColorPrimary
+	e.ForegroundColorSecondary = ForegroundColorSecondary
+	e.Background = Background
+	e.BackgroundColor = BackgroundColor
 	SendChangedEvent(e)
-
-	Preview.SetPrimary(Material.ToTexturePath("Primary", ForegroundToString(Foreground)), ColorToHex(ForegroundColorPrimary))
-	Preview.SetSecondary(Material.ToTexturePath("Secondary", ForegroundToString(Foreground)), ColorToHex(ForegroundColorSecondary))
-	Preview.SetBackground(Material.ToTexturePath("Background", BackgroundToString(Background)), ColorToHex(BackgroundColor))
-
-	Material.Apply()
 	WriteLine(self, "ApplyChanges", ToString())
 EndFunction
 
@@ -116,12 +105,11 @@ EndFunction
 CustomEvent OnChanged
 
 Struct ChangedEventArgs
-	int Preset = -1
-	string Foreground
-	string ForegroundColorPrimary
-	string ForegroundColorSecondary
-	string Background
-	string BackgroundColor
+	int Foreground = -1
+	int ForegroundColorPrimary = -1
+	int ForegroundColorSecondary = -1
+	int Background = -1
+	int BackgroundColor = -1
 EndStruct
 
 
@@ -475,34 +463,6 @@ Group Foreground
 	int Property Valkyrie = 26 AutoReadOnly
 	int Property Wolf = 27 AutoReadOnly
 	int Property YingYang = 28 AutoReadOnly
-
-
-	int Property Foreground Hidden
-		Function Set(int value)
-			OptionForeground = value
-		EndFunction
-		int Function Get()
-			return OptionForeground
-		EndFunction
-	EndProperty
-
-	int Property ForegroundColorPrimary Hidden
-		Function Set(int value)
-			OptionForegroundColorPrimary = value
-		EndFunction
-		int Function Get()
-			return OptionForegroundColorPrimary
-		EndFunction
-	EndProperty
-
-	int Property ForegroundColorSecondary Hidden
-		Function Set(int value)
-			OptionForegroundColorSecondary = value
-		EndFunction
-		int Function Get()
-			return OptionForegroundColorSecondary
-		EndFunction
-	EndProperty
 EndGroup
 
 Group Background
@@ -527,25 +487,6 @@ Group Background
 	int Property Star = 19 AutoReadOnly
 	int Property Structure = 20 AutoReadOnly
 	int Property Vortex = 21 AutoReadOnly
-
-
-	int Property Background Hidden
-		Function Set(int value)
-			OptionBackground = value
-		EndFunction
-		int Function Get()
-			return OptionBackground
-		EndFunction
-	EndProperty
-
-	int Property BackgroundColor Hidden
-		Function Set(int value)
-			OptionBackgroundColor = value
-		EndFunction
-		int Function Get()
-			return OptionBackgroundColor
-		EndFunction
-	EndProperty
 EndGroup
 
 Group Colors

@@ -1,9 +1,6 @@
 Scriptname ODST:Settings extends ODST:Type
 import ODST:Log
 
-CustomEvent OnMenu
-CustomEvent OnChanged
-
 string PauseMenu = "PauseMenu" const
 ;---------------------------------------------
 string OnMCMOpen = "OnMCMOpen" const
@@ -81,6 +78,12 @@ EndFunction
 ; OnMenu
 ;---------------------------------------------
 
+CustomEvent OnMenu
+
+Struct MenuEventArgs
+	int MenuState = -1
+EndStruct
+
 bool Function RegisterForMenuEvent(ScriptObject script)
 	If (script)
 		script.RegisterForCustomEvent(self, "OnMenu")
@@ -103,18 +106,20 @@ bool Function UnregisterForMenuEvent(ScriptObject script)
 EndFunction
 
 
-int Function GetMenuEventArgs(var[] arguments)
+MenuEventArgs Function GetMenuEventArgs(var[] arguments)
 	If (arguments)
-		return arguments[0] as int
+		return arguments[0] as MenuEventArgs
 	Else
 		WriteUnexpectedValue(self, "GetMenuEventArgs", "arguments", "The changed event arguments are empty or none.")
-		return -1
+		return none
 	EndIf
 EndFunction
 
 
 ; OnChanged
 ;---------------------------------------------
+
+CustomEvent OnChanged
 
 Struct ChangedEventArgs
 	string ModName
