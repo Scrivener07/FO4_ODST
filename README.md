@@ -1,6 +1,8 @@
 # Fallout 4 - ODST
 A Fallout 4 modification by [Darkman32197](https://www.nexusmods.com/users/5280910), [NovaFinch](https://www.nexusmods.com/users/38614105) and [Soda](https://www.nexusmods.com/users/4991811). This file should help authors get started developing for ODST.
 
+Built for `ODST v0.6.1`
+
 ## WIP
 * [ODST WIP 1](https://www.nexusmods.com/fallout4/images/110670)
 * [ODST WIP 2](https://www.nexusmods.com/fallout4/images/111188)
