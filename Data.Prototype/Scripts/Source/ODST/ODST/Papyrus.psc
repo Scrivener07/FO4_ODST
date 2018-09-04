@@ -1,10 +1,12 @@
 Scriptname ODST:Papyrus Const Native Hidden
+{Provides generic scripting methods for ODST script objects.}
 import ODST:Log
 
 ; States
 ;---------------------------------------------
 
 bool Function NewState(ScriptObject this, int stateID) Global
+	{Requests a state be started on a new thread. Must be implemented via a timer event.}
 	If (this)
 		this.StartTimer(0.1, stateID)
 		return true
@@ -117,6 +119,7 @@ EndFunction
 ;---------------------------------------------
 
 Form Function GetExternal(string plugin, int formID) Global
+	{Returns a `Form` record from a plugin file.}
 	If (Game.IsPluginInstalled(plugin))
 		return Game.GetFormFromFile(formID, plugin)
 	Else

@@ -1,8 +1,9 @@
 Scriptname ODST:Emblems:Preview extends ODST:Type
+{Provides capabilities to display an emblem preset within the user interface.}
 import ODST
 import ODST:Log
 import ODST:Papyrus
-
+import ODST:Emblems
 
 ; Events
 ;---------------------------------------------
@@ -10,7 +11,6 @@ import ODST:Papyrus
 Event OnQuestInit()
 	OnGameReload()
 	RegisterForGameReload(self)
-	Option.RegisterForChangedEvent(self)
 	WriteLine(self, "OnQuestInit")
 EndEvent
 
@@ -26,30 +26,6 @@ Event OnGameReload()
 	EndIf
 
 	RegisterForKey(P) ; DebugOnly
-EndEvent
-
-
-Event ODST:Emblems:Option.OnChanged(ODST:Emblems:Option sender, var[] arguments)
-	If (arguments)
-		ODST:Emblems:Option:ChangedEventArgs e = sender.GetChangedEventArgs(arguments)
-		WriteLine(self, "ODST:Emblems:Option.OnChanged", e)
-
-		string sLayerPrimary = sender.ForegroundToString(e.Foreground)
-		string sTexturePathPrimary = Material.ToTexturePath("Primary", sLayerPrimary)
-		int iColorPrimary = sender.ColorToHex(e.ForegroundColorPrimary)
-		SetPrimary(sTexturePathPrimary, iColorPrimary)
-
-		string sTexturePathSecondary = Material.ToTexturePath("Secondary", sLayerPrimary)
-		int iColorSecondary = sender.ColorToHex(e.ForegroundColorSecondary)
-		SetSecondary(sTexturePathSecondary, iColorSecondary)
-
-		string sLayerBackground = sender.BackgroundToString(e.Background)
-		string sTexturePathBackground = Material.ToTexturePath("Background", sLayerBackground)
-		int iColorBackground = sender.ColorToHex(e.BackgroundColor)
-		SetBackground(sTexturePathBackground, iColorBackground)
-	Else
-		WriteUnexpectedValue(self, "ODST:Emblems:Option.OnChanged", "arguments", "The arguments are none or empty.")
-	EndIf
 EndEvent
 
 
@@ -76,6 +52,27 @@ EndEvent
 
 ; Methods
 ;---------------------------------------------
+
+bool Function Update(Emblems:Editor editor, Emblems:Preset preset)
+	{@`Editor` Updates the preview user interface.}
+
+	string sLayerPrimary = editor.Symbol.ForegroundToFolder(preset.Foreground)
+	string sTexturePathPrimary = editor.ToTexturePath(editor.PrimaryLayer, sLayerPrimary)
+	int iColorPrimary = editor.Color.OptionToHex(preset.ForegroundColorPrimary)
+	SetPrimary(sTexturePathPrimary, iColorPrimary)
+
+	string sTexturePathSecondary = editor.ToTexturePath(editor.SecondaryLayer, sLayerPrimary)
+	int iColorSecondary =editor.Color.OptionToHex(preset.ForegroundColorSecondary)
+	SetSecondary(sTexturePathSecondary, iColorSecondary)
+
+	string sLayerBackground = editor.Symbol.BackgroundToFolder(preset.Background)
+	string sTexturePathBackground = editor.ToTexturePath(editor.BackgroundLayer, sLayerBackground)
+	int iColorBackground = editor.Color.OptionToHex(preset.BackgroundColor)
+	SetBackground(sTexturePathBackground, iColorBackground)
+
+	WriteLine(self, "Update:"+ToString())
+EndFunction
+
 
 bool Function Open()
 	If (IsRegistered)
@@ -203,11 +200,6 @@ EndFunction
 ; Properties
 ;---------------------------------------------
 
-Group Properties
- 	ODST:Emblems:Option Property Option Auto Const Mandatory
-	ODST:Emblems:Material Property Material Auto Const Mandatory
-EndGroup
-
 Group Display
 	string Property Menu Hidden
 		{The name of the menu to load within.}
@@ -226,7 +218,7 @@ Group Display
 	string Property Asset Hidden
 		{The asset file to load within the given menu. The root directory is "Data\Interface".}
 		string Function Get()
-			return "Preview"
+			return "EmblemMenu"
 		EndFunction
 	EndProperty
 

@@ -1,6 +1,7 @@
 {
-	"modName": "ProjectHelljumper",
+	"modName": "ODST",
 	"displayName": "ODST",
+	"minMcmVersion": 3,
 	"content":
 	[
 		{
@@ -34,7 +35,7 @@
 					"numLines": 1
 				},
 				{
-					"id": "iEmblem_Selected:Main",
+					"id": "iEmblem_Selected:Settings",
 					"text": "Selected",
 					"type": "dropdown",
 					"help": "Select an emblem to edit.",
@@ -48,15 +49,80 @@
 							"Emblem 4",
 							"Emblem 5"
 						],
-						"sourceType": "ModSettingInt"
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|1EEE",
+						"propertyName": "Selected",
+						"scriptName": "ODST:Emblems:Editor"
 					}
 				},
 				{
+					"type": "hiddenSwitcher",
+					"text": "Invisible switcher control, this will not be displayed",
+					"groupControl": 1,
+					"valueOptions":
+					{
+						"sourceType": "PropertyValueBool",
+						"sourceForm": "ODST.esp|541F",
+						"propertyName": "Condition",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"type": "hiddenSwitcher",
+					"text": "Invisible switcher control, this will not be displayed",
+					"groupControl": 2,
+					"valueOptions":
+					{
+						"sourceType": "PropertyValueBool",
+						"sourceForm": "ODST.esp|5420",
+						"propertyName": "Condition",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"type": "hiddenSwitcher",
+					"text": "Invisible switcher control, this will not be displayed",
+					"groupControl": 3,
+					"valueOptions":
+					{
+						"sourceType": "PropertyValueBool",
+						"sourceForm": "ODST.esp|5421",
+						"propertyName": "Condition",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"type": "hiddenSwitcher",
+					"text": "Invisible switcher control, this will not be displayed",
+					"groupControl": 4,
+					"valueOptions":
+					{
+						"sourceType": "PropertyValueBool",
+						"sourceForm": "ODST.esp|5422",
+						"propertyName": "Condition",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"type": "hiddenSwitcher",
+					"text": "Invisible switcher control, this will not be displayed",
+					"groupControl": 5,
+					"valueOptions":
+					{
+						"sourceType": "PropertyValueBool",
+						"sourceForm": "ODST.esp|5423",
+						"propertyName": "Condition",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"groupCondition": 1,
 					"text": "Foreground",
 					"type": "section"
 				},
 				{
-					"id": "iEmblem_Foreground:Main",
+					"id": "iEmblem_Foreground:Emblem001",
+					"groupCondition": 1,
 					"text": "Decal",
 					"type": "dropdown",
 					"help": "The emblems foreground decal.",
@@ -94,11 +160,15 @@
 							"Wolf",
 							"Ying Yang"
 						],
-						"sourceType": "ModSettingInt"
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|541F",
+						"propertyName": "Foreground",
+						"scriptName": "ODST:Emblems:Preset"
 					}
 				},
 				{
-					"id": "iEmblem_Foreground_Color_Primary:Main",
+					"id": "iEmblem_Foreground_ColorPrimary:Emblem001",
+					"groupCondition": 1,
 					"text": "Primary Color",
 					"type": "dropdown",
 					"help": "The emblems primary color.",
@@ -138,11 +208,15 @@
 							"Khaki",
 							"Tan"
 						],
-						"sourceType": "ModSettingInt"
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|541F",
+						"propertyName": "ForegroundColorPrimary",
+						"scriptName": "ODST:Emblems:Preset"
 					}
 				},
 				{
-					"id": "iEmblem_Foreground_Color_Secondary:Main",
+					"id": "iEmblem_Foreground_ColorSecondary:Emblem001",
+					"groupCondition": 1,
 					"text": "Secondary Color",
 					"type": "dropdown",
 					"help": "The emblems secondary color.",
@@ -182,15 +256,20 @@
 							"Khaki",
 							"Tan"
 						],
-						"sourceType": "ModSettingInt"
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|541F",
+						"propertyName": "ForegroundColorSecondary",
+						"scriptName": "ODST:Emblems:Preset"
 					}
 				},
 				{
+					"groupCondition": 1,
 					"text": "Background",
 					"type": "section"
 				},
 				{
-					"id": "iEmblem_Background:Main",
+					"id": "iEmblem_Background:Emblem001",
+					"groupCondition": 1,
 					"text": "Decal",
 					"type": "dropdown",
 					"help": "The emblems background decal.",
@@ -221,11 +300,15 @@
 							"Structure",
 							"Vortex"
 						],
-						"sourceType": "ModSettingInt"
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|541F",
+						"propertyName": "Background",
+						"scriptName": "ODST:Emblems:Preset"
 					}
 				},
 				{
-					"id": "iEmblem_Background_Color:Main",
+					"id": "iEmblem_Background_Color:Emblem001",
+					"groupCondition": 1,
 					"text": "Color",
 					"type": "dropdown",
 					"help": "The emblems background color.",
@@ -265,7 +348,967 @@
 							"Khaki",
 							"Tan"
 						],
-						"sourceType": "ModSettingInt"
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|541F",
+						"propertyName": "BackgroundColor",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"groupCondition": 2,
+					"text": "Foreground",
+					"type": "section"
+				},
+				{
+					"id": "iEmblem_Foreground:Emblem002",
+					"groupCondition": 2,
+					"text": "Decal",
+					"type": "dropdown",
+					"help": "The emblems foreground decal.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Blank",
+							"117",
+							"Active Rooster",
+							"Arrowhead",
+							"Assassin",
+							"Bulletproof",
+							"Cone",
+							"Covenant",
+							"Cup Of Death",
+							"Grenade",
+							"Guilty",
+							"Headshot",
+							"Infected",
+							"LASO",
+							"Mjolnir",
+							"Noble",
+							"ONI",
+							"On Your Shield",
+							"Planetary",
+							"Seven",
+							"Sinner",
+							"Spartan",
+							"Spartan Helmet",
+							"Splatter",
+							"Superintendent",
+							"Unicorn",
+							"Valkyrie",
+							"Wolf",
+							"Ying Yang"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5420",
+						"propertyName": "Foreground",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"id": "iEmblem_Foreground_ColorPrimary:Emblem002",
+					"groupCondition": 2,
+					"text": "Primary Color",
+					"type": "dropdown",
+					"help": "The emblems primary color.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Black",
+							"Silver",
+							"Steel",
+							"White",
+							"Mauve",
+							"Red",
+							"Salmon",
+							"Coral",
+							"Orange",
+							"Peach",
+							"Gold",
+							"Pale",
+							"Yellow",
+							"Green",
+							"Olive",
+							"Sage",
+							"Aqua",
+							"Cyan",
+							"Teal",
+							"Blue",
+							"Cobalt",
+							"Sapphire",
+							"Lavendar",
+							"Orchid",
+							"Violet",
+							"Crimson",
+							"Pink",
+							"Rubine",
+							"Brown",
+							"Khaki",
+							"Tan"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5420",
+						"propertyName": "ForegroundColorPrimary",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"id": "iEmblem_Foreground_ColorSecondary:Emblem002",
+					"groupCondition": 2,
+					"text": "Secondary Color",
+					"type": "dropdown",
+					"help": "The emblems secondary color.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Black",
+							"Silver",
+							"Steel",
+							"White",
+							"Mauve",
+							"Red",
+							"Salmon",
+							"Coral",
+							"Orange",
+							"Peach",
+							"Gold",
+							"Pale",
+							"Yellow",
+							"Green",
+							"Olive",
+							"Sage",
+							"Aqua",
+							"Cyan",
+							"Teal",
+							"Blue",
+							"Cobalt",
+							"Sapphire",
+							"Lavendar",
+							"Orchid",
+							"Violet",
+							"Crimson",
+							"Pink",
+							"Rubine",
+							"Brown",
+							"Khaki",
+							"Tan"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5420",
+						"propertyName": "ForegroundColorSecondary",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"groupCondition": 2,
+					"text": "Background",
+					"type": "section"
+				},
+				{
+					"id": "iEmblem_Background:Emblem002",
+					"groupCondition": 2,
+					"text": "Decal",
+					"type": "dropdown",
+					"help": "The emblems background decal.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Blank",
+							"4 Diamonds",
+							"Asterisk",
+							"BallOFire",
+							"Blank One",
+							"Cancel",
+							"Chevron",
+							"Circle",
+							"Cog",
+							"Cowboy Hat",
+							"Criss Cross",
+							"Crown",
+							"Diamond",
+							"Display",
+							"Hexagon",
+							"Horizontal Stripes",
+							"Limited",
+							"Power",
+							"Shield",
+							"Star",
+							"Structure",
+							"Vortex"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5420",
+						"propertyName": "Background",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"id": "iEmblem_Background_Color:Emblem002",
+					"groupCondition": 2,
+					"text": "Color",
+					"type": "dropdown",
+					"help": "The emblems background color.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Black",
+							"Silver",
+							"Steel",
+							"White",
+							"Mauve",
+							"Red",
+							"Salmon",
+							"Coral",
+							"Orange",
+							"Peach",
+							"Gold",
+							"Pale",
+							"Yellow",
+							"Green",
+							"Olive",
+							"Sage",
+							"Aqua",
+							"Cyan",
+							"Teal",
+							"Blue",
+							"Cobalt",
+							"Sapphire",
+							"Lavendar",
+							"Orchid",
+							"Violet",
+							"Crimson",
+							"Pink",
+							"Rubine",
+							"Brown",
+							"Khaki",
+							"Tan"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5420",
+						"propertyName": "BackgroundColor",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"groupCondition": 3,
+					"text": "Foreground",
+					"type": "section"
+				},
+				{
+					"id": "iEmblem_Foreground:Emblem003",
+					"groupCondition": 3,
+					"text": "Decal",
+					"type": "dropdown",
+					"help": "The emblems foreground decal.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Blank",
+							"117",
+							"Active Rooster",
+							"Arrowhead",
+							"Assassin",
+							"Bulletproof",
+							"Cone",
+							"Covenant",
+							"Cup Of Death",
+							"Grenade",
+							"Guilty",
+							"Headshot",
+							"Infected",
+							"LASO",
+							"Mjolnir",
+							"Noble",
+							"ONI",
+							"On Your Shield",
+							"Planetary",
+							"Seven",
+							"Sinner",
+							"Spartan",
+							"Spartan Helmet",
+							"Splatter",
+							"Superintendent",
+							"Unicorn",
+							"Valkyrie",
+							"Wolf",
+							"Ying Yang"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5421",
+						"propertyName": "Foreground",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"id": "iEmblem_Foreground_ColorPrimary:Emblem003",
+					"groupCondition": 3,
+					"text": "Primary Color",
+					"type": "dropdown",
+					"help": "The emblems primary color.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Black",
+							"Silver",
+							"Steel",
+							"White",
+							"Mauve",
+							"Red",
+							"Salmon",
+							"Coral",
+							"Orange",
+							"Peach",
+							"Gold",
+							"Pale",
+							"Yellow",
+							"Green",
+							"Olive",
+							"Sage",
+							"Aqua",
+							"Cyan",
+							"Teal",
+							"Blue",
+							"Cobalt",
+							"Sapphire",
+							"Lavendar",
+							"Orchid",
+							"Violet",
+							"Crimson",
+							"Pink",
+							"Rubine",
+							"Brown",
+							"Khaki",
+							"Tan"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5421",
+						"propertyName": "ForegroundColorPrimary",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"id": "iEmblem_Foreground_ColorSecondary:Emblem003",
+					"groupCondition": 3,
+					"text": "Secondary Color",
+					"type": "dropdown",
+					"help": "The emblems secondary color.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Black",
+							"Silver",
+							"Steel",
+							"White",
+							"Mauve",
+							"Red",
+							"Salmon",
+							"Coral",
+							"Orange",
+							"Peach",
+							"Gold",
+							"Pale",
+							"Yellow",
+							"Green",
+							"Olive",
+							"Sage",
+							"Aqua",
+							"Cyan",
+							"Teal",
+							"Blue",
+							"Cobalt",
+							"Sapphire",
+							"Lavendar",
+							"Orchid",
+							"Violet",
+							"Crimson",
+							"Pink",
+							"Rubine",
+							"Brown",
+							"Khaki",
+							"Tan"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5421",
+						"propertyName": "ForegroundColorSecondary",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"groupCondition": 3,
+					"text": "Background",
+					"type": "section"
+				},
+				{
+					"id": "iEmblem_Background:Emblem003",
+					"groupCondition": 3,
+					"text": "Decal",
+					"type": "dropdown",
+					"help": "The emblems background decal.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Blank",
+							"4 Diamonds",
+							"Asterisk",
+							"BallOFire",
+							"Blank One",
+							"Cancel",
+							"Chevron",
+							"Circle",
+							"Cog",
+							"Cowboy Hat",
+							"Criss Cross",
+							"Crown",
+							"Diamond",
+							"Display",
+							"Hexagon",
+							"Horizontal Stripes",
+							"Limited",
+							"Power",
+							"Shield",
+							"Star",
+							"Structure",
+							"Vortex"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5421",
+						"propertyName": "Background",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"id": "iEmblem_Background_Color:Emblem003",
+					"groupCondition": 3,
+					"text": "Color",
+					"type": "dropdown",
+					"help": "The emblems background color.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Black",
+							"Silver",
+							"Steel",
+							"White",
+							"Mauve",
+							"Red",
+							"Salmon",
+							"Coral",
+							"Orange",
+							"Peach",
+							"Gold",
+							"Pale",
+							"Yellow",
+							"Green",
+							"Olive",
+							"Sage",
+							"Aqua",
+							"Cyan",
+							"Teal",
+							"Blue",
+							"Cobalt",
+							"Sapphire",
+							"Lavendar",
+							"Orchid",
+							"Violet",
+							"Crimson",
+							"Pink",
+							"Rubine",
+							"Brown",
+							"Khaki",
+							"Tan"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5421",
+						"propertyName": "BackgroundColor",
+						"scriptName": "ODST:Emblems:Preset"
+
+					}
+				},
+				{
+					"groupCondition": 4,
+					"text": "Foreground",
+					"type": "section"
+				},
+				{
+					"id": "iEmblem_Foreground:Emblem004",
+					"groupCondition": 4,
+					"text": "Decal",
+					"type": "dropdown",
+					"help": "The emblems foreground decal.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Blank",
+							"117",
+							"Active Rooster",
+							"Arrowhead",
+							"Assassin",
+							"Bulletproof",
+							"Cone",
+							"Covenant",
+							"Cup Of Death",
+							"Grenade",
+							"Guilty",
+							"Headshot",
+							"Infected",
+							"LASO",
+							"Mjolnir",
+							"Noble",
+							"ONI",
+							"On Your Shield",
+							"Planetary",
+							"Seven",
+							"Sinner",
+							"Spartan",
+							"Spartan Helmet",
+							"Splatter",
+							"Superintendent",
+							"Unicorn",
+							"Valkyrie",
+							"Wolf",
+							"Ying Yang"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5422",
+						"propertyName": "Foreground",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"id": "iEmblem_Foreground_ColorPrimary:Emblem004",
+					"groupCondition": 4,
+					"text": "Primary Color",
+					"type": "dropdown",
+					"help": "The emblems primary color.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Black",
+							"Silver",
+							"Steel",
+							"White",
+							"Mauve",
+							"Red",
+							"Salmon",
+							"Coral",
+							"Orange",
+							"Peach",
+							"Gold",
+							"Pale",
+							"Yellow",
+							"Green",
+							"Olive",
+							"Sage",
+							"Aqua",
+							"Cyan",
+							"Teal",
+							"Blue",
+							"Cobalt",
+							"Sapphire",
+							"Lavendar",
+							"Orchid",
+							"Violet",
+							"Crimson",
+							"Pink",
+							"Rubine",
+							"Brown",
+							"Khaki",
+							"Tan"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5422",
+						"propertyName": "ForegroundColorPrimary",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"id": "iEmblem_Foreground_ColorSecondary:Emblem004",
+					"groupCondition": 4,
+					"text": "Secondary Color",
+					"type": "dropdown",
+					"help": "The emblems secondary color.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Black",
+							"Silver",
+							"Steel",
+							"White",
+							"Mauve",
+							"Red",
+							"Salmon",
+							"Coral",
+							"Orange",
+							"Peach",
+							"Gold",
+							"Pale",
+							"Yellow",
+							"Green",
+							"Olive",
+							"Sage",
+							"Aqua",
+							"Cyan",
+							"Teal",
+							"Blue",
+							"Cobalt",
+							"Sapphire",
+							"Lavendar",
+							"Orchid",
+							"Violet",
+							"Crimson",
+							"Pink",
+							"Rubine",
+							"Brown",
+							"Khaki",
+							"Tan"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5422",
+						"propertyName": "ForegroundColorSecondary",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"groupCondition": 4,
+					"text": "Background",
+					"type": "section"
+				},
+				{
+					"id": "iEmblem_Background:Emblem004",
+					"groupCondition": 4,
+					"text": "Decal",
+					"type": "dropdown",
+					"help": "The emblems background decal.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Blank",
+							"4 Diamonds",
+							"Asterisk",
+							"BallOFire",
+							"Blank One",
+							"Cancel",
+							"Chevron",
+							"Circle",
+							"Cog",
+							"Cowboy Hat",
+							"Criss Cross",
+							"Crown",
+							"Diamond",
+							"Display",
+							"Hexagon",
+							"Horizontal Stripes",
+							"Limited",
+							"Power",
+							"Shield",
+							"Star",
+							"Structure",
+							"Vortex"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5422",
+						"propertyName": "Background",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"id": "iEmblem_Background_Color:Emblem004",
+					"groupCondition": 4,
+					"text": "Color",
+					"type": "dropdown",
+					"help": "The emblems background color.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Black",
+							"Silver",
+							"Steel",
+							"White",
+							"Mauve",
+							"Red",
+							"Salmon",
+							"Coral",
+							"Orange",
+							"Peach",
+							"Gold",
+							"Pale",
+							"Yellow",
+							"Green",
+							"Olive",
+							"Sage",
+							"Aqua",
+							"Cyan",
+							"Teal",
+							"Blue",
+							"Cobalt",
+							"Sapphire",
+							"Lavendar",
+							"Orchid",
+							"Violet",
+							"Crimson",
+							"Pink",
+							"Rubine",
+							"Brown",
+							"Khaki",
+							"Tan"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5422",
+						"propertyName": "BackgroundColor",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"groupCondition": 5,
+					"text": "Foreground",
+					"type": "section"
+				},
+				{
+					"id": "iEmblem_Foreground:Emblem005",
+					"groupCondition": 5,
+					"text": "Decal",
+					"type": "dropdown",
+					"help": "The emblems foreground decal.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Blank",
+							"117",
+							"Active Rooster",
+							"Arrowhead",
+							"Assassin",
+							"Bulletproof",
+							"Cone",
+							"Covenant",
+							"Cup Of Death",
+							"Grenade",
+							"Guilty",
+							"Headshot",
+							"Infected",
+							"LASO",
+							"Mjolnir",
+							"Noble",
+							"ONI",
+							"On Your Shield",
+							"Planetary",
+							"Seven",
+							"Sinner",
+							"Spartan",
+							"Spartan Helmet",
+							"Splatter",
+							"Superintendent",
+							"Unicorn",
+							"Valkyrie",
+							"Wolf",
+							"Ying Yang"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5423",
+						"propertyName": "Foreground",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"id": "iEmblem_Foreground_ColorPrimary:Emblem005",
+					"groupCondition": 5,
+					"text": "Primary Color",
+					"type": "dropdown",
+					"help": "The emblems primary color.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Black",
+							"Silver",
+							"Steel",
+							"White",
+							"Mauve",
+							"Red",
+							"Salmon",
+							"Coral",
+							"Orange",
+							"Peach",
+							"Gold",
+							"Pale",
+							"Yellow",
+							"Green",
+							"Olive",
+							"Sage",
+							"Aqua",
+							"Cyan",
+							"Teal",
+							"Blue",
+							"Cobalt",
+							"Sapphire",
+							"Lavendar",
+							"Orchid",
+							"Violet",
+							"Crimson",
+							"Pink",
+							"Rubine",
+							"Brown",
+							"Khaki",
+							"Tan"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5423",
+						"propertyName": "ForegroundColorPrimary",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"id": "iEmblem_Foreground_ColorSecondary:Emblem005",
+					"groupCondition": 5,
+					"text": "Secondary Color",
+					"type": "dropdown",
+					"help": "The emblems secondary color.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Black",
+							"Silver",
+							"Steel",
+							"White",
+							"Mauve",
+							"Red",
+							"Salmon",
+							"Coral",
+							"Orange",
+							"Peach",
+							"Gold",
+							"Pale",
+							"Yellow",
+							"Green",
+							"Olive",
+							"Sage",
+							"Aqua",
+							"Cyan",
+							"Teal",
+							"Blue",
+							"Cobalt",
+							"Sapphire",
+							"Lavendar",
+							"Orchid",
+							"Violet",
+							"Crimson",
+							"Pink",
+							"Rubine",
+							"Brown",
+							"Khaki",
+							"Tan"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5423",
+						"propertyName": "ForegroundColorSecondary",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"groupCondition": 5,
+					"text": "Background",
+					"type": "section"
+				},
+				{
+					"id": "iEmblem_Background:Emblem005",
+					"groupCondition": 5,
+					"text": "Decal",
+					"type": "dropdown",
+					"help": "The emblems background decal.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Blank",
+							"4 Diamonds",
+							"Asterisk",
+							"BallOFire",
+							"Blank One",
+							"Cancel",
+							"Chevron",
+							"Circle",
+							"Cog",
+							"Cowboy Hat",
+							"Criss Cross",
+							"Crown",
+							"Diamond",
+							"Display",
+							"Hexagon",
+							"Horizontal Stripes",
+							"Limited",
+							"Power",
+							"Shield",
+							"Star",
+							"Structure",
+							"Vortex"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5423",
+						"propertyName": "Background",
+						"scriptName": "ODST:Emblems:Preset"
+					}
+				},
+				{
+					"id": "iEmblem_Background_Color:Emblem005",
+					"groupCondition": 5,
+					"text": "Color",
+					"type": "dropdown",
+					"help": "The emblems background color.",
+					"valueOptions":
+					{
+						"options":
+						[
+							"Black",
+							"Silver",
+							"Steel",
+							"White",
+							"Mauve",
+							"Red",
+							"Salmon",
+							"Coral",
+							"Orange",
+							"Peach",
+							"Gold",
+							"Pale",
+							"Yellow",
+							"Green",
+							"Olive",
+							"Sage",
+							"Aqua",
+							"Cyan",
+							"Teal",
+							"Blue",
+							"Cobalt",
+							"Sapphire",
+							"Lavendar",
+							"Orchid",
+							"Violet",
+							"Crimson",
+							"Pink",
+							"Rubine",
+							"Brown",
+							"Khaki",
+							"Tan"
+						],
+						"sourceType": "ModSettingInt",
+						"sourceForm": "ODST.esp|5423",
+						"propertyName": "BackgroundColor",
+						"scriptName": "ODST:Emblems:Preset"
 					}
 				}
 			]
@@ -275,40 +1318,124 @@
 			"content":
 			[
 				{
+					"type": "hiddenSwitcher",
+					"text": "Invisible switcher control, this will not be displayed",
+					"groupControl": 1,
+					"valueOptions":
+					{
+						"sourceType": "PropertyValueBool",
+						"sourceForm": "ODST.esp|FA8",
+						"propertyName": "Condition_ODST",
+						"scriptName": "ODST:Emblems:Cheat"
+					}
+				},
+				{
+					"type": "hiddenSwitcher",
+					"text": "Invisible switcher control, this will not be displayed",
+					"groupControl": 2,
+					"valueOptions":
+					{
+						"sourceType": "PropertyValueBool",
+						"sourceForm": "ODST.esp|FA8",
+						"propertyName": "Condition_ODST_Helmet",
+						"scriptName": "ODST:Emblems:Cheat"
+					}
+				},
+				{
+					"type": "hiddenSwitcher",
+					"text": "Invisible switcher control, this will not be displayed",
+					"groupControl": 3,
+					"valueOptions":
+					{
+						"sourceType": "PropertyValueBool",
+						"sourceForm": "ODST.esp|FA8",
+						"propertyName": "Condition_ODST_Recon_Helmet",
+						"scriptName": "ODST:Emblems:Cheat"
+					}
+				},
+				{
+					"type": "hiddenSwitcher",
+					"text": "Invisible switcher control, this will not be displayed",
+					"groupControl": 4,
+					"valueOptions":
+					{
+						"sourceType": "PropertyValueBool",
+						"sourceForm": "ODST.esp|FA8",
+						"propertyName": "Condition_H3_ODST",
+						"scriptName": "ODST:Emblems:Cheat"
+					}
+				},
+				{
+					"type": "hiddenSwitcher",
+					"text": "Invisible switcher control, this will not be displayed",
+					"groupControl": 5,
+					"valueOptions":
+					{
+						"sourceType": "PropertyValueBool",
+						"sourceForm": "ODST.esp|FA8",
+						"propertyName": "Condition_H3_ODST_Helmet",
+						"scriptName": "ODST:Emblems:Cheat"
+					}
+				},
+				{
+					"type": "hiddenSwitcher",
+					"text": "Invisible switcher control, this will not be displayed",
+					"groupControl": 6,
+					"valueOptions":
+					{
+						"sourceType": "PropertyValueBool",
+						"sourceForm": "ODST.esp|FA8",
+						"propertyName": "Condition_H3_ODST_HelmetHaunted",
+						"scriptName": "ODST:Emblems:Cheat"
+					}
+				},
+
+
+
+
+
+
+				{
 					"text": "ODST",
 					"type": "section"
 				},
 				{
+					"groupCondition": 1,
 					"text": "Add Item, ODST Armor",
 					"type": "button",
 					"help": "Adds the item to your inventory.",
 					"action":
 					{
 						"type": "CallFunction",
-						"form": "ProjectHelljumper.esp|4D79",
-						"function": "Armor_ODST"
+						"form": "ODST.esp|FA8",
+						"function": "Armor_ODST",
+						"scriptName": "ODST:Special:Cheat"
 					}
 				},
 				{
+					"groupCondition": 2,
 					"text": "Add Item, ODST Helmet",
 					"type": "button",
 					"help": "Adds the item to your inventory.",
 					"action":
 					{
 						"type": "CallFunction",
-						"form": "ProjectHelljumper.esp|4D79",
-						"function": "Armor_ODST_Helmet"
+						"form": "ODST.esp|FA8",
+						"function": "Armor_ODST_Helmet",
+						"scriptName": "ODST:Special:Cheat"
 					}
 				},
 				{
+					"groupCondition": 3,
 					"text": "Add Item, ODST Recon Helmet",
 					"type": "button",
 					"help": "Adds the item to your inventory.",
 					"action":
 					{
 						"type": "CallFunction",
-						"form": "ProjectHelljumper.esp|4D79",
-						"function": "Armor_ODST_Recon_Helmet"
+						"form": "ODST.esp|FA8",
+						"function": "Armor_ODST_Recon_Helmet",
+						"scriptName": "ODST:Special:Cheat"
 					}
 				},
 				{
@@ -316,36 +1443,42 @@
 					"type": "section"
 				},
 				{
+					"groupCondition": 4,
 					"text": "Add Item, H3 ODST Armor",
 					"type": "button",
 					"help": "Adds the item to your inventory.",
 					"action":
 					{
 						"type": "CallFunction",
-						"form": "ProjectHelljumper.esp|4D79",
-						"function": "Armor_H3_ODST"
+						"form": "ODST.esp|FA8",
+						"function": "Armor_H3_ODST",
+						"scriptName": "ODST:Special:Cheat"
 					}
 				},
 				{
+					"groupCondition": 5,
 					"text": "Add Item, H3 ODST Helmet",
 					"type": "button",
 					"help": "Adds the item to your inventory.",
 					"action":
 					{
 						"type": "CallFunction",
-						"form": "ProjectHelljumper.esp|4D79",
-						"function": "Armor_H3_ODST_Helmet"
+						"form": "ODST.esp|FA8",
+						"function": "Armor_H3_ODST_Helmet",
+						"scriptName": "ODST:Special:Cheat"
 					}
 				},
 				{
+					"groupCondition": 6,
 					"text": "Add Item, H3 ODST Haunted Helmet",
 					"type": "button",
 					"help": "Adds the item to your inventory.",
 					"action":
 					{
 						"type": "CallFunction",
-						"form": "ProjectHelljumper.esp|803",
-						"function": "Armor_H3_ODST_HelmetHaunted"
+						"form": "ODST.esp|FA8",
+						"function": "Armor_H3_ODST_HelmetHaunted",
+						"scriptName": "ODST:Special:Cheat"
 					}
 				}
 			]
