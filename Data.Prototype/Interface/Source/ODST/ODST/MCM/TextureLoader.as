@@ -12,7 +12,8 @@ package
 
 	public dynamic class TextureLoader extends MovieClip implements IExtensions
 	{
-		public var ImageMountID:String; // must set from Preview.as
+		public var MenuName:String;
+		public var ImageMountID:String;
 		private var f4se:*;
 
 		// Files
@@ -39,7 +40,7 @@ package
 			ContentLoader = new Loader();
 			Info.addEventListener(Event.COMPLETE, this.OnLoadComplete);
 			Info.addEventListener(IOErrorEvent.IO_ERROR, this.OnLoadError);
-			Debug.WriteLine("[TextureLoader]", "(ctor)", "Constructor Code");
+			Debug.WriteLine("[MCM]", "[TextureLoader]", "(ctor)", "Constructor Code");
 		}
 
 
@@ -48,11 +49,11 @@ package
 			if(codeObject != null)
 			{
 				f4se = codeObject;
-				Debug.WriteLine(toString(), "(onF4SEObjCreated)", "Received F4SE code object.");
+				Debug.WriteLine("[MCM]", toString(), "(onF4SEObjCreated)", "Received F4SE code object.");
 			}
 			else
 			{
-				Debug.WriteLine(toString(), "(onF4SEObjCreated)", "The f4se object is null.");
+				Debug.WriteLine("[MCM]", toString(), "(onF4SEObjCreated)", "The f4se object is null.");
 			}
 		}
 
@@ -65,16 +66,16 @@ package
 			Unload();
 			if(GetTextureExists(filepath))
 			{
-				F4SE.Extensions.MountImage(f4se, Preview.MenuName, filepath, ImageMountID);
+				F4SE.Extensions.MountImage(f4se, MenuName, filepath, ImageMountID);
 				var urlRequest:URLRequest = new URLRequest("img://"+ImageMountID);
 				ContentLoader.load(urlRequest);
 				FilePath = filepath;
-				Debug.WriteLine(toString(), "(Load)", "'"+urlRequest.url+"' as '"+filepath+"' to "+Preview.MenuName+" with resource ID "+ImageMountID);
+				Debug.WriteLine("[MCM]", toString(), "(Load)", "'"+urlRequest.url+"' as '"+filepath+"' to "+MenuName+" with resource ID "+ImageMountID);
 				return true;
 			}
 			else
 			{
-				Debug.WriteLine(toString(), "(Load)", "'"+filepath+"' does not exist.");
+				Debug.WriteLine("[MCM]", toString(), "(Load)", "'"+filepath+"' does not exist.");
 				return false;
 			}
 		}
@@ -89,15 +90,16 @@ package
 
 		private function OnLoadComplete(e:Event):void
 		{
-			Debug.WriteLine(toString(), "(OnLoadComplete)", e.toString()+"\n"+toString());
+			Debug.WriteLine("[MCM]", toString(), "(OnLoadComplete)", e.toString()+"\n"+toString());
 			addChild(Content);
+			Utility.ScaleToHeight(this, 75);
 			this.visible = true;
 		}
 
 
 		private function OnLoadError(e:IOErrorEvent):void
 		{
-			Debug.WriteLine(toString(), "(OnLoadError)", e.toString()+"\n"+toString());
+			Debug.WriteLine("[MCM]", toString(), "(OnLoadError)", e.toString()+"\n"+toString());
 			Unload();
 		}
 
@@ -111,8 +113,8 @@ package
 
 			if (FilePath != null)
 			{
-				F4SE.Extensions.UnmountImage(f4se, Preview.MenuName, FilePath);
-				Debug.WriteLine(toString(), "(Unload)", "Unmounted the image '"+FilePath+"' from "+Preview.MenuName+" with resource ID "+ImageMountID);
+				F4SE.Extensions.UnmountImage(f4se, MenuName, FilePath);
+				Debug.WriteLine("[MCM]", toString(), "(Unload)", "Unmounted the image '"+FilePath+"' from "+MenuName+" with resource ID "+ImageMountID);
 			}
 
 			if (Content)
@@ -120,7 +122,7 @@ package
 				this.visible = false;
 				removeChild(Content);
 				Content.loaderInfo.loader.unload();
-				Debug.WriteLine(toString(), "(Unload)", "Unloaded content from loader.");
+				Debug.WriteLine("[MCM]", toString(), "(Unload)", "Unloaded content from loader.");
 			}
 		}
 

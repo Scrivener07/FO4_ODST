@@ -54,7 +54,7 @@ EndEvent
 ;---------------------------------------------
 
 bool Function Update(Emblems:Editor editor, Emblems:Preset preset)
-	{@`Editor` Updates the preview user interface.}
+	{Updates the preview user interface.}
 
 	string sLayerPrimary = editor.Symbol.ForegroundToFolder(preset.Foreground)
 	string sTexturePathPrimary = editor.ToTexturePath(editor.PrimaryLayer, sLayerPrimary)
@@ -62,13 +62,20 @@ bool Function Update(Emblems:Editor editor, Emblems:Preset preset)
 	SetPrimary(sTexturePathPrimary, iColorPrimary)
 
 	string sTexturePathSecondary = editor.ToTexturePath(editor.SecondaryLayer, sLayerPrimary)
-	int iColorSecondary =editor.Color.OptionToHex(preset.ForegroundColorSecondary)
+	int iColorSecondary = editor.Color.OptionToHex(preset.ForegroundColorSecondary)
 	SetSecondary(sTexturePathSecondary, iColorSecondary)
 
 	string sLayerBackground = editor.Symbol.BackgroundToFolder(preset.Background)
 	string sTexturePathBackground = editor.ToTexturePath(editor.BackgroundLayer, sLayerBackground)
 	int iColorBackground = editor.Color.OptionToHex(preset.BackgroundColor)
 	SetBackground(sTexturePathBackground, iColorBackground)
+
+	MCM.SetModSettingString(editor.Properties.PluginName, "sEmblem_PreviewPrimary:Settings", sTexturePathPrimary)
+	MCM.SetModSettingInt(editor.Properties.PluginName, "iEmblem_PreviewPrimaryColor:Settings", iColorPrimary)
+	MCM.SetModSettingString(editor.Properties.PluginName, "sEmblem_PreviewSecondary:Settings", sTexturePathSecondary)
+	MCM.SetModSettingInt(editor.Properties.PluginName, "iEmblem_PreviewSecondaryColor:Settings", iColorSecondary)
+	MCM.SetModSettingString(editor.Properties.PluginName, "sEmblem_PreviewBackground:Settings", sTexturePathBackground)
+	MCM.SetModSettingInt(editor.Properties.PluginName, "iEmblem_PreviewBackgroundColor:Settings", iColorBackground)
 
 	WriteLine(self, "Update:"+ToString())
 EndFunction
@@ -192,7 +199,7 @@ EndFunction
 
 
 string Function ToString()
-	{The string representation of this UI type.}
+	{The string representation of this type.}
 	return "[Menu:"+Menu+", Asset:"+Asset+", Root:"+Root+"]"
 EndFunction
 

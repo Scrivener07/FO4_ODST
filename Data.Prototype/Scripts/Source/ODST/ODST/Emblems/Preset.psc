@@ -77,7 +77,7 @@ bool Function Deserialize(MCM:Menu sender)
 EndFunction
 
 
-bool Function OnChangeValue(MCM:Menu sender, MCM:Menu:OptionEventArgs e)
+bool Function SetValue(MCM:Menu sender, MCM:Menu:OptionEventArgs e)
 	{@`Editor` Changes the given preset value.}
 	If (sender)
 		If (e)
@@ -116,8 +116,8 @@ bool Function OnChangeValue(MCM:Menu sender, MCM:Menu:OptionEventArgs e)
 EndFunction
 
 
-bool Function Update(Emblems:Editor editor)
-	{@`Editor` Updates the material remappings.}
+bool Function Remap(Emblems:Editor editor)
+	{Remaps the material to the current preset values. This does not provide a visual update.}
 	If (Material)
 		MatSwap:RemapData[] remapping = new MatSwap:RemapData[0]
 
@@ -137,24 +137,23 @@ bool Function Update(Emblems:Editor editor)
 		remapping.Add(remapBackground)
 
 		string sForeground = editor.Symbol.ForegroundToFolder(Foreground)
-		string sForegroundColorPrimary = editor.Color.OptionToFolder(ForegroundColorPrimary)
-		string sForegroundColorSecondary = editor.Color.OptionToFolder(ForegroundColorSecondary)
-		string sBackground = editor.Symbol.BackgroundToFolder(Background)
-		string sBackgroundColor = editor.Color.OptionToFolder(BackgroundColor)
-
 		If (sForeground != editor.Symbol.Blank)
+			string sForegroundColorPrimary = editor.Color.OptionToFolder(ForegroundColorPrimary)
+			string sForegroundColorSecondary = editor.Color.OptionToFolder(ForegroundColorSecondary)
 			remapPrimary.Target = editor.ToMaterialPath(editor.PrimaryLayer, sForegroundColorPrimary, sForeground)
 			remapSecondary.Target = editor.ToMaterialPath(editor.SecondaryLayer, sForegroundColorSecondary, sForeground)
 		EndIf
 
+		string sBackground = editor.Symbol.BackgroundToFolder(Background)
 		If (sBackground != editor.Symbol.Blank)
+			string sBackgroundColor = editor.Color.OptionToFolder(BackgroundColor)
 			remapBackground.Target = editor.ToMaterialPath(editor.BackgroundLayer, sBackgroundColor, sBackground)
 		EndIf
 
 		Material.SetRemapData(remapping)
-		UseMaterial(editor, Player)
+		return true
 	Else
-		WriteUnexpectedValue(self, "Update", "Material", "The material cannot be none.")
+		WriteUnexpectedValue(self, "Remap", "Material", "The material cannot be none.")
 		return false
 	EndIf
 EndFunction

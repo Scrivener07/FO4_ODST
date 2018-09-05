@@ -38,8 +38,11 @@ EndEvent
 
 Event OnGameReload()
 	WriteLine(self, "OnGameReload")
-	Deserialize()
-	Update()
+
+	If (Deserialize() > Invalid)
+		Update()
+		UseMaterial(self, Game.GetPlayer())
+	EndIf
 EndEvent
 
 
@@ -48,16 +51,10 @@ Event ODST:MCM:Menu.OnMenuState(MCM:Menu sender, var[] arguments)
 	If (arguments)
 		MCM:Menu:MenuStateEventArgs e = sender.GetMenuStateEventArgs(arguments)
 		WriteLine(self, "ODST:MCM:Menu.OnMenuState", e)
-
 		If (e.MenuState == sender.MenuOpened)
 			Deserialize()
 			sender.RefreshMenu()
 		EndIf
-
-		; If (e.MenuState == sender.MenuClosed)
-		; 	; TODO: Call `Update` here for material change?
-		; EndIf
-
 	Else
 		WriteUnexpectedValue(self, "ODST:MCM:Menu.OnMenuState", "arguments", "The arguments are none or empty.")
 	EndIf
@@ -76,7 +73,7 @@ Event ODST:MCM:Menu.OnOption(MCM:Menu sender, var[] arguments)
 			sender.RefreshMenu()
 		Else
 			Emblems:Preset preset = GetPreset(Selected)
-			preset.OnChangeValue(ConfigurationMenu, e)
+			preset.SetValue(ConfigurationMenu, e)
 			Preview.Update(self, preset)
 			Update()
 			sender.RefreshMenu()
@@ -116,7 +113,7 @@ Function Update()
 	While (index < Presets.Length)
 		Emblems:Preset preset = Presets[index]
 		preset.Condition = (Selected == preset.Option)
-		preset.Update(self)
+		preset.Remap(self)
 		index += 1
 	EndWhile
 	WriteLine(self, "Update:"+ToString())
@@ -193,7 +190,7 @@ EndFunction
 
 bool Function UseMaterial(Emblems:Editor editor, Actor user) Global
 	If (user)
-		int BipedBody = 3 ; const
+		int BipedBody = 3 ;const
 		ObjectMod[] omods = user.GetWornItemMods(BipedBody)
 		If (omods)
 			int index = 0
@@ -202,64 +199,53 @@ bool Function UseMaterial(Emblems:Editor editor, Actor user) Global
 				If (omod.GetLooseMod() == editor.miscmod_mod_ODST_Emblems)
 					If (omod)
 						MatSwap material = GetMaterial(omod)
-						return ApplyMaterial(user, material)
+						If (material)
+							user.SetMaterialSwap(Material)
+							If (user.ApplyMaterialSwap(material))
+								WriteLine("[ODST:Emblems:Editor]", "UseMaterial", "Material remapping was successful. "+material.GetRemapData())
+								return true
+							Else
+								WriteUnexpected("[ODST:Emblems:Editor]", "UseMaterial", "No source/target pairs succeeded in swapping. "+material.GetRemapData())
+								return false
+							EndIf
+						Else
+							WriteUnexpectedValue("[ODST:Emblems:Editor]", "UseMaterial", "material", "The value cannot be none.")
+							return false
+						EndIf
 					Else
-						WriteUnexpectedValue("ODST:Emblems:Editor", "UseMaterial", "omod", "The value cannot be none.")
+						WriteUnexpectedValue("[ODST:Emblems:Editor]", "UseMaterial", "omod", "The value cannot be none.")
 						return false
 					EndIf
 				EndIf
-
 				index += 1
 			EndWhile
-			WriteUnexpected("ODST:Emblems:Editor", "UseMaterial", "No valid object mod was found.")
 			return false
 		Else
-			WriteUnexpectedValue("ODST:Emblems:Editor", "UseMaterial", "omods", "The array cannot be none or empty.")
+			WriteUnexpectedValue("[ODST:Emblems:Editor]", "UseMaterial", "omods", "The array cannot be none or empty.")
 			return false
 		EndIf
 	Else
-		WriteUnexpectedValue("ODST:Emblems:Editor", "UseMaterial", "user", "The argument Actor cannot be none.")
+		WriteUnexpectedValue("[ODST:Emblems:Editor]", "UseMaterial", "user", "The argument Actor cannot be none.")
 		return false
 	EndIf
 EndFunction
 
 
 MatSwap Function GetMaterial(ObjectMod omod) Global
+	{Gets the material that is applied by an object mod.}
 	ObjectMod:PropertyModifier[] modifiers = omod.GetPropertyModifiers()
 	If (modifiers)
 		int index = 0
 		While (index < modifiers.Length)
 			MatSwap material = modifiers[index].Object as MatSwap
 			If (material)
-				WriteLine("ODST:Emblems:Editor", "GetMaterial", "omod:"+omod+", material:"+material)
+				WriteLine("[ODST:Emblems:Editor]", "GetMaterial", "omod:"+omod+", material:"+material)
 				return material
 			EndIf
 			index += 1
 		EndWhile
 	EndIf
 	return none
-EndFunction
-
-
-bool Function ApplyMaterial(Actor user, MatSwap material) Global
-	If (user)
-		If (material)
-			user.SetMaterialSwap(Material)
-			If (user.ApplyMaterialSwap(material))
-				WriteLine("ODST:Emblems:Editor", "ApplyMaterial", "Material remapping was successful. "+material.GetRemapData())
-				return true
-			Else
-				WriteUnexpected("ODST:Emblems:Editor", "ApplyMaterial", "No source/target pairs succeeded in swapping. "+material.GetRemapData())
-				return false
-			EndIf
-		Else
-			WriteUnexpectedValue("ODST:Emblems:Editor", "ApplyMaterial", "material", "The value cannot be none.")
-			return false
-		EndIf
-	Else
-		WriteUnexpectedValue("ODST:Emblems:Editor", "ApplyMaterial", "user", "The value cannot be none.")
-		return false
-	EndIf
 EndFunction
 
 
