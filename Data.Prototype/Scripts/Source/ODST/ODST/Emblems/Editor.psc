@@ -30,8 +30,9 @@ Event OnQuestInit()
 
 	ConfigurationMenu.RegisterForMenuStateEvent(self)
 	ConfigurationMenu.RegisterForOptionEvent(self)
-	RegisterForGameReload(self)
+	RegisterForMenuOpenCloseEvent(Preview.Menu)
 
+	RegisterForGameReload(self)
 	OnGameReload()
 EndEvent
 
@@ -42,6 +43,21 @@ Event OnGameReload()
 	If (Deserialize() > Invalid)
 		Update()
 		UseMaterial(self, Game.GetPlayer())
+	Else
+		WriteUnexpected(self, "OnGameReload", "The deserialization was invalid.")
+	EndIf
+EndEvent
+
+
+Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
+	If (abOpening && asMenuName == Preview.Menu)
+		int select = Deserialize()
+		If (select > Invalid)
+			Update() ; warning: Assigning None to a non-object variable named "::temp19"
+			Preview.Update(self, Presets[select])
+		Else
+			WriteUnexpectedValue(self, "OnMenuOpenCloseEvent", "select", "The deserialization was invalid.")
+		EndIf
 	EndIf
 EndEvent
 
@@ -68,12 +84,17 @@ Event ODST:MCM:Menu.OnOption(MCM:Menu sender, var[] arguments)
 
 		If (e.Identifier == sender.GetIdentifier(SettingName_Selected))
 			int select = Deserialize()
-			Preview.Update(self, Presets[select])
-			Update()
-			sender.RefreshMenu()
+			If (select > Invalid)
+				Preview.Update(self, Presets[select])
+				Update()
+				sender.RefreshMenu()
+			Else
+				WriteUnexpectedValue(self, "ODST:MCM:Menu.OnOption", "select", "The deserialization was invalid.")
+			EndIf
 		Else
+			Selected = sender.GetModSettingFor(SettingName_Selected)
 			Emblems:Preset preset = GetPreset(Selected)
-			preset.SetValue(ConfigurationMenu, e)
+			preset.SetValue(sender, e)
 			Preview.Update(self, preset)
 			Update()
 			sender.RefreshMenu()

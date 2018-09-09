@@ -16,8 +16,8 @@
 		public function onLibLoaded(mcmCodeObject:*, f4seCodeObject:*):void
 		{
 			Debug.WriteLine("[MCM]", "[Library]", "(onLibLoaded)", "MCM scaleform callback has been received.");
-			Debug.TraceObject(f4seCodeObject);
-			Debug.TraceObject(mcmCodeObject);
+			// Debug.TraceObject(f4seCodeObject);
+			// Debug.TraceObject(mcmCodeObject);
 			EmblemPreview.onLibLoaded(mcmCodeObject, f4seCodeObject);
 		}
 

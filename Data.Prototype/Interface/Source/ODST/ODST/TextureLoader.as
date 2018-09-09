@@ -10,13 +10,11 @@ package ODST
 	import AS3.*;
 	import F4SE.*;
 
-	// This file is a duplication of `ODST:Emblem:TextureLoader`
-
 	public dynamic class TextureLoader extends MovieClip implements IExtensions
 	{
+		private var f4se:*;
 		public var MenuName:String;
 		public var ImageMountID:String;
-		private var f4se:*;
 
 		// Files
 		private var FilePath:String;
@@ -38,7 +36,7 @@ package ODST
 		public function TextureLoader()
 		{
 			super();
-			this.visible = false;
+			// this.visible = false;
 			ContentLoader = new Loader();
 			Info.addEventListener(Event.COMPLETE, this.OnLoadComplete);
 			Info.addEventListener(IOErrorEvent.IO_ERROR, this.OnLoadError);
@@ -51,11 +49,11 @@ package ODST
 			if(codeObject != null)
 			{
 				f4se = codeObject;
-				Debug.WriteLine(toString(), "(onF4SEObjCreated)", "Received F4SE code object.");
+				Debug.WriteLine("[TextureLoader]", "(onF4SEObjCreated)", "Received the F4SE code object.");
 			}
 			else
 			{
-				Debug.WriteLine(toString(), "(onF4SEObjCreated)", "The f4se object is null.");
+				Debug.WriteLine("[TextureLoader]", "(onF4SEObjCreated)", "The f4se object was null.");
 			}
 		}
 
@@ -63,21 +61,30 @@ package ODST
 		// Methods
 		//---------------------------------------------
 
-		private function Load(filepath:String):Boolean
+		public function Load(filepath:String):Boolean
 		{
+			Debug.WriteLine("[TextureLoader]", "(Load)", filepath);
 			Unload();
 			if(GetTextureExists(filepath))
 			{
-				F4SE.Extensions.MountImage(f4se, MenuName, filepath, ImageMountID);
-				var urlRequest:URLRequest = new URLRequest("img://"+ImageMountID);
-				ContentLoader.load(urlRequest);
-				FilePath = filepath;
-				Debug.WriteLine(toString(), "(Load)", "'"+urlRequest.url+"' as '"+filepath+"' to "+MenuName+" with resource ID "+ImageMountID);
+				try
+				{
+					F4SE.Extensions.MountImage(f4se, MenuName, filepath, ImageMountID);
+					var urlRequest:URLRequest = new URLRequest("img://"+ImageMountID);
+					ContentLoader.load(urlRequest);
+					FilePath = filepath;
+				}
+				catch (error:Error)
+				{
+					Debug.WriteLine("[TextureLoader]", "(Load)", "ERROR:", error.toString());
+				}
+
+				Debug.WriteLine("[TextureLoader]", "(Load)", "'"+urlRequest.url+"' as '"+filepath+"' to "+MenuName+" with resource ID "+ImageMountID);
 				return true;
 			}
 			else
 			{
-				Debug.WriteLine(toString(), "(Load)", "'"+filepath+"' does not exist.");
+				Debug.WriteLine("[TextureLoader]", "(Load)", "'"+filepath+"' does not exist.");
 				return false;
 			}
 		}
@@ -92,16 +99,16 @@ package ODST
 
 		private function OnLoadComplete(e:Event):void
 		{
-			Debug.WriteLine(toString(), "(OnLoadComplete)", e.toString()+"\n"+toString());
+			Debug.WriteLine("[TextureLoader]", "(OnLoadComplete)", e.toString()+"\n"+toString());
 			addChild(Content);
 			Utility.ScaleToHeight(this, 75);
-			this.visible = true;
+			// this.visible = true;
 		}
 
 
 		private function OnLoadError(e:IOErrorEvent):void
 		{
-			Debug.WriteLine(toString(), "(OnLoadError)", e.toString()+"\n"+toString());
+			Debug.WriteLine("[TextureLoader]", "(OnLoadError)", e.toString()+"\n"+toString());
 			Unload();
 		}
 
@@ -111,20 +118,21 @@ package ODST
 
 		private function Unload():void
 		{
-			this.visible = false;
+			Debug.WriteLine("[TextureLoader]", "(Unload)");
+			// this.visible = false;
 
 			if (FilePath != null)
 			{
 				F4SE.Extensions.UnmountImage(f4se, MenuName, FilePath);
-				Debug.WriteLine(toString(), "(Unload)", "Unmounted the image '"+FilePath+"' from "+MenuName+" with resource ID "+ImageMountID);
+				Debug.WriteLine("[TextureLoader]", "(Unload)", "Unmounted the image '"+FilePath+"' from "+MenuName+" with resource ID "+ImageMountID);
 			}
 
 			if (Content)
 			{
-				this.visible = false;
+				// this.visible = false;
 				removeChild(Content);
 				Content.loaderInfo.loader.unload();
-				Debug.WriteLine(toString(), "(Unload)", "Unloaded content from loader.");
+				Debug.WriteLine("[TextureLoader]", "(Unload)", "Unloaded content from loader.");
 			}
 		}
 

@@ -2,6 +2,7 @@ package F4SE
 {
 	import AS3.*;
 
+	// TODO: Check for null arguments on f4se function calls. A null parameter may crash the game!
 	public class Extensions
 	{
 
@@ -45,6 +46,7 @@ package F4SE
 		{
 			if (f4se != null)
 			{
+				Debug.WriteLine("[F4SE]", "[Extensions]", "(MountImage)", menuName, pathToMount, mountName);
 				try
 				{
 					f4se.MountImage(menuName, pathToMount, mountName);
@@ -67,6 +69,7 @@ package F4SE
 			{
 				try
 				{
+					Debug.WriteLine("[F4SE]", "[Extensions]", "(UnmountImage)", menuName, pathToUnmount);
 					f4se.UnmountImage(menuName, pathToUnmount);
 				}
 				catch (error:Error)

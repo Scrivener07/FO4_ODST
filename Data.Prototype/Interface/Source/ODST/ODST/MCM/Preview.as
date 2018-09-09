@@ -4,13 +4,28 @@
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.TimerEvent;
+	import flash.geom.ColorTransform;
 	import flash.utils.*;
 	import AS3.*;
 	import MCM.*;
-
+	import ODST.*;
+	// TODO: Use a timer to poll for a mod setting update.
+	/* Notes
+		-I have not been successful in my attempts at mounting a texture to an MCM library object.
+		I have tried to mount textures to the `PauseMenu` which I know will be open at the same
+		time as MCM but no content loaded events are received.
+		-My MCM library object will be re-constructed often while the menu is open but
+		the `onLibLoaded` function is only called once after configs are loaded.
+		-Any movieclips in the pause menu are auto-tinted to the games UI color.
+		This makes the preview for emblem colors difficult.
+		-The MCM menu has trouble refreshing values that have been modified in papyrus.
+		-A positive thing is that I CAN populate emblem data from MCM mod settings. Yay!
+		-I dont like the idea of polling for mod settting changes..
+	*/
 	public class Preview extends MovieClip implements IMCMLibrary
 	{
 		private var mcm:*;
+		private var f4se:*;
 
 		private var sEmblem_PreviewPrimary:String;
 		private var sEmblem_PreviewSecondary:String;
@@ -35,6 +50,16 @@
 		public function Preview()
 		{
 			Debug.WriteLine("[MCM]", "[Preview]", "(ctor)", "Constructor Code");
+
+			PrimaryTexture.MenuName = MenuName;
+			PrimaryTexture.ImageMountID = PrimaryMountID;
+
+			SecondaryTexture.MenuName = MenuName;
+			SecondaryTexture.ImageMountID = SecondaryMountID;
+
+			BackgroundTexture.MenuName = MenuName;
+			BackgroundTexture.ImageMountID = BackgroundMountID;
+
 			// var timer:Timer = new Timer(3000); // rip
 			// timer.addEventListener(TimerEvent.TIMER, OnTimer);
 			// timer.start();
@@ -43,8 +68,8 @@
 
 		// private function OnTimer(e:TimerEvent):void
 		// {
-		// 	Debug.WriteLine("[MCM]", "[Preview]", "OnTimer", e);
-		// 	GetModSettings();
+		// 	Debug.WriteLine("[MCM]", "[Preview]", "(OnTimer)", e);
+		// 	Populate();
 		// }
 
 
@@ -52,65 +77,51 @@
 		{
 			Debug.WriteLine("[MCM]", "[Preview]", "(onLibLoaded)", "MCM scaleform callback has been received.");
 			mcm = mcmCodeObject;
+			f4se = f4seCodeObject;
 
-			try
-			{
-				PrimaryTexture.onF4SEObjCreated(f4seCodeObject);
-				PrimaryTexture.ImageMountID = PrimaryMountID;
-				// PrimaryTexture.Load("ProjectHelljumper\\H3ODST\\1Decals\\Decals\\Primary\\Spartan1.dds");
+			PrimaryTexture.onF4SEObjCreated(f4seCodeObject);
+			SecondaryTexture.onF4SEObjCreated(f4seCodeObject);
+			BackgroundTexture.onF4SEObjCreated(f4seCodeObject);
 
-				SecondaryTexture.onF4SEObjCreated(f4seCodeObject);
-				SecondaryTexture.ImageMountID = SecondaryMountID;
-				// SecondaryTexture.Load("ProjectHelljumper\\H3ODST\\1Decals\\Decals\\Secondary\\Spartan2.dds");
-
-				BackgroundTexture.onF4SEObjCreated(f4seCodeObject);
-				BackgroundTexture.ImageMountID = BackgroundMountID;
-				// BackgroundTexture.Load("ProjectHelljumper\\H3ODST\\1Decals\\Decals\\Background\\Shield.dds");
-
-			}
-			catch (error:Error)
-			{
-				Debug.WriteLine("[MCM]", "[Preview]", "(onLibLoaded)", "ERROR:", error.toString());
-			}
-
-			GetModSettings(mcmCodeObject);
+			Populate();
 		}
 
 
-		private function GetModSettings(mcmCodeObject:*):void
+		private function Populate():void
 		{
 			if(mcm != null)
 			{
-				try
-				{
-					sEmblem_PreviewPrimary = mcm.GetModSettingString("ODST", "sEmblem_PreviewPrimary:Settings");
-					sEmblem_PreviewSecondary = mcm.GetModSettingString("ODST", "sEmblem_PreviewSecondary:Settings");
-					sEmblem_PreviewBackground = mcm.GetModSettingString("ODST", "sEmblem_PreviewBackground:Settings");
-					iEmblem_PreviewPrimaryColor = mcm.GetModSettingInt("ODST", "iEmblem_PreviewPrimaryColor:Settings");
-					iEmblem_PreviewSecondaryColor = mcm.GetModSettingInt("ODST", "iEmblem_PreviewSecondaryColor:Settings");
-					iEmblem_PreviewBackgroundColor = mcm.GetModSettingInt("ODST", "iEmblem_PreviewBackgroundColor:Settings");
-					Debug.WriteLine("[MCM]", "[Preview]", "(GetModSettings) Path", sEmblem_PreviewPrimary, sEmblem_PreviewSecondary, sEmblem_PreviewBackground);
-					Debug.WriteLine("[MCM]", "[Preview]", "(GetModSettings) Color", String(iEmblem_PreviewPrimaryColor), String(iEmblem_PreviewSecondaryColor), String(iEmblem_PreviewBackgroundColor));
-				}
-				catch (error:Error)
-				{
-					Debug.WriteLine("[MCM]", "[Preview]", "(GetModSettings::GetModSetting)", "ERROR:", error.toString());
-				}
-				try
-				{
-					PrimaryTexture.Load(sEmblem_PreviewPrimary);
-					PrimaryTexture.Load(sEmblem_PreviewSecondary);
-					PrimaryTexture.Load(sEmblem_PreviewBackground);
-				}
-				catch (error:Error)
-				{
-					Debug.WriteLine("[MCM]", "[Preview]", "(GetModSettings::Load)", "ERROR:", error.toString());
-				}
+				sEmblem_PreviewPrimary = mcm.GetModSettingString("ODST", "sEmblem_PreviewPrimary:Settings");
+				iEmblem_PreviewPrimaryColor = mcm.GetModSettingInt("ODST", "iEmblem_PreviewPrimaryColor:Settings");
+				SetEmblem(PrimaryTexture, sEmblem_PreviewPrimary, iEmblem_PreviewPrimaryColor);
+				PrimaryTexture.visible = true; // debugging for tint color
+
+				sEmblem_PreviewSecondary = mcm.GetModSettingString("ODST", "sEmblem_PreviewSecondary:Settings");
+				iEmblem_PreviewSecondaryColor = mcm.GetModSettingInt("ODST", "iEmblem_PreviewSecondaryColor:Settings");
+				SetEmblem(SecondaryTexture, sEmblem_PreviewSecondary, iEmblem_PreviewSecondaryColor);
+				SecondaryTexture.visible = true; // debugging for tint color
+
+				sEmblem_PreviewBackground = mcm.GetModSettingString("ODST", "sEmblem_PreviewBackground:Settings");
+				iEmblem_PreviewBackgroundColor = mcm.GetModSettingInt("ODST", "iEmblem_PreviewBackgroundColor:Settings");
+				SetEmblem(BackgroundTexture, sEmblem_PreviewBackground, iEmblem_PreviewBackgroundColor);
+				BackgroundTexture.visible = true; // debugging for tint color
+
+				Debug.WriteLine("[MCM]", "[Preview]", "(Populate)", "Done populating the emblem data.");
 			}
 			else
 			{
-				Debug.WriteLine("[MCM]", "[Preview]", "(GetModSettings)", "ERROR: The mcm object is null.");
+				Debug.WriteLine("[MCM]", "[Preview]", "(Populate)", "ERROR: The mcm object is null.");
 			}
+		}
+
+
+		private function SetEmblem(textureLoader:TextureLoader, filepath:String, color:int):void
+		{
+			Debug.WriteLine("[MCM]", "[Preview]", "(SetEmblem)", filepath, String(color));
+			textureLoader.Load(filepath);
+			var tint = new ColorTransform();
+			tint.color = color;
+			textureLoader.transform.colorTransform = tint;
 		}
 
 
