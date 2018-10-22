@@ -1,9 +1,10 @@
-Scriptname ODST:Emblems:Preview extends ODST:Type
+Scriptname ODST:Emblems:Menu extends ODST:Type
 {Provides capabilities to display an emblem preset within the user interface.}
 import ODST
 import ODST:Log
 import ODST:Papyrus
 import ODST:Emblems
+
 
 ; Events
 ;---------------------------------------------
@@ -25,6 +26,10 @@ Event OnGameReload()
 		WriteUnexpected(ToString(), "OnGameReload", "Failed to register as a custom menu.")
 	EndIf
 
+	If (!Game.GetPlayer().HasPerk(ODST_Emblems_CustomPerk))
+		Game.GetPlayer().AddPerk(ODST_Emblems_CustomPerk)
+	EndIf
+
 	RegisterForKey(P) ; DebugOnly
 EndEvent
 
@@ -33,26 +38,14 @@ Event OnKeyDown(int aiKeyCode) ; DebugOnly
 	If (UI.IsMenuOpen("Console"))
 		return
 	EndIf
-
-	If (IsOpen)
-		If(Close())
-			WriteLine(ToString(), "OnKeyDown", "Closed.")
-		Else
-			WriteLine(ToString(), "OnKeyDown", "Could not close!")
-		EndIf
-	Else
-		If(Open())
-			WriteLine(ToString(), "OnKeyDown", "Opened.")
-		Else
-			WriteLine(ToString(), "OnKeyDown", "Could not open!")
-		EndIf
-	EndIf
+	ToggleMenu()
 EndEvent
 
 
 ; Methods
 ;---------------------------------------------
 
+; @Editor
 bool Function Update(Emblems:Editor editor, Emblems:Preset preset)
 	{Updates the preview user interface.}
 
@@ -97,6 +90,23 @@ bool Function Close()
 	Else
 		WriteUnexpected(ToString(), "Close", "The menu is not registered.")
 		return false
+	EndIf
+EndFunction
+
+
+bool Function ToggleMenu()
+	If (IsOpen)
+		If(Close())
+			WriteLine(ToString(), "ToggleMenu", "Closed.")
+		Else
+			WriteLine(ToString(), "ToggleMenu", "Could not close!")
+		EndIf
+	Else
+		If(Open())
+			WriteLine(ToString(), "ToggleMenu", "Opened.")
+		Else
+			WriteLine(ToString(), "ToggleMenu", "Could not open!")
+		EndIf
 	EndIf
 EndFunction
 
@@ -206,6 +216,10 @@ EndFunction
 
 ; Properties
 ;---------------------------------------------
+
+Group Properties
+	Perk Property ODST_Emblems_CustomPerk Auto Const Mandatory
+EndGroup
 
 Group Display
 	string Property Menu Hidden

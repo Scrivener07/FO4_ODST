@@ -23,7 +23,7 @@ Event OnMenuOpenCloseEvent(string menuName, bool opening)
 	If (opening)
 		UI.Load(Name, Root, Asset, self, "OnLoadComplete")
 	Else
-		Preview.Close()
+		EmblemMenu.Close()
 	EndIf
 	OpenCloseEventArgs e = new OpenCloseEventArgs
 	e.Opening = opening
@@ -41,7 +41,7 @@ Event OnModChanged(int selected)
 	WriteLine(ToString(), "OnModChanged(argument:"+selected+")")
 	If (selected > Invalid)
 		Emblems:Preset preset = Editor.GetPreset(selected)
-		Preview.Update(Editor, preset)
+		EmblemMenu.Update(Editor, preset)
 	Else
 		WriteUnexpectedValue(self, "OnModChanged", "selected", "The value of "+selected+" is not valid.")
 	EndIf
@@ -50,7 +50,7 @@ EndEvent
 
 Event OnEditButton()
 	WriteLine(ToString(), "OnEditButton")
-	Preview.Open()
+	EmblemMenu.Open()
 EndEvent
 
 
@@ -123,7 +123,7 @@ EndFunction
 
 Group Properties
 	ODST:Emblems:Editor Property Editor Auto Const Mandatory
-	ODST:Emblems:Preview Property Preview Auto Const Mandatory
+	ODST:Emblems:Menu Property EmblemMenu Auto Const Mandatory
 
 	string Property Name Hidden
 		string Function Get()
@@ -155,3 +155,10 @@ Group Properties
 		EndFunction
 	EndProperty
 EndGroup
+
+
+;/ Game Callbacks
+[ODST] RemoteMenu ctor Constructor Code
+[ODST] RemoteMenu OnAddedToStage:stage.instance17.Instance
+
+/;
