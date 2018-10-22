@@ -1,5 +1,5 @@
 Scriptname ODST:Type extends Quest Const Native Hidden
-{The generic base type for ODST script objects.}
+{The generic base type for all ODST scripts which instantiate long running instances via Quest forms.}
 
 ; OnGameReload
 ;---------------------------------------------
@@ -8,7 +8,7 @@ Event OnGameReload() Native
 {Event occurs when the game has been reloaded.}
 
 
-Event Actor.OnPlayerLoadGame(Actor akSender)
+Event Actor.OnPlayerLoadGame(Actor sender)
 	{The remote player actor event for game reloading.}
 	OnGameReload()
 EndEvent
@@ -30,8 +30,12 @@ EndFunction
 ;---------------------------------------------
 
 string Function ToString()
-	{The string representation of this type.}
-	return "[ODST:Type]"
+	{The string representation of this script.}
+	If (IsEmptyState)
+		return self
+	Else
+		return self+"["+StateName+"]"
+	EndIf
 EndFunction
 
 
@@ -41,14 +45,27 @@ EndFunction
 Group Properties
 	int Property Invalid = -1 AutoReadOnly
 	{A generic invalid integer value.}
+EndGroup
 
-	string Property EmptyState = "" AutoReadOnly
-	{A script objects default state name is an empty string.}
-
+Group States
 	string Property StateName Hidden
-		{This scripts current state name.}
+		{A property alias for the GetState function.}
 		string Function Get()
-			return self.GetState()
+			return GetState()
+		EndFunction
+	EndProperty
+
+	bool Property IsEmptyState Hidden
+		{Returns true if this script has the empty state.}
+		bool Function Get()
+			return StateName == EmptyState
+		EndFunction
+	EndProperty
+
+	string Property EmptyState Hidden
+		{The default papyrus script state is represented as an empty string.}
+		string Function Get()
+			return ""
 		EndFunction
 	EndProperty
 EndGroup
