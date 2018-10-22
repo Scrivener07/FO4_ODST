@@ -11,7 +11,7 @@ import ODST:Emblems
 Event OnQuestInit()
 	OnGameReload()
 	RegisterForGameReload(self)
-	WriteLine(self, "OnQuestInit")
+	WriteLine(ToString(), "OnQuestInit")
 EndEvent
 
 
@@ -20,9 +20,9 @@ Event OnGameReload()
 	data.MenuFlags = FlagDoNotPreventGameSave
 	data.ExtendedFlags = FlagNone
 	If (UI.RegisterCustomMenu(Menu, Asset, Root, data))
-		WriteLine(self, ToString()+" has registered as a custom menu.")
+		WriteLine(ToString(), ToString()+" has registered as a custom menu.")
 	Else
-		WriteUnexpected(self, "OnGameReload", ToString()+" failed to register as a custom menu.")
+		WriteUnexpected(ToString(), "OnGameReload", "Failed to register as a custom menu.")
 	EndIf
 
 	RegisterForKey(P) ; DebugOnly
@@ -36,15 +36,15 @@ Event OnKeyDown(int aiKeyCode) ; DebugOnly
 
 	If (IsOpen)
 		If(Close())
-			WriteLine(self, "OnKeyDown", ToString()+" closed.")
+			WriteLine(ToString(), "OnKeyDown", "Closed.")
 		Else
-			WriteLine(self, "OnKeyDown", ToString()+" could not close!")
+			WriteLine(ToString(), "OnKeyDown", "Could not close!")
 		EndIf
 	Else
 		If(Open())
-			WriteLine(self, "OnKeyDown", ToString()+" opened.")
+			WriteLine(ToString(), "OnKeyDown", "Opened.")
 		Else
-			WriteLine(self, "OnKeyDown", ToString()+" could not open!")
+			WriteLine(ToString(), "OnKeyDown", "Could not open!")
 		EndIf
 	EndIf
 EndEvent
@@ -77,7 +77,7 @@ bool Function Update(Emblems:Editor editor, Emblems:Preset preset)
 	MCM.SetModSettingString(editor.Properties.PluginName, "sEmblem_PreviewBackground:Settings", sTexturePathBackground)
 	MCM.SetModSettingInt(editor.Properties.PluginName, "iEmblem_PreviewBackgroundColor:Settings", iColorBackground)
 
-	WriteLine(self, "Update:"+ToString())
+	WriteLine(ToString(), "Update:"+ToString())
 EndFunction
 
 
@@ -85,7 +85,7 @@ bool Function Open()
 	If (IsRegistered)
 		return UI.OpenMenu(Menu)
 	Else
-		WriteUnexpected(self, "Open", "The menu is not registered.")
+		WriteUnexpected(ToString(), "Open", "The menu is not registered.")
 		return false
 	EndIf
 EndFunction
@@ -95,7 +95,7 @@ bool Function Close()
 	If (IsRegistered)
 		return UI.CloseMenu(Menu)
 	Else
-		WriteUnexpected(self, "Close", "The menu is not registered.")
+		WriteUnexpected(ToString(), "Close", "The menu is not registered.")
 		return false
 	EndIf
 EndFunction
@@ -105,7 +105,7 @@ bool Function GetVisible()
 	If (IsOpen)
 		return UI.Get(Menu, GetMember("Visible")) as bool
 	Else
-		WriteUnexpected(self, "GetVisible", "The menu is not open.")
+		WriteUnexpected(ToString(), "GetVisible", "The menu is not open.")
 		return false
 	EndIf
 EndFunction
@@ -115,7 +115,7 @@ bool Function SetVisible(bool value)
 	If (IsOpen)
 		return UI.Set(Menu, GetMember("Visible"), value)
 	Else
-		WriteUnexpected(self, "SetVisible", "The menu is not open.")
+		WriteUnexpected(ToString(), "SetVisible", "The menu is not open.")
 		return false
 	EndIf
 EndFunction
@@ -128,14 +128,14 @@ bool Function SetPrimary(string filepath, int color)
 			arguments[0] = filepath
 			arguments[1] = color
 			UI.Invoke(Menu, GetMember("SetPrimary"), arguments)
-			WriteLine(self, "SetPrimary:"+arguments)
+			WriteLine(ToString(), "SetPrimary:"+arguments)
 			return true
 		Else
-			WriteUnexpectedValue(self, "SetPrimary", "filepath", "The filepath cannot be none or empty.")
+			WriteUnexpectedValue(ToString(), "SetPrimary", "filepath", "The filepath cannot be none or empty.")
 			return false
 		EndIf
 	Else
-		WriteUnexpected(self, "SetPrimary", ToString()+" is not open.")
+		WriteUnexpected(ToString(), "SetPrimary", ToString()+" is not open.")
 		return false
 	EndIf
 EndFunction
@@ -148,14 +148,14 @@ bool Function SetSecondary(string filepath, int color)
 			arguments[0] = filepath
 			arguments[1] = color
 			UI.Invoke(Menu, GetMember("SetSecondary"), arguments)
-			WriteLine(self, "SetSecondary:"+arguments)
+			WriteLine(ToString(), "SetSecondary:"+arguments)
 			return true
 		Else
-			WriteUnexpectedValue(self, "SetSecondary", "filepath", "The filepath cannot be none or empty.")
+			WriteUnexpectedValue(ToString(), "SetSecondary", "filepath", "The filepath cannot be none or empty.")
 			return false
 		EndIf
 	Else
-		WriteUnexpected(self, "SetSecondary", ToString()+" is not open.")
+		WriteUnexpected(ToString(), "SetSecondary", ToString()+" is not open.")
 		return false
 	EndIf
 EndFunction
@@ -168,14 +168,14 @@ bool Function SetBackground(string filepath, int color)
 			arguments[0] = filepath
 			arguments[1] = color
 			UI.Invoke(Menu, GetMember("SetBackground"), arguments)
-			WriteLine(self, "SetBackground:"+arguments)
+			WriteLine(ToString(), "SetBackground:"+arguments)
 			return true
 		Else
-			WriteUnexpectedValue(self, "SetBackground", "filepath", "The filepath cannot be none or empty.")
+			WriteUnexpectedValue(ToString(), "SetBackground", "filepath", "The filepath cannot be none or empty.")
 			return false
 		EndIf
 	Else
-		WriteUnexpected(self, "SetBackground", ToString()+" is not open.")
+		WriteUnexpected(ToString(), "SetBackground", ToString()+" is not open.")
 		return false
 	EndIf
 EndFunction
@@ -187,10 +187,10 @@ EndFunction
 string Function GetMember(string member)
 	{Returns the full AS3 instance path for the given member name.}
 	If (StringIsNoneOrEmpty(member))
-		WriteUnexpectedValue(self, "GetMember", "member", "Cannot operate on a none or empty display member.")
+		WriteUnexpectedValue(ToString(), "GetMember", "member", "Cannot operate on a none or empty display member.")
 		return none
 	ElseIf (StringIsNoneOrEmpty(root))
-		WriteUnexpected(self, "GetMember", "Cannot operate on a none or empty display root.")
+		WriteUnexpected(ToString(), "GetMember", "Cannot operate on a none or empty display root.")
 		return none
 	Else
 		return Root+"."+member
@@ -200,7 +200,7 @@ EndFunction
 
 string Function ToString()
 	{The string representation of this type.}
-	return "[Menu:"+Menu+", Asset:"+Asset+", Root:"+Root+"]"
+	return parent.ToString()+"[Menu:"+Menu+", Asset:"+Asset+", Root:"+Root+"]"
 EndFunction
 
 

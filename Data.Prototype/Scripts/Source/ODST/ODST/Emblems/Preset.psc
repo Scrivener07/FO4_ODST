@@ -164,7 +164,7 @@ EndFunction
 
 string Function ToString()
 	{The string representation of this type.}
-	return self+"::"+Material
+	return parent.ToString()+"::"+Material
 EndFunction
 
 

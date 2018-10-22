@@ -211,7 +211,7 @@ EndFunction
 
 bool Function UseMaterial(Emblems:Editor editor, Actor user) Global
 	If (user)
-		int BipedBody = 3 ;const
+		int BipedBody = 3 const
 		ObjectMod[] omods = user.GetWornItemMods(BipedBody)
 		If (omods)
 			int index = 0
