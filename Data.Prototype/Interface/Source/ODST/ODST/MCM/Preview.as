@@ -60,9 +60,20 @@
 			BackgroundTexture.MenuName = MenuName;
 			BackgroundTexture.ImageMountID = BackgroundMountID;
 
+			this.addEventListener(Event.ADDED_TO_STAGE, this.OnAddedToStage);
+
 			// var timer:Timer = new Timer(3000); // rip
 			// timer.addEventListener(TimerEvent.TIMER, OnTimer);
 			// timer.start();
+
+
+		}
+
+
+		private function OnAddedToStage(e:Event) : void
+		{
+			Debug.WriteLine("Preview", "OnAddedToStage");
+			Populate();
 		}
 
 

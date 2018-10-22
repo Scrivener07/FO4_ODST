@@ -1,0 +1,52 @@
+ARMO
+  01006ADA Armor_H3_ODST
+  01000F9B Armor_ODST
+
+COBJ
+  02001EE8 co_mod_ODST_Emblems_Custom000
+  02001EE9 co_mod_ODST_Emblems_Custom001
+  02001EEA co_mod_ODST_Emblems_Custom002
+  02001EEB co_mod_ODST_Emblems_Custom003
+  02001EEC co_mod_ODST_Emblems_Custom004
+  02001EED co_mod_ODST_Emblems_Custom005
+
+KYWD
+  01007A61 ap_ODST_Decal_Symbols
+  02002E21 ma_ODST_Emblem_Custom
+
+MISC
+  02005BBD miscmod_mod_ODST_Emblems
+
+MSWP
+  02000FA9 ODST_Emblems_Custom000
+  02000FAA ODST_Emblems_Custom001
+  02000FAB ODST_Emblems_Custom002
+  02000FAC ODST_Emblems_Custom003
+  02000FAD ODST_Emblems_Custom004
+  02000FAE ODST_Emblems_Custom005
+
+OMOD
+  02000FAF mod_ODST_Emblems_Custom000
+  02001749 mod_ODST_Emblems_Custom001
+  0200174A mod_ODST_Emblems_Custom002
+  0200174B mod_ODST_Emblems_Custom003
+  0200174C mod_ODST_Emblems_Custom004
+  0200174D mod_ODST_Emblems_Custom005
+
+PERK
+  02007A25 ODST_Emblems_CustomPerk
+
+QUST
+  02000FA6 ODST
+  02000FA8 ODST_Cheats
+  02000FA7 ODST_Emblems
+  02001EEE ODST_Emblems_Editor
+  0200541F ODST_Emblems_Preset001
+  02005420 ODST_Emblems_Preset002
+  02005421 ODST_Emblems_Preset003
+  02005422 ODST_Emblems_Preset004
+  02005423 ODST_Emblems_Preset005
+  02007A23 ODST_EmblemsMenu
+  02006AF0 ODST_ExamineMenu
+  02001EE7 ODST_MCM
+
