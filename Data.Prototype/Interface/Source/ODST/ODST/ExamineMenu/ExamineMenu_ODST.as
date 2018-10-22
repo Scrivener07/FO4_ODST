@@ -64,6 +64,8 @@
 		// Occurs when an the edit button is pressed.
 		private function OnEditButton() : void
 		{
+			// TODO: The mouse click works but not the key press.
+
 			Debug.WriteLine("[ExamineMenu_ODST]", "OnEditButton");
 			MenuRoot.f4se.SendExternalEvent(EditButtonEvent);
 		}
@@ -84,19 +86,23 @@
 					Debug.WriteLine("[ExamineMenu_ODST]", "OnModChanged", "e:"+String(e), "index:"+String(index), "Name:"+selected.text);
 					Debug.TraceObject(selected);
 
-					MenuRoot.f4se.SendExternalEvent(ModChangedEvent, index);
+
 					EditButton.ButtonVisible = true;
 
 					timer.start();
+					MenuRoot.f4se.SendExternalEvent(ModChangedEvent, index);
 				}
 				else
 				{
 					EditButton.ButtonVisible = false;
+					MenuRoot.f4se.SendExternalEvent(ModChangedEvent, -1);
 				}
+
+
 			}
 		}
 
-
+		// I hate this timer idea.
 		private function OnTimer(e:TimerEvent):void
 		{
 			timer.reset();

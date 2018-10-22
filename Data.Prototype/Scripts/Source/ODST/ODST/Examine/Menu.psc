@@ -8,8 +8,6 @@ import ODST:Papyrus
 
 Event OnQuestInit()
 	RegisterForMenuOpenCloseEvent(Name)
-	RegisterForExternalEvent("ODST_Examine_OnModChanged", "OnModChanged")
-	RegisterForExternalEvent("ODST_Examine_OnEditButton", "OnEditButton")
 EndEvent
 
 
@@ -22,8 +20,6 @@ Event OnMenuOpenCloseEvent(string menuName, bool opening)
 	WriteLine(ToString(), "OnMenuOpenCloseEvent(menuName:"+menuName+", opening:"+opening+")")
 	If (opening)
 		UI.Load(Name, Root, Asset, self, "OnLoadComplete")
-	Else
-		EmblemMenu.Close()
 	EndIf
 	OpenCloseEventArgs e = new OpenCloseEventArgs
 	e.Opening = opening
@@ -34,23 +30,6 @@ EndEvent
 Event OnLoadComplete(bool success, string menuName, string sourceVar, string destVar, string assetPath)
 	{The UI loaded callback.}
 	WriteLine(ToString(), "OnLoadComplete", "(success:"+success+", menuName:"+menuName+", sourceVar:"+sourceVar+", destVar:"+destVar+", assetPath:"+assetPath+")")
-EndEvent
-
-
-Event OnModChanged(int selected)
-	WriteLine(ToString(), "OnModChanged(argument:"+selected+")")
-	If (selected > Invalid)
-		Emblems:Preset preset = Editor.GetPreset(selected)
-		EmblemMenu.Update(Editor, preset)
-	Else
-		WriteUnexpectedValue(self, "OnModChanged", "selected", "The value of "+selected+" is not valid.")
-	EndIf
-EndEvent
-
-
-Event OnEditButton()
-	WriteLine(ToString(), "OnEditButton")
-	EmblemMenu.Open()
 EndEvent
 
 
@@ -122,9 +101,6 @@ EndFunction
 ;---------------------------------------------
 
 Group Properties
-	ODST:Emblems:Editor Property Editor Auto Const Mandatory
-	ODST:Emblems:Menu Property EmblemMenu Auto Const Mandatory
-
 	string Property Name Hidden
 		string Function Get()
 			return "ExamineMenu"
@@ -155,10 +131,3 @@ Group Properties
 		EndFunction
 	EndProperty
 EndGroup
-
-
-;/ Game Callbacks
-[ODST] RemoteMenu ctor Constructor Code
-[ODST] RemoteMenu OnAddedToStage:stage.instance17.Instance
-
-/;

@@ -24,7 +24,7 @@
 
 		public function EmblemMenu()
 		{
-			Debug.WriteLine("EmblemMenu", "ctor", "Constructor Code");
+			Debug.WriteLine("[EmblemMenu]", "ctor", "Constructor Code");
 
 			PrimaryTexture.MenuName = MenuName;
 			PrimaryTexture.ImageMountID = PrimaryMountID;
@@ -44,14 +44,14 @@
 		{ // @F4SE
 			if(codeObject != null)
 			{
-				Debug.WriteLine("EmblemMenu", "(onF4SEObjCreated)", "Received F4SE code object.");
+				Debug.WriteLine("[EmblemMenu]", "(onF4SEObjCreated)", "Received F4SE code object.");
 				PrimaryTexture.onF4SEObjCreated(codeObject);
 				SecondaryTexture.onF4SEObjCreated(codeObject);
 				BackgroundTexture.onF4SEObjCreated(codeObject);
 			}
 			else
 			{
-				Debug.WriteLine("EmblemMenu", "(onF4SEObjCreated)", "The f4se object is null.");
+				Debug.WriteLine("[EmblemMenu]", "(onF4SEObjCreated)", "The f4se object is null.");
 			}
 		}
 
@@ -61,7 +61,7 @@
 
 		public function SetPrimary(filepath:String, color:int)
 		{
-			Debug.WriteLine("EmblemMenu", "SetPrimary", "filepath:"+filepath, "color:"+color);
+			Debug.WriteLine("[EmblemMenu]", "SetPrimary", "filepath:"+filepath, "color:"+color);
 			PrimaryTexture.Load(filepath);
 
 			var tint = new ColorTransform();
@@ -72,7 +72,7 @@
 
 		public function SetSecondary(filepath:String, color:int)
 		{
-			Debug.WriteLine("EmblemMenu", "SetSecondary", "filepath:"+filepath, "color:"+color);
+			Debug.WriteLine("[EmblemMenu]", "SetSecondary", "filepath:"+filepath, "color:"+color);
 			SecondaryTexture.Load(filepath);
 
 			var tint = new ColorTransform();
@@ -83,7 +83,7 @@
 
 		public function SetBackground(filepath:String, color:int)
 		{
-			Debug.WriteLine("EmblemMenu", "SetBackground", "filepath:"+filepath, "color:"+color);
+			Debug.WriteLine("[EmblemMenu]", "SetBackground", "filepath:"+filepath, "color:"+color);
 			BackgroundTexture.Load(filepath);
 
 			var tint = new ColorTransform();
