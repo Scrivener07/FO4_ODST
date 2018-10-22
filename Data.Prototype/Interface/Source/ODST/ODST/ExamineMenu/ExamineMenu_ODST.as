@@ -11,11 +11,9 @@
 	import flash.events.TimerEvent;
 	import flash.utils.*;
 
-
-	public class ODST extends MovieClip
+	// Hijacks the ExamineMenu to add ODST features.
+	public class ExamineMenu_ODST extends MovieClip
 	{
-		// TODO: How can I identify that an ODST omod is focused in the menu?
-
 		private var MenuRoot:MovieClip;
 		public function get ExamineMenu():MovieClip { return MenuRoot.BaseInstance; }
 
@@ -32,9 +30,9 @@
 		// Menu
 		//---------------------------------------------
 
-		public function ODST()
+		public function ExamineMenu_ODST()
 		{
-			Debug.WriteLine("[ODST]", "ctor", "Constructor Code");
+			Debug.WriteLine("[ExamineMenu_ODST]", "ctor", "Constructor Code");
 			Debug.TraceObject(this);
 			this.addEventListener(Event.ADDED_TO_STAGE, this.OnAddedToStage);
 		}
@@ -42,11 +40,9 @@
 
 		private function OnAddedToStage(e:Event) : void
 		{
-			Debug.WriteLine("[ODST]", "OnAddedToStage:"+Utility.WalkMovie(this));
+			Debug.WriteLine("[ExamineMenu_ODST]", "OnAddedToStage:"+Utility.WalkMovie(this));
 			MenuRoot = stage.getChildAt(0) as MovieClip;
 
-			ExamineMenu.InventoryListObject.addEventListener(BSScrollingList.SELECTION_CHANGE, this.OnInventorySelectionChange);
-			ExamineMenu.ModSlotListObject.addEventListener(BSScrollingList.SELECTION_CHANGE, this.OnModSlotSelectionChange);
 			ExamineMenu.ModListObject.addEventListener(BSScrollingList.SELECTION_CHANGE, this.OnModChanged);
 
 			EditButton = new BSButtonHintData("$Edit", "R", "PSN_X", "Xenon_X", 1, this.OnEditButton);
@@ -68,40 +64,13 @@
 		// Occurs when an the edit button is pressed.
 		private function OnEditButton() : void
 		{
-			Debug.WriteLine("[ODST]", "OnEditButton");
+			Debug.WriteLine("[ExamineMenu_ODST]", "OnEditButton");
 			MenuRoot.f4se.SendExternalEvent(EditButtonEvent);
 		}
 
 
 		// Examine Menu
 		//---------------------------------------------
-
-		// Occurs when an inventory item is hovered in the examine menu.
-		public function OnInventorySelectionChange(e:Event) : *
-		{
-			var index:uint = ExamineMenu.InventoryListObject.selectedIndex;
-			if(index > -1 && ExamineMenu.InventoryListObject.entryList)
-			{
-				var selected = ExamineMenu.InventoryListObject.entryList[index];
-				Debug.WriteLine("[ODST]", "OnInventorySelectionChange", "e:"+String(e), "index:"+String(index), "Name:"+selected.text);
-				// Debug.TraceObject(selected);
-			}
-		}
-
-
-		// Occurs when a mod slot is hovered in the examine menu.
-		public function OnModSlotSelectionChange(e:Event) : *
-		{
-			var index:uint = ExamineMenu.ModSlotListObject.selectedIndex;
-			if(index > -1 && ExamineMenu.ModSlotListObject.entryList)
-			{
-				var selected = ExamineMenu.ModSlotListObject.entryList[index];
-				Debug.WriteLine("[ODST]", "OnModSlotSelectionChange", "e:"+String(e), "index:"+String(index), "Name:"+selected.text);
-				// Debug.TraceObject(selected);
-			}
-
-		}
-
 
 		// Occurs when an OMOD is hovered in the examine menu.
 		public function OnModChanged(e:Event) : *
@@ -112,7 +81,7 @@
 				var selected = ExamineMenu.ModListObject.entryList[index];
 				if (selected.perkData[0].perkID == PerkID)
 				{
-					Debug.WriteLine("[ODST]", "OnModChanged", "e:"+String(e), "index:"+String(index), "Name:"+selected.text);
+					Debug.WriteLine("[ExamineMenu_ODST]", "OnModChanged", "e:"+String(e), "index:"+String(index), "Name:"+selected.text);
 					Debug.TraceObject(selected);
 
 					MenuRoot.f4se.SendExternalEvent(ModChangedEvent, index);
@@ -131,10 +100,7 @@
 		private function OnTimer(e:TimerEvent):void
 		{
 			timer.reset();
-			Debug.WriteLine("[ODST]", "OnTimer", e);
-
-			ExamineMenu.PerkPanel0_mc.PerkName_tf.text = "Preview";
-			TextFieldEx.setTextAutoSize(ExamineMenu.PerkPanel0_mc.PerkName_tf, "shrink");
+			Debug.WriteLine("[ExamineMenu_ODST]", "OnTimer", e);
 
 			ExamineMenu.PerkPanel0_mc.Requires_tf.text = "";
 			TextFieldEx.setTextAutoSize(ExamineMenu.PerkPanel0_mc.Requires_tf, "shrink");
