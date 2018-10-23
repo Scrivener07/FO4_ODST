@@ -42,14 +42,14 @@ package F4SE
 		}
 
 
-		public static function MountImage(f4se:*, menuName:String, pathToMount:String, mountName:String):void
+		public static function MountImage(f4se:*, menuName:String, mountPath:String, mountName:String):void
 		{
 			if (f4se != null)
 			{
-				Debug.WriteLine("[F4SE]", "[Extensions]", "(MountImage)", menuName, pathToMount, mountName);
+				Debug.WriteLine("[F4SE]", "[Extensions]", "(MountImage)", menuName, mountPath, mountName);
 				try
 				{
-					f4se.MountImage(menuName, pathToMount, mountName);
+					f4se.MountImage(menuName, mountPath, mountName);
 				}
 				catch (error:Error)
 				{
@@ -63,14 +63,14 @@ package F4SE
 		}
 
 
-		public static function UnmountImage(f4se:*, menuName:String, pathToUnmount:String):void
+		public static function UnmountImage(f4se:*, menuName:String, mountPath:String):void
 		{
 			if (f4se != null)
 			{
 				try
 				{
-					Debug.WriteLine("[F4SE]", "[Extensions]", "(UnmountImage)", menuName, pathToUnmount);
-					f4se.UnmountImage(menuName, pathToUnmount);
+					Debug.WriteLine("[F4SE]", "[Extensions]", "(UnmountImage)", menuName, mountPath);
+					f4se.UnmountImage(menuName, mountPath);
 				}
 				catch (error:Error)
 				{

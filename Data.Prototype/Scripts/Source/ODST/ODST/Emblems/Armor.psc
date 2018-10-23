@@ -1,11 +1,10 @@
 Scriptname ODST:Emblems:Armor extends ObjectReference
-{Applies a material remapping to a reference.}
+{Applies a material remapping to an Armor reference.}
 import ODST
 import ODST:Log
 import ODST:Emblems:Editor
 
 Actor User
-
 
 ; Events
 ;---------------------------------------------
@@ -26,6 +25,7 @@ EndEvent
 
 
 Event Actor.OnPlayerUseWorkBench(Actor akSender, ObjectReference akWorkBench)
+	{Update the material for the worn armor}
 	WriteLine(self, "Actor.OnPlayerUseWorkBench")
 	UseMaterial(Editor, User)
 EndEvent

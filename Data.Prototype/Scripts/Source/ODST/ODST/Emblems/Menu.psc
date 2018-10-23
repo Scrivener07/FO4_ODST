@@ -12,9 +12,7 @@ import ODST:Papyrus
 Event OnQuestInit()
 	OnGameReload()
 	RegisterForGameReload(self)
-
 	ExamineMenu.RegisterForOpenCloseEvent(self)
-
 	RegisterForExternalEvent("ODST_Examine_OnModChanged", "OnModChanged")
 	RegisterForExternalEvent("ODST_Examine_OnEditButton", "OnEditButton")
 	WriteLine(ToString(), "OnQuestInit")
@@ -56,12 +54,16 @@ Event ODST:Examine:Menu.OpenCloseEvent(Examine:Menu sender, var[] arguments)
 			Close()
 		EndIf
 	Else
-		WriteUnexpectedValue(self, "ODST:Examine:Menu.OpenCloseEvent", "arguments", "The value cannot be none.")
+		WriteUnexpectedValue(ToString(), "ODST:Examine:Menu.OpenCloseEvent", "arguments", "The value cannot be none.")
 		Close()
 	EndIf
 EndEvent
 
-
+;/
+[10/22/2018 - 04:26:19PM] warning: Assigning None to a non-object variable named "::temp34"
+stack:
+	[ODST_EmblemsMenu (0A007A23)].odst:emblems:menu.OnModChanged() - "D:\Games\Steam\steamapps\common\Fallout 4\Data\Scripts\Source\ODST\ODST\Emblems\Menu.psc" Line 71
+/;
 Event OnModChanged(int selected)
 	WriteLine(ToString(), "OnModChanged(argument:"+selected+")")
 	If (selected > Invalid)
@@ -70,7 +72,7 @@ Event OnModChanged(int selected)
 		SetVisible(true)
 	Else
 		SetVisible(false)
-		; WriteUnexpectedValue(self, "OnModChanged", "selected", "The value of "+selected+" is not valid.")
+		WriteLine(ToString(), "OnModChanged: Setting visible to false because the selected value is invalid.")
 	EndIf
 EndEvent
 
@@ -78,6 +80,7 @@ EndEvent
 Event OnEditButton()
 	; Open()
 	WriteLine(ToString(), "OnEditButton")
+	SetVisible(false) ; TODO: Testing only.
 EndEvent
 
 
@@ -89,28 +92,33 @@ EndEvent
 bool Function Update(Emblems:Editor sender, Emblems:Preset preset)
 	{Updates the preview user interface.}
 
-	string sLayerPrimary = sender.Symbol.ForegroundToFolder(preset.Foreground)
-	string sTexturePathPrimary = sender.ToTexturePath(sender.PrimaryLayer, sLayerPrimary)
-	int iColorPrimary = sender.Color.OptionToHex(preset.ForegroundColorPrimary)
-	SetPrimary(sTexturePathPrimary, iColorPrimary)
+	If (preset)
+		string sLayerPrimary = sender.Symbol.ForegroundToFolder(preset.Foreground)
+		string sTexturePathPrimary = sender.ToTexturePath(sender.PrimaryLayer, sLayerPrimary)
+		int iColorPrimary = sender.Color.OptionToHex(preset.ForegroundColorPrimary)
+		SetPrimary(sTexturePathPrimary, iColorPrimary)
 
-	string sTexturePathSecondary = sender.ToTexturePath(sender.SecondaryLayer, sLayerPrimary)
-	int iColorSecondary = sender.Color.OptionToHex(preset.ForegroundColorSecondary)
-	SetSecondary(sTexturePathSecondary, iColorSecondary)
+		string sTexturePathSecondary = sender.ToTexturePath(sender.SecondaryLayer, sLayerPrimary)
+		int iColorSecondary = sender.Color.OptionToHex(preset.ForegroundColorSecondary)
+		SetSecondary(sTexturePathSecondary, iColorSecondary)
 
-	string sLayerBackground = sender.Symbol.BackgroundToFolder(preset.Background)
-	string sTexturePathBackground = sender.ToTexturePath(sender.BackgroundLayer, sLayerBackground)
-	int iColorBackground = sender.Color.OptionToHex(preset.BackgroundColor)
-	SetBackground(sTexturePathBackground, iColorBackground)
+		string sLayerBackground = sender.Symbol.BackgroundToFolder(preset.Background)
+		string sTexturePathBackground = sender.ToTexturePath(sender.BackgroundLayer, sLayerBackground)
+		int iColorBackground = sender.Color.OptionToHex(preset.BackgroundColor)
+		SetBackground(sTexturePathBackground, iColorBackground)
 
-	MCM.SetModSettingString(sender.Properties.PluginName, "sEmblem_PreviewPrimary:Settings", sTexturePathPrimary)
-	MCM.SetModSettingInt(sender.Properties.PluginName, "iEmblem_PreviewPrimaryColor:Settings", iColorPrimary)
-	MCM.SetModSettingString(sender.Properties.PluginName, "sEmblem_PreviewSecondary:Settings", sTexturePathSecondary)
-	MCM.SetModSettingInt(sender.Properties.PluginName, "iEmblem_PreviewSecondaryColor:Settings", iColorSecondary)
-	MCM.SetModSettingString(sender.Properties.PluginName, "sEmblem_PreviewBackground:Settings", sTexturePathBackground)
-	MCM.SetModSettingInt(sender.Properties.PluginName, "iEmblem_PreviewBackgroundColor:Settings", iColorBackground)
+		; These settings allow me to pass data to MCM library objects.
+		MCM.SetModSettingString(sender.Properties.PluginName, "sEmblem_PreviewPrimary:Settings", sTexturePathPrimary)
+		MCM.SetModSettingInt(sender.Properties.PluginName, "iEmblem_PreviewPrimaryColor:Settings", iColorPrimary)
+		MCM.SetModSettingString(sender.Properties.PluginName, "sEmblem_PreviewSecondary:Settings", sTexturePathSecondary)
+		MCM.SetModSettingInt(sender.Properties.PluginName, "iEmblem_PreviewSecondaryColor:Settings", iColorSecondary)
+		MCM.SetModSettingString(sender.Properties.PluginName, "sEmblem_PreviewBackground:Settings", sTexturePathBackground)
+		MCM.SetModSettingInt(sender.Properties.PluginName, "iEmblem_PreviewBackgroundColor:Settings", iColorBackground)
 
-	WriteLine(ToString(), "Update:"+ToString())
+		WriteLine(ToString(), "Updated the preset.")
+	Else
+		WriteUnexpectedValue(ToString(), "Update", "preset", "The value cannot be none.")
+	EndIf
 EndFunction
 
 
@@ -238,10 +246,10 @@ string Function GetMember(string member)
 	{Returns the full AS3 instance path for the given member name.}
 	If (StringIsNoneOrEmpty(member))
 		WriteUnexpectedValue(ToString(), "GetMember", "member", "Cannot operate on a none or empty display member.")
-		return none
+		return ""
 	ElseIf (StringIsNoneOrEmpty(root))
 		WriteUnexpected(ToString(), "GetMember", "Cannot operate on a none or empty display root.")
-		return none
+		return ""
 	Else
 		return Root+"."+member
 	EndIf

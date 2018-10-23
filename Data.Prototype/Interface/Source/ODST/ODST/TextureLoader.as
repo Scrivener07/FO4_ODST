@@ -10,6 +10,8 @@ package ODST
 	import AS3.*;
 	import F4SE.*;
 
+	// TODO: There is possibly some race condition problems happening with load/unload.
+	// It looks like old child movieclips are not being removed in some cases.
 	public dynamic class TextureLoader extends MovieClip implements IExtensions
 	{
 		private var f4se:*;
@@ -36,11 +38,25 @@ package ODST
 		public function TextureLoader()
 		{
 			super();
-			// this.visible = false;
 			ContentLoader = new Loader();
+			this.addEventListener(Event.ADDED_TO_STAGE, this.OnAddedToStage);
+			this.addEventListener(Event.REMOVED_FROM_STAGE, this.OnRemovedFromStage);
 			Info.addEventListener(Event.COMPLETE, this.OnLoadComplete);
 			Info.addEventListener(IOErrorEvent.IO_ERROR, this.OnLoadError);
 			Debug.WriteLine("[TextureLoader]", "(ctor)", "Constructor Code");
+		}
+
+
+		private function OnAddedToStage(e:Event) : void
+		{
+			Debug.WriteLine("[TextureLoader]", "(OnAddedToStage)", "Unmounting..");
+		}
+
+
+		private function OnRemovedFromStage(e:Event) : void
+		{
+			Debug.WriteLine("[TextureLoader]", "(OnRemovedFromStage)", "Unmounting..");
+			Unload();
 		}
 
 
@@ -63,7 +79,6 @@ package ODST
 
 		public function Load(filepath:String):Boolean
 		{
-			Debug.WriteLine("[TextureLoader]", "(Load)", filepath);
 			Unload();
 			if(GetTextureExists(filepath))
 			{
@@ -102,7 +117,6 @@ package ODST
 			Debug.WriteLine("[TextureLoader]", "(OnLoadComplete)", e.toString()+"\n"+toString());
 			addChild(Content);
 			Utility.ScaleToHeight(this, 75);
-			// this.visible = true;
 		}
 
 
@@ -118,9 +132,6 @@ package ODST
 
 		private function Unload():void
 		{
-			Debug.WriteLine("[TextureLoader]", "(Unload)");
-			// this.visible = false;
-
 			if (FilePath != null)
 			{
 				F4SE.Extensions.UnmountImage(f4se, MenuName, FilePath);
@@ -129,7 +140,6 @@ package ODST
 
 			if (Content)
 			{
-				// this.visible = false;
 				removeChild(Content);
 				Content.loaderInfo.loader.unload();
 				Debug.WriteLine("[TextureLoader]", "(Unload)", "Unloaded content from loader.");
@@ -145,7 +155,7 @@ package ODST
 			var sResolution = "Resolution: "+stage.width+"x"+stage.height+" ("+this.x+"x"+this.y+")";
 			var sLastFile = "FilePath: '"+FilePath+"'";
 			var sUrl = "Url: '"+Url+"'";
-			return "[TextureLoader]"+ImageMountID+" "+sResolution+"\n"+sLastFile+"\n"+sUrl;
+			return "[TextureLoader]"+ImageMountID+", "+sResolution+", "+sLastFile+", "+sUrl;
 		}
 
 

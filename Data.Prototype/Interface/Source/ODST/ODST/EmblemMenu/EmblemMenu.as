@@ -8,7 +8,9 @@
 	import F4SE.*;
 	import ODST.*;
 
-	public class EmblemMenu extends MovieClip implements F4SE.IExtensions
+	// TODO: The image mounts dont clean up properly sometimes.
+
+	public class EmblemMenu extends Display
 	{
 		public static const MenuName:String = "ODST_EmblemMenu";
 
@@ -24,7 +26,7 @@
 
 		public function EmblemMenu()
 		{
-			Debug.WriteLine("[EmblemMenu]", "ctor", "Constructor Code");
+			Debug.WriteLine("[EmblemMenu]", "(ctor)", "Constructor Code");
 
 			PrimaryTexture.MenuName = MenuName;
 			PrimaryTexture.ImageMountID = PrimaryMountID;
@@ -34,25 +36,23 @@
 
 			BackgroundTexture.MenuName = MenuName;
 			BackgroundTexture.ImageMountID = BackgroundMountID;
+
+			this.addEventListener(Event.ADDED_TO_STAGE, this.OnAddedToStage);
+			this.addEventListener(Event.REMOVED_FROM_STAGE, this.OnRemovedFromStage);
 		}
 
 
-		// F4SE.IExtensions
-		//---------------------------------------------
+		public override function OnAddedToStage(e:Event) : void
+		{
+			super.OnAddedToStage(e);
+			visible = false;
+			Debug.WriteLine("[EmblemMenu]", "(OnAddedToStage)");
+		}
 
-		public function onF4SEObjCreated(codeObject:*):void
-		{ // @F4SE
-			if(codeObject != null)
-			{
-				Debug.WriteLine("[EmblemMenu]", "(onF4SEObjCreated)", "Received F4SE code object.");
-				PrimaryTexture.onF4SEObjCreated(codeObject);
-				SecondaryTexture.onF4SEObjCreated(codeObject);
-				BackgroundTexture.onF4SEObjCreated(codeObject);
-			}
-			else
-			{
-				Debug.WriteLine("[EmblemMenu]", "(onF4SEObjCreated)", "The f4se object is null.");
-			}
+
+		private function OnRemovedFromStage(e:Event) : void
+		{
+			Debug.WriteLine("[EmblemMenu]", "(OnRemovedFromStage)");
 		}
 
 
@@ -62,8 +62,9 @@
 		public function SetPrimary(filepath:String, color:int)
 		{
 			Debug.WriteLine("[EmblemMenu]", "SetPrimary", "filepath:"+filepath, "color:"+color);
-			PrimaryTexture.Load(filepath);
+			visible = true;
 
+			PrimaryTexture.Load(filepath);
 			var tint = new ColorTransform();
 			tint.color = color;
 			PrimaryTexture.transform.colorTransform = tint;
@@ -73,8 +74,9 @@
 		public function SetSecondary(filepath:String, color:int)
 		{
 			Debug.WriteLine("[EmblemMenu]", "SetSecondary", "filepath:"+filepath, "color:"+color);
-			SecondaryTexture.Load(filepath);
+			visible = true;
 
+			SecondaryTexture.Load(filepath);
 			var tint = new ColorTransform();
 			tint.color = color;
 			SecondaryTexture.transform.colorTransform = tint;
@@ -84,8 +86,9 @@
 		public function SetBackground(filepath:String, color:int)
 		{
 			Debug.WriteLine("[EmblemMenu]", "SetBackground", "filepath:"+filepath, "color:"+color);
-			BackgroundTexture.Load(filepath);
+			visible = true;
 
+			BackgroundTexture.Load(filepath);
 			var tint = new ColorTransform();
 			tint.color = color;
 			BackgroundTexture.transform.colorTransform = tint;

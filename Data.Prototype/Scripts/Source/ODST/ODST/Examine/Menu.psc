@@ -1,4 +1,5 @@
 Scriptname ODST:Examine:Menu extends ODST:Examine:MenuType
+{Injects AS3 code into the vanilla Examine menu.}
 import ODST
 import ODST:Log
 import ODST:Papyrus
@@ -27,6 +28,7 @@ Event OnMenuOpenCloseEvent(string menuName, bool opening)
 EndEvent
 
 
+; @F4SE Callback
 Event OnLoadComplete(bool success, string menuName, string sourceVar, string destVar, string assetPath)
 	{The UI loaded callback.}
 	WriteLine(ToString(), "OnLoadComplete", "(success:"+success+", menuName:"+menuName+", sourceVar:"+sourceVar+", destVar:"+destVar+", assetPath:"+assetPath+")")
@@ -40,7 +42,7 @@ string Function GetMember(string member)
 	If (member)
 		return Instance+"."+member
 	Else
-		WriteUnexpectedValue(self, "GetMember", "member", "The value cannot be none or empty.")
+		WriteUnexpectedValue(ToString(), "GetMember", "member", "The value cannot be none or empty.")
 		return none
 	EndIf
 EndFunction
@@ -48,6 +50,7 @@ EndFunction
 
 ; Open Event
 ;---------------------------------------------
+
 CustomEvent OpenCloseEvent
 
 Struct OpenCloseEventArgs

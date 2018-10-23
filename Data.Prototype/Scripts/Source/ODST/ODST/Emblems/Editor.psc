@@ -30,7 +30,7 @@ Event OnQuestInit()
 
 	ConfigurationMenu.RegisterForMenuStateEvent(self)
 	ConfigurationMenu.RegisterForOptionEvent(self)
-	RegisterForMenuOpenCloseEvent(EmblemMenu.Menu)
+	; RegisterForMenuOpenCloseEvent(EmblemMenu.Menu)
 
 	RegisterForGameReload(self)
 	OnGameReload()
@@ -49,17 +49,23 @@ Event OnGameReload()
 EndEvent
 
 
-Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
-	If (abOpening && asMenuName == EmblemMenu.Menu)
-		int select = Deserialize()
-		If (select > Invalid)
-			Update() ; warning: Assigning None to a non-object variable named "::temp19"
-			EmblemMenu.Update(self, Presets[select])
-		Else
-			WriteUnexpectedValue(self, "OnMenuOpenCloseEvent", "select", "The deserialization was invalid.")
-		EndIf
-	EndIf
-EndEvent
+;/ TODO: Papyrus Errors
+[10/22/2018 - 04:26:15PM] warning: Assigning None to a non-object variable named "::temp19"
+stack:
+	[ODST_Emblems_Editor (0A001EEE)].odst:emblems:editor.OnMenuOpenCloseEvent() - "D:\Games\Steam\steamapps\common\Fallout 4\Data\Scripts\Source\ODST\ODST\Emblems\Editor.psc" Line 61
+/;
+
+; Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
+; 	If (abOpening && asMenuName == EmblemMenu.Menu)
+; 		int select = Deserialize()
+; 		If (select > Invalid)
+; 			Update() ; TODO: warning: Assigning None to a non-object variable named "::temp19"
+; 			EmblemMenu.Update(self, Presets[select]) ; error
+; 		Else
+; 			WriteUnexpectedValue(self, "OnMenuOpenCloseEvent", "select", "The deserialization was invalid.")
+; 		EndIf
+; 	EndIf
+; EndEvent
 
 
 Event ODST:MCM:Menu.OnMenuState(MCM:Menu sender, var[] arguments)

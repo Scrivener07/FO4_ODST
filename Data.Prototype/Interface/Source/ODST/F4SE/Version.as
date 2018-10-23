@@ -2,10 +2,10 @@ package F4SE
 {
 	public class Version
 	{
-		public var major:int;
-		public var minor:int;
-		public var beta:int;
-		public var releaseIdx:int;
+		public var major:Number;
+		public var minor:Number;
+		public var beta:Number;
+		public var releaseIdx:Number;
 
 
 		public function Version()

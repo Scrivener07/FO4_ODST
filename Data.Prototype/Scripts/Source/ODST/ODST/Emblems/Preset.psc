@@ -35,23 +35,23 @@ bool Function Initialize(int optionIndex, string sectionName, int materialFormID
 	{Pseudo constructor for initializing the preset.}
 	OptionValue = optionIndex
 	If (OptionValue == Invalid)
-		WriteUnexpectedValue(self, "Initialize", "OptionValue", "The value cannot invalid.")
+		WriteUnexpectedValue(ToString(), "Initialize", "OptionValue", "The value cannot invalid.")
 		return false
 	EndIf
 
 	SectionValue = sectionName
 	If (!SectionValue)
-		WriteUnexpectedValue(self, "Initialize", "SectionValue", "The value cannot be none or empty.")
+		WriteUnexpectedValue(ToString(), "Initialize", "SectionValue", "The value cannot be none or empty.")
 		return false
 	EndIf
 
 	MaterialValue = GetExternal(Properties.PluginFile, materialFormID) as MatSwap
 	If (!MaterialValue)
-		WriteUnexpectedValue(self, "Initialize", "MaterialValue", "The value cannot be none.")
+		WriteUnexpectedValue(ToString(), "Initialize", "MaterialValue", "The value cannot be none.")
 		return false
 	EndIf
 
-	WriteLine(self, "Initialize")
+	WriteLine(ToString(), "Initialize")
 	return true
 EndFunction
 
@@ -67,11 +67,11 @@ bool Function Deserialize(MCM:Menu sender)
 			BackgroundColor = sender.GetModSettingFor(SettingName_EmblemBackground_Color, Section)
 			return true
 		Else
-			WriteUnexpectedValue(self, "Deserialize", "Section", "Cannot be none or empty.")
+			WriteUnexpectedValue(ToString(), "Deserialize", "Section", "Cannot be none or empty.")
 			return false
 		EndIf
 	Else
-		WriteUnexpectedValue(self, "Deserialize", "sender", "Cannot be none or empty.")
+		WriteUnexpectedValue(ToString(), "Deserialize", "sender", "Cannot be none or empty.")
 		return false
 	EndIf
 EndFunction
@@ -98,19 +98,19 @@ bool Function SetValue(MCM:Menu sender, MCM:Menu:OptionEventArgs e)
 					BackgroundColor = e.Value
 					return true
 				Else
-					WriteUnexpectedValue(self, "ChangeValue", "e.Identifier", "The identifier '"+e.Identifier+"' is unhandled.")
+					WriteUnexpectedValue(ToString(), "ChangeValue", "e.Identifier", "The identifier '"+e.Identifier+"' is unhandled.")
 					return false
 				EndIf
 			Else
-				WriteUnexpectedValue(self, "ChangeValue", "Section", "Cannot be none or empty.")
+				WriteUnexpectedValue(ToString(), "ChangeValue", "Section", "Cannot be none or empty.")
 				return false
 			EndIf
 		Else
-			WriteUnexpectedValue(self, "ChangeValue", "e", "Cannot be none or empty.")
+			WriteUnexpectedValue(ToString(), "ChangeValue", "e", "Cannot be none or empty.")
 			return false
 		EndIf
 	Else
-		WriteUnexpectedValue(self, "ChangeValue", "sender", "Cannot be none or empty.")
+		WriteUnexpectedValue(ToString(), "ChangeValue", "sender", "Cannot be none or empty.")
 		return false
 	EndIf
 EndFunction
@@ -153,7 +153,7 @@ bool Function Remap(Emblems:Editor editor)
 		Material.SetRemapData(remapping)
 		return true
 	Else
-		WriteUnexpectedValue(self, "Remap", "Material", "The material cannot be none.")
+		WriteUnexpectedValue(ToString(), "Remap", "Material", "The material cannot be none.")
 		return false
 	EndIf
 EndFunction
@@ -164,7 +164,7 @@ EndFunction
 
 string Function ToString()
 	{The string representation of this type.}
-	return parent.ToString()+"::"+Material
+	return parent.ToString()+"[Option:"+OptionValue+", Section:"+SectionValue+", Material:"+Material+"]"
 EndFunction
 
 
