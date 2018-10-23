@@ -62,7 +62,7 @@
 		public function SetPrimary(filepath:String, color:int)
 		{
 			Debug.WriteLine("[EmblemMenu]", "SetPrimary", "filepath:"+filepath, "color:"+color);
-			visible = true;
+			// visible = true;
 
 			PrimaryTexture.Load(filepath);
 			var tint = new ColorTransform();
@@ -74,7 +74,7 @@
 		public function SetSecondary(filepath:String, color:int)
 		{
 			Debug.WriteLine("[EmblemMenu]", "SetSecondary", "filepath:"+filepath, "color:"+color);
-			visible = true;
+			// visible = true;
 
 			SecondaryTexture.Load(filepath);
 			var tint = new ColorTransform();
@@ -86,7 +86,7 @@
 		public function SetBackground(filepath:String, color:int)
 		{
 			Debug.WriteLine("[EmblemMenu]", "SetBackground", "filepath:"+filepath, "color:"+color);
-			visible = true;
+			// visible = true;
 
 			BackgroundTexture.Load(filepath);
 			var tint = new ColorTransform();
