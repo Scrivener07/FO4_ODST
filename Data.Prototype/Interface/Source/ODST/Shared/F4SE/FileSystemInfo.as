@@ -1,6 +1,6 @@
-package F4SE
+package Shared.F4SE
 {
-	//import AS3.Debug;
+	import Shared.AS3.Debug;
 
 	public class FileSystemInfo
 	{
@@ -38,7 +38,7 @@ package F4SE
 			}
 			else
 			{
-				AS3.Debug.WriteLine("[F4SE]", "FileSystemInfo", "FromObject", "The object cannot be null.");
+				Debug.WriteLine("[F4SE]", "FileSystemInfo", "FromObject", "The object cannot be null.");
 				return null;
 			}
 		}

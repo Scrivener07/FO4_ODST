@@ -1,8 +1,8 @@
 ﻿package
 {
 	import flash.display.MovieClip;
-	import AS3.*;
-	import MCM.*;
+	import Shared.AS3.*;
+	import Shared.MCM.*;
 
 	public class Library extends MovieClip implements IMCMLibrary
 	{

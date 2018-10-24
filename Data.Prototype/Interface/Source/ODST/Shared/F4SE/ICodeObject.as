@@ -1,6 +1,6 @@
-package F4SE
+package Shared.F4SE
 {
-	public interface IExtensions
+	public interface ICodeObject
 	{
 		/* 0.6.8
 		- added Scaleform receiving function

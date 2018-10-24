@@ -1,4 +1,4 @@
-package F4SE
+package Shared.F4SE
 {
 	public class Version
 	{

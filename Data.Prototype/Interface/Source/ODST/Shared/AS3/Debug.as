@@ -1,4 +1,4 @@
-package AS3
+package Shared.AS3
 {
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;

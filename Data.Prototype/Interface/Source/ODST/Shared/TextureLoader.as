@@ -1,4 +1,4 @@
-package ODST
+package Shared
 {
 	import flash.display.DisplayObject;
 	import flash.display.Loader;
@@ -7,12 +7,15 @@ package ODST
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.net.URLRequest;
-	import AS3.*;
-	import F4SE.*;
+	import Shared.AS3.Debug;
+	import Shared.AS3.Path;
+	import Shared.AS3.Utility;
+	import Shared.F4SE.Extensions;
+	import Shared.F4SE.ICodeObject;
 
 	// TODO: There is possibly some race condition problems happening with load/unload.
 	// It looks like old child movieclips are not being removed in some cases.
-	public dynamic class TextureLoader extends MovieClip implements IExtensions
+	public dynamic class TextureLoader extends MovieClip implements ICodeObject
 	{
 		private var f4se:*;
 		public var MenuName:String;
@@ -49,19 +52,19 @@ package ODST
 
 		private function OnAddedToStage(e:Event) : void
 		{
-			Debug.WriteLine("[TextureLoader]", "(OnAddedToStage)", "Unmounting..");
+			Debug.WriteLine("[TextureLoader]", "(OnAddedToStage)");
 		}
 
 
 		private function OnRemovedFromStage(e:Event) : void
 		{
-			Debug.WriteLine("[TextureLoader]", "(OnRemovedFromStage)", "Unmounting..");
+			Debug.WriteLine("[TextureLoader]", "(OnRemovedFromStage)", "Unloading..");
 			Unload();
 		}
 
 
 		public function onF4SEObjCreated(codeObject:*):void
-		{ // @F4SE
+		{ // @F4SE, implements ICodeObject
 			if(codeObject != null)
 			{
 				f4se = codeObject;
@@ -84,7 +87,7 @@ package ODST
 			{
 				try
 				{
-					F4SE.Extensions.MountImage(f4se, MenuName, filepath, ImageMountID);
+					Extensions.MountImage(f4se, MenuName, filepath, ImageMountID);
 					var urlRequest:URLRequest = new URLRequest("img://"+ImageMountID);
 					ContentLoader.load(urlRequest);
 					FilePath = filepath;
@@ -108,7 +111,7 @@ package ODST
 		private function GetTextureExists(filepath:String):Boolean
 		{
 			var folder:String = Path.GetDirectory("Data\\Textures\\"+filepath);
-			return F4SE.Extensions.GetDirectoryListing(f4se, folder, "*.dds", true).length > 0;
+			return Extensions.GetDirectoryListing(f4se, folder, "*.dds", true).length > 0;
 		}
 
 
@@ -134,7 +137,7 @@ package ODST
 		{
 			if (FilePath != null)
 			{
-				F4SE.Extensions.UnmountImage(f4se, MenuName, FilePath);
+				Extensions.UnmountImage(f4se, MenuName, FilePath);
 				Debug.WriteLine("[TextureLoader]", "(Unload)", "Unmounted the image '"+FilePath+"' from "+MenuName+" with resource ID "+ImageMountID);
 			}
 

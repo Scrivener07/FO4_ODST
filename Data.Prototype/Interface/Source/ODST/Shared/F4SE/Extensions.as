@@ -1,6 +1,6 @@
-package F4SE
+package Shared.F4SE
 {
-	import AS3.*;
+	import Shared.AS3.Debug;
 
 	// TODO: Check for null arguments on f4se function calls. A null parameter may crash the game!
 	public class Extensions

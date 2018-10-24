@@ -1,4 +1,4 @@
-package ODST
+package Shared
 {
 	public interface IDisplay
 	{

@@ -6,9 +6,10 @@
 	import flash.events.TimerEvent;
 	import flash.geom.ColorTransform;
 	import flash.utils.*;
-	import AS3.*;
-	import MCM.*;
+	import Shared.AS3.*;
+	import Shared.MCM.*;
 	import ODST.*;
+
 	// TODO: Use a timer to poll for a mod setting update.
 	/* Notes
 		-I have not been successful in my attempts at mounting a texture to an MCM library object.
@@ -65,8 +66,6 @@
 			// var timer:Timer = new Timer(3000); // rip
 			// timer.addEventListener(TimerEvent.TIMER, OnTimer);
 			// timer.start();
-
-
 		}
 
 

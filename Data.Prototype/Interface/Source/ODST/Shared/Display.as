@@ -1,10 +1,8 @@
-
-package ODST
+package Shared
 {
 	import flash.display.MovieClip;
 	import flash.events.Event;
-	import AS3.*;
-	import ODST.*;
+	import Shared.AS3.*;
 	import Shared.IMenu;
 
 	public class Display extends IMenu implements IDisplay

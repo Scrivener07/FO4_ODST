@@ -1,4 +1,4 @@
-package MCM
+package Shared.MCM
 {
 	public interface IMCMLibrary
 	{
