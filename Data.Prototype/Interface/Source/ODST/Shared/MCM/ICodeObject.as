@@ -1,8 +1,8 @@
 package Shared.MCM
 {
-	public interface IMCMLibrary
+	public interface ICodeObject
 	{
-		/* 1.28
+		/* v1.28
 		- added Scaleform receiving function
 			- This function is called on the menu root document.
 		*/

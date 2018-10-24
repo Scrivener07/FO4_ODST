@@ -53,7 +53,7 @@
 
 		public function ExamineMenu_ODST()
 		{
-			Debug.WriteLine("[ExamineMenu_ODST]", "(ctor)", "Constructor Code");
+			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(ctor)", "Constructor Code");
 
 			PrimaryTexture.MenuName = MenuName;
 			PrimaryTexture.ImageMountID = PrimaryMountID;
@@ -69,10 +69,10 @@
 		}
 
 
-		public override function OnAddedToStage(e:Event) : void
+		public override function OnAddedToStage(e:Event):void
 		{
 			super.OnAddedToStage(e);
-			Debug.WriteLine("[ExamineMenu_ODST]", "(OnAddedToStage)", Utility.WalkMovie(this));
+			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnAddedToStage)", Utility.WalkMovie(this));
 
 			Viewer.visible = false; // Hide the viewer initially.
 
@@ -89,20 +89,18 @@
 		}
 
 
-		private function OnRemovedFromStage(e:Event) : void
+		private function OnRemovedFromStage(e:Event):void
 		{
-			Debug.WriteLine("[ExamineMenu_ODST]", "(OnRemovedFromStage)");
+			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnRemovedFromStage)");
 		}
 
 
 		// Viewer
 		//---------------------------------------------
 
-		public function SetPrimary(filepath:String, color:int)
+		public function SetPrimary(filepath:String, color:int):void
 		{
-			Debug.WriteLine("[ExamineMenu_ODST]", "(SetPrimary)", "filepath:"+filepath, "color:"+color);
-			// visible = true;
-
+			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(SetPrimary)", "filepath:"+filepath, "color:"+color);
 			PrimaryTexture.Load(filepath);
 			var tint = new ColorTransform();
 			tint.color = color;
@@ -110,11 +108,9 @@
 		}
 
 
-		public function SetSecondary(filepath:String, color:int)
+		public function SetSecondary(filepath:String, color:int):void
 		{
-			Debug.WriteLine("[ExamineMenu_ODST]", "(SetSecondary)", "filepath:"+filepath, "color:"+color);
-			// visible = true;
-
+			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(SetSecondary)", "filepath:"+filepath, "color:"+color);
 			SecondaryTexture.Load(filepath);
 			var tint = new ColorTransform();
 			tint.color = color;
@@ -122,11 +118,9 @@
 		}
 
 
-		public function SetBackground(filepath:String, color:int)
+		public function SetBackground(filepath:String, color:int):void
 		{
-			Debug.WriteLine("[ExamineMenu_ODST]", "(SetBackground)", "filepath:"+filepath, "color:"+color);
-			// visible = true;
-
+			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(SetBackground)", "filepath:"+filepath, "color:"+color);
 			BackgroundTexture.Load(filepath);
 			var tint = new ColorTransform();
 			tint.color = color;
@@ -138,24 +132,24 @@
 		//---------------------------------------------
 
 		// Occurs when an the edit button is pressed.
-		private function OnEditButton() : void
+		private function OnEditButton():void
 		{
 			// TODO: The mouse click works but not the key press.
 			var version:Version = Extensions.GetVersion(MenuRoot.f4se);
 			MenuRoot.f4se.SendExternalEvent(EditButtonEvent);
-			Debug.WriteLine("[ExamineMenu_ODST]", "(OnEditButton)", "F4SE: v"+version.toString());
+			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnEditButton)", "F4SE: v"+version.toString());
 		}
 
 
 		// Examine Menu
 		//---------------------------------------------
 
-		public function OnModSlotChanged(e:Event) : *
+		public function OnModSlotChanged(e:Event):*
 		{
 			var index:uint = ExamineMenu.ModSlotListObject.selectedIndex;
 			if(index > -1 && ExamineMenu.ModSlotListObject.entryList)
 			{
-				Debug.WriteLine("[ExamineMenu_ODST]", "(OnModSlotChanged)");
+				Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnModSlotChanged)");
 				// TODO: This happens too often and when it doesnt need to.
 				MenuRoot.f4se.SendExternalEvent(ModChangedEvent, -1);
 			}
@@ -163,7 +157,7 @@
 
 
 		// Occurs when an OMOD is hovered in the examine menu.
-		public function OnModChanged(e:Event) : *
+		public function OnModChanged(e:Event):*
 		{
 			var index:uint = ExamineMenu.ModListObject.selectedIndex;
 			if(index > -1 && ExamineMenu.ModListObject.entryList)
@@ -177,33 +171,33 @@
 						{
 							if (selected.perkData[0].perkID == PerkID)
 							{
-								Debug.WriteLine("[ExamineMenu_ODST]", "(OnModChanged)", "e:"+String(e), "index:"+String(index), "Name:"+selected.text);
+								Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnModChanged)", "e:"+String(e), "index:"+String(index), "Name:"+selected.text);
 								EditButton.ButtonVisible = true;
 								timer.start(); // TODO: bad
 								MenuRoot.f4se.SendExternalEvent(ModChangedEvent, index);
 							}
 							else
 							{
-								Debug.WriteLine("[ExamineMenu_ODST]", "(OnModChanged)", "No emblem is selected.");
+								Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnModChanged)", "No emblem is selected.");
 								EditButton.ButtonVisible = false;
 								MenuRoot.f4se.SendExternalEvent(ModChangedEvent, -1);
 							}
 						}
 						else
 						{
-							Debug.WriteLine("[ExamineMenu_ODST]", "(OnModChanged)", "selected.perkData", "The value is empty.");
+							Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnModChanged)", "selected.perkData", "The value is empty.");
 							MenuRoot.f4se.SendExternalEvent(ModChangedEvent, -1);
 						}
 					}
 					else
 					{
-						Debug.WriteLine("[ExamineMenu_ODST]", "(OnModChanged)", "selected.perkData", "The value is null.");
+						Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnModChanged)", "selected.perkData", "The value is null.");
 						MenuRoot.f4se.SendExternalEvent(ModChangedEvent, -1);
 					}
 				}
 				else
 				{
-					Debug.WriteLine("[ExamineMenu_ODST]", "(OnModChanged)", "selected", "The value is null.");
+					Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnModChanged)", "selected", "The value is null.");
 					MenuRoot.f4se.SendExternalEvent(ModChangedEvent, -1);
 				}
 			}
@@ -215,7 +209,7 @@
 		private function OnTimer(e:TimerEvent):void
 		{
 			timer.reset();
-			Debug.WriteLine("[ExamineMenu_ODST]", "(OnTimer)", e);
+			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnTimer)", e);
 			ExamineMenu.PerkPanel0_mc.Requires_tf.text = "";
 			TextFieldEx.setTextAutoSize(ExamineMenu.PerkPanel0_mc.Requires_tf, "shrink");
 		}

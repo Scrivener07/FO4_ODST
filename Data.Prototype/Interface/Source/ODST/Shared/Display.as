@@ -2,7 +2,8 @@ package Shared
 {
 	import flash.display.MovieClip;
 	import flash.events.Event;
-	import Shared.AS3.*;
+	import Shared.AS3.Debug;
+	import Shared.AS3.Utility;
 	import Shared.IMenu;
 
 	public class Display extends IMenu implements IDisplay
@@ -22,13 +23,13 @@ package Shared
 		public function Display()
 		{
 			this.addEventListener(Event.ADDED_TO_STAGE, this.OnAddedToStage);
-			Debug.WriteLine("Display", "(ctor)", Utility.WalkMovie(this));
+			Debug.WriteLine("[Display]", "(ctor)", Utility.WalkMovie(this));
 		}
 
 
 		public function OnAddedToStage(e:Event) : void
 		{
-			Debug.WriteLine("Display", "(OnAddedToStage)", Utility.WalkMovie(this));
+			Debug.WriteLine("[Display]", "(OnAddedToStage)", Utility.WalkMovie(this));
 			menu = stage.getChildAt(0) as MovieClip;
 		}
 

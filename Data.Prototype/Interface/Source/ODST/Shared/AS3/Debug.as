@@ -2,12 +2,9 @@ package Shared.AS3
 {
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
-	import flash.display.MovieClip;
 
 	public class Debug
 	{
-		public static const Prefix:String = "[ODST]";
-
 
 		public static function WriteLine(prefix:Object, line:Object="", ... rest):void
 		{
@@ -18,7 +15,7 @@ package Shared.AS3
 					line += " "+rest[index];
 				}
 			}
-			trace(Prefix+" "+prefix+" "+line);
+			trace(prefix+" "+line);
 		}
 
 
@@ -27,8 +24,8 @@ package Shared.AS3
 			prefix == "" ? prefix = "---" : prefix += "---";
 			for (var element:* in object)
 			{
-				AS3.Debug.WriteLine(prefix, element + " : " + object[element], "  ");
-				if (typeof(object[element]) == "object") AS3.Debug.TraceObject(object[element], prefix);
+				WriteLine(prefix, element + " : " + object[element], "  ");
+				if (typeof(object[element]) == "object") TraceObject(object[element], prefix);
 			}
 		}
 
@@ -57,13 +54,13 @@ package Shared.AS3
 				output += ", h:"+child.height+"px ("+child.scaleY.toFixed(2)+")";
 				output += ", r:"+child.rotation.toFixed(1)+"";
 
-				if (typeof options == "number") AS3.Debug.WriteLine(output);
-					else if (typeof options == "string" && output.match(new RegExp(options, "gi")).length != 0)
-					{
-						AS3.Debug.WriteLine(output, "in", container.name, "-->", container);
-					}
+				if (typeof options == "number") WriteLine(output);
+				else if (typeof options == "string" && output.match(new RegExp(options, "gi")).length != 0)
+				{
+					WriteLine(output, "in", container.name, "-->", container);
+				}
 
-				if (child is DisplayObjectContainer) AS3.Debug.TraceDisplayList(DisplayObjectContainer(child), options, indentString + INDENT, depth + 1);
+				if (child is DisplayObjectContainer) TraceDisplayList(DisplayObjectContainer(child), options, indentString + INDENT, depth + 1);
 			}
 		}
 

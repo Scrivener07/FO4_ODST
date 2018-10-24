@@ -5,10 +5,10 @@
 	import flash.events.IOErrorEvent;
 	import flash.events.TimerEvent;
 	import flash.geom.ColorTransform;
-	import flash.utils.*;
-	import Shared.AS3.*;
-	import Shared.MCM.*;
-	import ODST.*;
+	import flash.utils.*; // remove
+	import Shared.TextureLoader;
+	import Shared.AS3.Debug;
+	import Shared.MCM.ICodeObject;
 
 	// TODO: Use a timer to poll for a mod setting update.
 	/* Notes
@@ -23,7 +23,7 @@
 		-A positive thing is that I CAN populate emblem data from MCM mod settings. Yay!
 		-I dont like the idea of polling for mod settting changes..
 	*/
-	public class Preview extends MovieClip implements IMCMLibrary
+	public class Preview extends MovieClip implements ICodeObject
 	{
 		private var mcm:*;
 		private var f4se:*;
@@ -50,7 +50,7 @@
 
 		public function Preview()
 		{
-			Debug.WriteLine("[MCM]", "[Preview]", "(ctor)", "Constructor Code");
+			Debug.WriteLine("[ODST.MCM]", "[Preview]", "(ctor)", "Constructor Code");
 
 			PrimaryTexture.MenuName = MenuName;
 			PrimaryTexture.ImageMountID = PrimaryMountID;
@@ -69,23 +69,23 @@
 		}
 
 
-		private function OnAddedToStage(e:Event) : void
+		private function OnAddedToStage(e:Event):void
 		{
-			Debug.WriteLine("Preview", "OnAddedToStage");
+			Debug.WriteLine("[ODST.MCM]", "[Preview]", "(OnAddedToStage)");
 			Populate();
 		}
 
 
 		// private function OnTimer(e:TimerEvent):void
 		// {
-		// 	Debug.WriteLine("[MCM]", "[Preview]", "(OnTimer)", e);
+		// 	Debug.WriteLine("[ODST.MCM]", "[Preview]", "(OnTimer)", e);
 		// 	Populate();
 		// }
 
 
 		public function onLibLoaded(mcmCodeObject:*, f4seCodeObject:*):void
 		{
-			Debug.WriteLine("[MCM]", "[Preview]", "(onLibLoaded)", "MCM scaleform callback has been received.");
+			Debug.WriteLine("[ODST.MCM]", "[Preview]", "(onLibLoaded)", "MCM scaleform callback has been received.");
 			mcm = mcmCodeObject;
 			f4se = f4seCodeObject;
 
@@ -116,18 +116,18 @@
 				SetEmblem(BackgroundTexture, sEmblem_PreviewBackground, iEmblem_PreviewBackgroundColor);
 				BackgroundTexture.visible = true; // debugging for tint color
 
-				Debug.WriteLine("[MCM]", "[Preview]", "(Populate)", "Done populating the emblem data.");
+				Debug.WriteLine("[ODST.MCM]", "[Preview]", "(Populate)", "Done populating the emblem data.");
 			}
 			else
 			{
-				Debug.WriteLine("[MCM]", "[Preview]", "(Populate)", "ERROR: The mcm object is null.");
+				Debug.WriteLine("[ODST.MCM]", "[Preview]", "(Populate)", "ERROR: The mcm object is null.");
 			}
 		}
 
 
 		private function SetEmblem(textureLoader:TextureLoader, filepath:String, color:int):void
 		{
-			Debug.WriteLine("[MCM]", "[Preview]", "(SetEmblem)", filepath, String(color));
+			Debug.WriteLine("[ODST.MCM]", "[Preview]", "(SetEmblem)", filepath, String(color));
 			textureLoader.Load(filepath);
 			var tint = new ColorTransform();
 			tint.color = color;
