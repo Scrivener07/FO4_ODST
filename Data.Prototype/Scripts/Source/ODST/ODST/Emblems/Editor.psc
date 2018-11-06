@@ -13,7 +13,7 @@ string SettingName_Selected = "iEmblem_Selected" const
 
 Event OnQuestInit()
 	{The object has been initialized.}
-	WriteLine(self, "OnQuestInit")
+	WriteLine(ToString(), "OnQuestInit")
 
 	Presets = new Emblems:Preset[0]
 	Presets.Add(Preset001)
@@ -30,55 +30,33 @@ Event OnQuestInit()
 
 	ConfigurationMenu.RegisterForMenuStateEvent(self)
 	ConfigurationMenu.RegisterForOptionEvent(self)
-	; RegisterForMenuOpenCloseEvent(EmblemMenu.Menu)
-
 	RegisterForGameReload(self)
 	OnGameReload()
 EndEvent
 
 
 Event OnGameReload()
-	WriteLine(self, "OnGameReload")
-
 	If (Deserialize() > Invalid)
 		Update()
 		UseMaterial(self, Game.GetPlayer())
+		WriteLine(ToString(), "OnGameReload")
 	Else
-		WriteUnexpected(self, "OnGameReload", "The deserialization was invalid.")
+		WriteUnexpected(ToString(), "OnGameReload", "The deserialization was invalid.")
 	EndIf
 EndEvent
-
-
-;/ TODO: Papyrus Errors
-[10/22/2018 - 04:26:15PM] warning: Assigning None to a non-object variable named "::temp19"
-stack:
-	[ODST_Emblems_Editor (0A001EEE)].odst:emblems:editor.OnMenuOpenCloseEvent() - "D:\Games\Steam\steamapps\common\Fallout 4\Data\Scripts\Source\ODST\ODST\Emblems\Editor.psc" Line 61
-/;
-
-; Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
-; 	If (abOpening && asMenuName == EmblemMenu.Menu)
-; 		int select = Deserialize()
-; 		If (select > Invalid)
-; 			Update() ; TODO: warning: Assigning None to a non-object variable named "::temp19"
-; 			EmblemMenu.Update(self, Presets[select]) ; error
-; 		Else
-; 			WriteUnexpectedValue(self, "OnMenuOpenCloseEvent", "select", "The deserialization was invalid.")
-; 		EndIf
-; 	EndIf
-; EndEvent
 
 
 Event ODST:MCM:Menu.OnMenuState(MCM:Menu sender, var[] arguments)
 	{An MCM menu state change event has been received.}
 	If (arguments)
 		MCM:Menu:MenuStateEventArgs e = sender.GetMenuStateEventArgs(arguments)
-		WriteLine(self, "ODST:MCM:Menu.OnMenuState", e)
+		WriteLine(ToString(), "ODST:MCM:Menu.OnMenuState", e)
 		If (e.MenuState == sender.MenuOpened)
 			Deserialize()
 			sender.RefreshMenu()
 		EndIf
 	Else
-		WriteUnexpectedValue(self, "ODST:MCM:Menu.OnMenuState", "arguments", "The arguments are none or empty.")
+		WriteUnexpectedValue(ToString(), "ODST:MCM:Menu.OnMenuState", "arguments", "The arguments are none or empty.")
 	EndIf
 EndEvent
 
@@ -91,22 +69,22 @@ Event ODST:MCM:Menu.OnOption(MCM:Menu sender, var[] arguments)
 		If (e.Identifier == sender.GetIdentifier(SettingName_Selected))
 			int select = Deserialize()
 			If (select > Invalid)
-				EmblemMenu.Update(self, Presets[select])
+				ExamineMenu.Update(self, Presets[select])
 				Update()
 				sender.RefreshMenu()
 			Else
-				WriteUnexpectedValue(self, "ODST:MCM:Menu.OnOption", "select", "The deserialization was invalid.")
+				WriteUnexpectedValue(ToString(), "ODST:MCM:Menu.OnOption", "select", "The deserialization was invalid.")
 			EndIf
 		Else
 			Selected = sender.GetModSettingFor(SettingName_Selected)
 			Emblems:Preset preset = GetPreset(Selected)
 			preset.SetValue(sender, e)
-			EmblemMenu.Update(self, preset)
+			ExamineMenu.Update(self, preset)
 			Update()
 			sender.RefreshMenu()
 		EndIf
 	Else
-		WriteUnexpectedValue(self, "ODST:MCM:Menu.OnOption", "arguments", "The arguments are none or empty.")
+		WriteUnexpectedValue(ToString(), "ODST:MCM:Menu.OnOption", "arguments", "The arguments are none or empty.")
 	EndIf
 EndEvent
 
@@ -129,7 +107,7 @@ int Function Deserialize()
 		index += 1
 	EndWhile
 
-	WriteLine(self, "Deserialize:"+ToString())
+	WriteLine(ToString(), "Deserialize")
 	return select
 EndFunction
 
@@ -143,7 +121,7 @@ Function Update()
 		preset.Remap(self)
 		index += 1
 	EndWhile
-	WriteLine(self, "Update:"+ToString())
+	WriteLine(ToString(), "Update:"+ToString())
 EndFunction
 
 
@@ -157,7 +135,7 @@ Emblems:Preset Function GetPreset(int option)
 		EndIf
 		index += 1
 	EndWhile
-	WriteUnexpectedValue(self, "GetPreset", "option", "The value "+option+" is unhandled.")
+	WriteUnexpectedValue(ToString(), "GetPreset", "option", "The value "+option+" is unhandled.")
 	return none
 EndFunction
 
@@ -172,15 +150,15 @@ string Function ToMaterialPath(string layerFolder, string colorFolder, string de
 			If (decalFolder)
 				return Folder+"\\"+layerFolder+"\\"+colorFolder+"\\"+decalFolder+".bgem"
 			Else
-				WriteUnexpectedValue(self, "ToMaterialPath", "decalFolder", "The parameter cannot be none.")
+				WriteUnexpectedValue(ToString(), "ToMaterialPath", "decalFolder", "The parameter cannot be none.")
 				return ""
 			EndIf
 		Else
-			WriteUnexpectedValue(self, "ToMaterialPath", "colorFolder", "The parameter cannot be none.")
+			WriteUnexpectedValue(ToString(), "ToMaterialPath", "colorFolder", "The parameter cannot be none.")
 			return ""
 		EndIf
 	Else
-		WriteUnexpectedValue(self, "ToMaterialPath", "layerFolder", "The parameter cannot be none.")
+		WriteUnexpectedValue(ToString(), "ToMaterialPath", "layerFolder", "The parameter cannot be none.")
 		return ""
 	EndIf
 EndFunction
@@ -196,11 +174,11 @@ string Function ToTexturePath(string layerFolder, string decalFolder)
 				return Folder+"\\"+layerFolder+"\\"+decalFolder+".dds"
 			EndIf
 		Else
-			WriteUnexpectedValue(self, "ToTexturePath", "decalFolder", "The parameter cannot be none.")
+			WriteUnexpectedValue(ToString(), "ToTexturePath", "decalFolder", "The parameter cannot be none.")
 			return ""
 		EndIf
 	Else
-		WriteUnexpectedValue(self, "ToTexturePath", "layerFolder", "The parameter cannot be none.")
+		WriteUnexpectedValue(ToString(), "ToTexturePath", "layerFolder", "The parameter cannot be none.")
 		return ""
 	EndIf
 EndFunction
@@ -208,7 +186,7 @@ EndFunction
 
 string Function ToString()
 	{The string representation of this type.}
-	return "Selected:"+Selected
+	return parent.ToString()+" Selected:"+Selected
 EndFunction
 
 
@@ -282,10 +260,8 @@ EndFunction
 Group Properties
 	ODST:Properties Property Properties Auto Const Mandatory
 	{Provides common property values for ODST script objects.}
-
 	MCM:Menu Property ConfigurationMenu Auto Const Mandatory
 	{Provides methods for ODST to interact with the MCM library.}
-
 	MiscObject Property miscmod_mod_ODST_Emblems Auto Const Mandatory
 	{The default loose mod for emblem object mods.}
 EndGroup
@@ -295,7 +271,7 @@ Group Emblems
 	{Provides information about emblem colors.}
 	Emblems:Symbol Property Symbol Auto Const Mandatory
 	{Provides information about emblem symbols.}
-	Emblems:Menu Property EmblemMenu Auto Const Mandatory
+	Examine:Menu Property ExamineMenu Auto Const Mandatory
 	{Provides capabilities to display an emblem preset within the user interface.}
 EndGroup
 

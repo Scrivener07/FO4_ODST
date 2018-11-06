@@ -1,4 +1,4 @@
-Scriptname ODST:Special:Cheat extends Quest
+Scriptname ODST:Cheat extends Quest
 {Provides methods for cheating ODST inventory items.}
 import ODST
 import ODST:Log
@@ -129,6 +129,10 @@ Group Items
 	Armor Property Armor_H3_ODST Auto Const Mandatory
 	Armor Property Armor_H3_ODST_Helmet Auto Const Mandatory
 	Armor Property Armor_H3_ODST_HelmetHaunted Auto Const Mandatory
+	Armor Property Armor_H3_ODST_Unique_Phantom Auto Const Mandatory
+	Armor Property Armor_ODST_CE_Marine_Armour Auto Const Mandatory
+	Armor Property Armor_ODST_CE_Marine_Armour_ChipsDubbo Auto Const Mandatory
+	Armor Property Armor_ODST_CE_Marine_Helmet Auto Const Mandatory
 EndGroup
 
 Group Conditions
@@ -138,4 +142,8 @@ Group Conditions
 	bool Property Condition_H3_ODST = true Auto Hidden
 	bool Property Condition_H3_ODST_Helmet = true Auto Hidden
 	bool Property Condition_H3_ODST_HelmetHaunted = true Auto Hidden
+	bool Property Condition_H3_ODST_Unique_Phantom = true Auto Hidden
+	bool Property Condition_ODST_CE_Marine_Armour = true Auto Hidden
+	bool Property Condition_ODST_CE_Marine_Armour_ChipsDubbo = true Auto Hidden
+	bool Property Condition_ODST_CE_Marine_Helmet = true Auto Hidden
 EndGroup

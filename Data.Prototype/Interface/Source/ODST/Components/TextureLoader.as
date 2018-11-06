@@ -1,4 +1,4 @@
-package Shared
+package Components
 {
 	import flash.display.DisplayObject;
 	import flash.display.Loader;
@@ -13,8 +13,10 @@ package Shared
 	import Shared.F4SE.Extensions;
 	import Shared.F4SE.ICodeObject;
 
+	// TODO: The image mounts dont clean up properly sometimes.
 	// TODO: There is possibly some race condition problems happening with load/unload.
 	// It looks like old child movieclips are not being removed in some cases.
+	// This may have been fixed with `OnRemovedFromStage`.
 	public dynamic class TextureLoader extends MovieClip implements ICodeObject
 	{
 		private var f4se:*;
@@ -117,7 +119,7 @@ package Shared
 
 		private function OnLoadComplete(e:Event):void
 		{
-			Debug.WriteLine("[TextureLoader]", "(OnLoadComplete)", e.toString()+"\n"+toString());
+			Debug.WriteLine("[TextureLoader]", "(OnLoadComplete)", e.toString(), toString());
 			addChild(Content);
 			Utility.ScaleToHeight(this, 75);
 		}
@@ -125,7 +127,7 @@ package Shared
 
 		private function OnLoadError(e:IOErrorEvent):void
 		{
-			Debug.WriteLine("[TextureLoader]", "(OnLoadError)", e.toString()+"\n"+toString());
+			Debug.WriteLine("[TextureLoader]", "(OnLoadError)", e.toString(), toString());
 			Unload();
 		}
 
@@ -158,7 +160,7 @@ package Shared
 			var sResolution = "Resolution: "+stage.width+"x"+stage.height+" ("+this.x+"x"+this.y+")";
 			var sLastFile = "FilePath: '"+FilePath+"'";
 			var sUrl = "Url: '"+Url+"'";
-			return "[TextureLoader]"+ImageMountID+", "+sResolution+", "+sLastFile+", "+sUrl;
+			return "[TextureLoader] `"+ImageMountID+"`, "+sResolution+", "+sLastFile+", "+sUrl+"";
 		}
 
 

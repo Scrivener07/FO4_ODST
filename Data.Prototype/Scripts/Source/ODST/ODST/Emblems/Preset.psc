@@ -98,19 +98,19 @@ bool Function SetValue(MCM:Menu sender, MCM:Menu:OptionEventArgs e)
 					BackgroundColor = e.Value
 					return true
 				Else
-					WriteUnexpectedValue(ToString(), "ChangeValue", "e.Identifier", "The identifier '"+e.Identifier+"' is unhandled.")
+					WriteUnexpectedValue(ToString(), "SetValue", "e.Identifier", "The identifier '"+e.Identifier+"' is unhandled.")
 					return false
 				EndIf
 			Else
-				WriteUnexpectedValue(ToString(), "ChangeValue", "Section", "Cannot be none or empty.")
+				WriteUnexpectedValue(ToString(), "SetValue", "Section", "Cannot be none or empty.")
 				return false
 			EndIf
 		Else
-			WriteUnexpectedValue(ToString(), "ChangeValue", "e", "Cannot be none or empty.")
+			WriteUnexpectedValue(ToString(), "SetValue", "e", "Cannot be none or empty.")
 			return false
 		EndIf
 	Else
-		WriteUnexpectedValue(ToString(), "ChangeValue", "sender", "Cannot be none or empty.")
+		WriteUnexpectedValue(ToString(), "SetValue", "sender", "Cannot be none or empty.")
 		return false
 	EndIf
 EndFunction

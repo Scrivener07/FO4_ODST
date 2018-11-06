@@ -5,8 +5,7 @@
 	import flash.events.IOErrorEvent;
 	import flash.events.TimerEvent;
 	import flash.geom.ColorTransform;
-	import flash.utils.*; // remove
-	import Shared.TextureLoader;
+	import Components.TextureLoader;
 	import Shared.AS3.Debug;
 	import Shared.MCM.ICodeObject;
 

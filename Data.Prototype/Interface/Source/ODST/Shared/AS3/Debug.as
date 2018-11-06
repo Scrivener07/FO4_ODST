@@ -2,6 +2,8 @@ package Shared.AS3
 {
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
+	import flash.utils.*;
+	import XML;
 
 	public class Debug
 	{
