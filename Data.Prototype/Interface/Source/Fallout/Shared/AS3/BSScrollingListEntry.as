@@ -1,116 +1,93 @@
 package Shared.AS3
 {
-	import Shared.GlobalFunc;
 	import flash.display.MovieClip;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import scaleform.gfx.Extensions;
 	import scaleform.gfx.TextFieldEx;
-	
+	import Shared.GlobalFunc;
+	import Shared.AS3.Debug;
+
 	public class BSScrollingListEntry extends MovieClip
 	{
-		 
-		
-		public var border:MovieClip;
-		
 		public var textField:TextField;
-		
-		protected var _clipIndex:uint;
-		
-		protected var _itemIndex:uint;
-		
-		protected var _selected:Boolean;
-		
+		public var border:MovieClip;
 		public var ORIG_BORDER_HEIGHT:Number;
-		
+
+		protected var _clipIndex:uint;
+		public function get clipIndex():uint { return _clipIndex; }
+		public function set clipIndex(value:uint):* { _clipIndex = value; }
+
+		protected var _itemIndex:uint;
+		public function get itemIndex():uint { return _itemIndex; }
+		public function set itemIndex(value:uint):* { _itemIndex = value; }
+
+		protected var _selected:Boolean;
+		public function get selected():Boolean { return _selected; }
+		public function set selected(value:Boolean):* { _selected = value; }
+
 		protected var _HasDynamicHeight:Boolean;
-		
+		public function get hasDynamicHeight():Boolean { return _HasDynamicHeight; }
+		public function get defaultHeight():Number { return ORIG_BORDER_HEIGHT; }
+
+
+		// BSScrollingListEntry
+		//---------------------------------------------
+
 		public function BSScrollingListEntry()
 		{
 			super();
 			Extensions.enabled = true;
-			this.ORIG_BORDER_HEIGHT = this.border != null?Number(this.border.height):Number(0);
-			this._HasDynamicHeight = true;
+			ORIG_BORDER_HEIGHT = border != null?Number(border.height):Number(0);
+			_HasDynamicHeight = true;
 		}
-		
-		public function get clipIndex() : uint
+
+
+		// Functions
+		//---------------------------------------------
+
+		public function SetEntryText(entry:Object, textOption:String):*
 		{
-			return this._clipIndex;
-		}
-		
-		public function set clipIndex(param1:uint) : *
-		{
-			this._clipIndex = param1;
-		}
-		
-		public function get itemIndex() : uint
-		{
-			return this._itemIndex;
-		}
-		
-		public function set itemIndex(param1:uint) : *
-		{
-			this._itemIndex = param1;
-		}
-		
-		public function get selected() : Boolean
-		{
-			return this._selected;
-		}
-		
-		public function set selected(param1:Boolean) : *
-		{
-			this._selected = param1;
-		}
-		
-		public function get hasDynamicHeight() : Boolean
-		{
-			return this._HasDynamicHeight;
-		}
-		
-		public function get defaultHeight() : Number
-		{
-			return this.ORIG_BORDER_HEIGHT;
-		}
-		
-		public function SetEntryText(param1:Object, param2:String) : *
-		{
-			var _loc3_:Number = NaN;
-			if(this.textField != null && param1 != null && param1.hasOwnProperty("text"))
+			Debug.WriteLine("[Shared.AS3]", "[BSScrollingListEntry]", "(SetEntryText)", "textOption:"+textOption);
+
+			if(textField != null && entry != null && entry.hasOwnProperty("text"))
 			{
-				if(param2 == BSScrollingList.TEXT_OPTION_SHRINK_TO_FIT)
+				if(textOption == BSScrollingList.TEXT_OPTION_SHRINK_TO_FIT)
 				{
-					TextFieldEx.setTextAutoSize(this.textField,"shrink");
+					TextFieldEx.setTextAutoSize(textField, "shrink");
 				}
-				else if(param2 == BSScrollingList.TEXT_OPTION_MULTILINE)
+				else if(textOption == BSScrollingList.TEXT_OPTION_MULTILINE)
 				{
-					this.textField.autoSize = TextFieldAutoSize.LEFT;
-					this.textField.multiline = true;
-					this.textField.wordWrap = true;
+					textField.autoSize = TextFieldAutoSize.LEFT;
+					textField.multiline = true;
+					textField.wordWrap = true;
 				}
-				if(param1.text != undefined)
+				if(entry.text != undefined)
 				{
-					GlobalFunc.SetText(this.textField,param1.text,true);
+					GlobalFunc.SetText(textField, entry.text, true);
 				}
 				else
 				{
-					GlobalFunc.SetText(this.textField," ",true);
+					GlobalFunc.SetText(textField, " ", true);
 				}
-				this.textField.textColor = !!this.selected?uint(0):uint(16777215);
+				textField.textColor = !!selected?uint(0):uint(16777215);
 			}
-			if(this.border != null)
+
+			if(border != null)
 			{
-				this.border.alpha = !!this.selected?Number(GlobalFunc.SELECTED_RECT_ALPHA):Number(0);
-				if(this.textField != null && param2 == BSScrollingList.TEXT_OPTION_MULTILINE && this.textField.numLines > 1)
+				border.alpha = !!selected?Number(GlobalFunc.SELECTED_RECT_ALPHA):Number(0);
+				if(textField != null && textOption == BSScrollingList.TEXT_OPTION_MULTILINE && textField.numLines > 1)
 				{
-					_loc3_ = this.textField.y - this.border.y;
-					this.border.height = this.textField.textHeight + _loc3_ * 2 + 5;
+					var diminsion:Number = textField.y - border.y;
+					border.height = textField.textHeight + diminsion * 2 + 5;
 				}
 				else
 				{
-					this.border.height = this.ORIG_BORDER_HEIGHT;
+					border.height = ORIG_BORDER_HEIGHT;
 				}
 			}
 		}
+
+
 	}
 }

@@ -2,20 +2,14 @@ package Emblem
 {
 	import flash.display.MovieClip;
 	import flash.events.Event;
-	import Shared.AS3.BSButtonHintBar;
-	import Shared.AS3.BSButtonHintData;
+	import Shared.AS3.BSScrollingList;
+	import Shared.AS3.BSScrollingListEntry;
 	import Shared.AS3.Debug;
-	import Shared.PlatformChangeEvent;
 
-	public class Editor extends MovieClip
+	public dynamic class Editor extends MovieClip
 	{
-		// TODO: Set the current platform of the button bar. It is showing Xbox mappings.
-
-		public var ButtonHintBar_mc:BSButtonHintBar;
-
-		private var ButtonHints:Vector.<BSButtonHintData>;
-		private var SaveButton:BSButtonHintData;
-		private var CloseButton:BSButtonHintData;
+		private var Entries:Array;
+		public var List_mc:MenuList;
 
 		public static const EDITOR_OPENED:String = "EditorOpened";
 		public static const EDITOR_CLOSED:String = "EditorClosed";
@@ -28,28 +22,9 @@ package Emblem
 		public function Editor()
 		{
 			Debug.WriteLine("[ODST]", "[Emblem]", "[Editor]", "(ctor)");
-			ButtonHints = new Vector.<BSButtonHintData>();
-			try
-			{
-				ButtonHintBar_mc["componentInspectorSetting"] = true;
-				ButtonHintBar_mc.BackgroundAlpha = 1;
-				ButtonHintBar_mc.BackgroundColor = 0;
-				ButtonHintBar_mc.bracketCornerLength = 6;
-				ButtonHintBar_mc.bracketLineWidth = 1.5;
-				ButtonHintBar_mc.BracketStyle = "horizontal";
-				ButtonHintBar_mc.bRedirectToButtonBarMenu = true;
-				ButtonHintBar_mc.bShowBrackets = true;
-				ButtonHintBar_mc.bUseShadedBackground = true;
-				ButtonHintBar_mc.ShadedBackgroundMethod = "Shader";
-				ButtonHintBar_mc.ShadedBackgroundType = "normal";
-				ButtonHintBar_mc["componentInspectorSetting"] = false;
-			}
-			catch(error:Error)
-			{
-				Debug.WriteLine("[ODST]", "[Emblem]", "[Editor]", "(ButtonHintBar_Settings)", "error:"+error.toString());
-			}
-
-			this.addEventListener(Event.ADDED_TO_STAGE, this.OnAddedToStage);
+			Entries = new Array();
+			addEventListener(Event.ADDED_TO_STAGE, this.OnAddedToStage);
+			InventoryList_Properties();
 		}
 
 
@@ -57,18 +32,148 @@ package Emblem
 		{
 			Debug.WriteLine("[ODST]", "[Emblem]", "[Editor]", "(OnAddedToStage)");
 			visible = false;
+		}
 
-			SaveButton = new BSButtonHintData("$Save", "E", "PSN_A", "Xenon_A", 1, this.OnSaveButton);
-			SaveButton.ButtonVisible = true;
-			ButtonHints.push(SaveButton);
 
-			CloseButton = new BSButtonHintData("$Close", "TAB", "PSN_B", "Xenon_B", 1, this.OnCloseButton);
-			CloseButton.ButtonVisible = true;
-			ButtonHints.push(CloseButton);
+		// Scrolling List
+		//---------------------------------------------
 
-			ButtonHintBar_mc.SetButtonHintData(ButtonHints);
-			ButtonHintBar_mc.SetPlatform(PlatformChangeEvent.PLATFORM_PC_KB_MOUSE, false); // not working
-			ButtonHintBar_mc.ShadedBackground_mc.visible = true; // ??
+		private function InventoryList_Properties():void
+		{
+			try
+			{
+				List_mc["componentInspectorSetting"] = true;
+				List_mc.listEntryClass = "MenuListEntry";
+				List_mc.numListItems = 6;
+				List_mc.restoreListIndex = false;
+				List_mc.textOption = BSScrollingList.TEXT_OPTION_SHRINK_TO_FIT;
+				List_mc.verticalSpacing = 0;
+				List_mc["componentInspectorSetting"] = false;
+			}
+			catch(error:Error)
+			{
+				Debug.WriteLine("[ODST]", "[Emblem]", "[Editor]", "(InventoryList_Properties)", "ID:#"+error.errorID, "Name:"+error.name, "Message:"+error.message);
+			}
+
+			List_mc.addEventListener(BSScrollingList.LIST_ITEMS_CREATED, this.OnInventoryListItemsCreated);
+			List_mc.addEventListener(BSScrollingList.SELECTION_CHANGE, this.OnInventorySelectionChange);
+			// List_mc.filterer.addEventListener(ListFilterer.FILTER_CHANGE, this.OnFilterChange);
+		}
+
+
+		private function InventoryList_Populate():void
+		{
+			List_mc.visible = true;
+			Entries = new Array();
+
+			var entry1_data:Object = {name:"name 1", text:"text 1", componentCountA:[11, 21, 31], usedCount:5, invCount:15};
+			var entry2_data:Object = {name:"name 2", text:"text 2", componentCountA:[12, 22, 32], usedCount:5, invCount:15};
+			var entry3_data:Object = {name:"name 3", text:"text 3", componentCountA:[13, 23, 33], usedCount:5, invCount:15};
+
+			// try
+			// {
+				var entry1:MenuListEntry = new MenuListEntry();
+				entry1.textField.text = "hello world 1";
+				entry1.visible = true;
+				// entry1.SetEntryText(entry1_data, BSScrollingList.TEXT_OPTION_SHRINK_TO_FIT);
+				Entries.push(entry1);
+				List_mc.CategoryNameList.push(entry1.name);
+
+				var entry2:MenuListEntry = new MenuListEntry();
+				entry2.textField.text = "hello world 2";
+				entry2.visible = true;
+				// entry2.SetEntryText(entry2_data, BSScrollingList.TEXT_OPTION_SHRINK_TO_FIT);
+				Entries.push(entry2);
+				List_mc.CategoryNameList.push(entry2.name);
+
+				var entry3:MenuListEntry = new MenuListEntry();
+				entry3.textField.text = "hello world 3";
+				entry3.visible = true;
+				// entry3.SetEntryText(entry3_data, BSScrollingList.TEXT_OPTION_SHRINK_TO_FIT);
+				Entries.push(entry3);
+				List_mc.CategoryNameList.push(entry3.name);
+
+				Debug.WriteLine("[ODST]", "[Emblem]", "[Editor]", "(InventoryList_Populate::ENTRIES)", "Initialized the list entries.");
+			// }
+			// catch(error:Error)
+			// {
+			// 	Debug.WriteLine("[ODST]", "[Emblem]", "[Editor]", "(InventoryList_Populate::ENTRIES)", "ID:#"+error.errorID, "Name:"+error.name, "Message:"+error.message);
+			// }
+
+
+			try
+			{
+				List_mc.FilterCount = Entries.length;
+
+				List_mc.onComponentInit(new Event(""));
+				List_mc["bInitialized"] = true;
+				Debug.WriteLine("[ODST]", "[Emblem]", "[Editor]", "(InventoryList_Populate::LIST)", "1");
+
+				List_mc.numListItems = Entries.length;
+				List_mc.InitList(Entries.length, 1);
+				Debug.WriteLine("[ODST]", "[Emblem]", "[Editor]", "(InventoryList_Populate::LIST)", "2");
+
+
+				List_mc.entryList = Entries;
+				Debug.WriteLine("[ODST]", "[Emblem]", "[Editor]", "(InventoryList_Populate::LIST)", "List_mc.entryList ...");
+				Debug.TraceObject(List_mc.entryList);
+
+				// List_mc.selectedIndex = 0; // causes error #1010
+				Debug.WriteLine("[ODST]", "[Emblem]", "[Editor]", "(InventoryList_Populate::LIST)", "Initialized the scrolling list with "+List_mc.numListItems+" entries.");
+			}
+			catch(error:Error)
+			{
+				Debug.WriteLine("[ODST]", "[Emblem]", "[Editor]", "(InventoryList_Populate::LIST)", "ID:#"+error.errorID, "Name:"+error.name, "Message:"+error.message);
+			}
+
+			// --------------------------------------------------------------
+			// List_mc.SetNumListItems(n); // PROTECTED !
+
+			try
+			{
+				List_mc.RefreshList();
+				List_mc.GrabFocus();
+
+				// List_mc.InvalidateData();
+				// List_mc.UpdateList();
+				// List_mc.moveSelectionDown();
+				// List_mc.UpdateSelectedEntry();
+			}
+			catch(error:Error)
+			{
+				Debug.WriteLine("[ODST]", "[Emblem]", "[Editor]", "(InventoryList_Populate::INIT)", "ID:#"+error.errorID, "Name:"+error.name, "Message:"+error.message);
+			}
+
+
+
+			if(List_mc.selectedIndex > -1)
+			{
+				var entryText:String = List_mc.entryList[List_mc.selectedIndex].textField.text;
+				Debug.WriteLine("[ODST]", "[Emblem]", "[Editor]", "(InventoryList_Populate)", "Entry:"+entryText);
+			}
+			else
+			{
+				Debug.WriteLine("[ODST]", "[Emblem]", "[Editor]", "(InventoryList_Populate)", "No selected index.");
+			}
+		}
+
+
+		private function onFilterChange():*
+		{
+
+		}
+
+
+		private function OnInventoryListItemsCreated(e:Event):*
+		{
+			Debug.WriteLine("[ODST]", "[Emblem]", "[Editor]", "(OnInventoryListItemsCreated)");
+		}
+
+
+		private function OnInventorySelectionChange(e:Event):*
+		{
+			var entryText:String = List_mc.entryList[List_mc.selectedIndex].textField.text;
+			Debug.WriteLine("[ODST]", "[Emblem]", "[Editor]", "(OnInventorySelectionChange)", "Text:"+entryText, "selectedIndex:"+List_mc.selectedIndex);
 		}
 
 
@@ -78,6 +183,7 @@ package Emblem
 		public function Open():void
 		{
 			visible = true;
+			InventoryList_Populate();
 			this.dispatchEvent(new Event(EDITOR_OPENED));
 		}
 
@@ -93,21 +199,6 @@ package Emblem
 		{
 			visible = false;
 			this.dispatchEvent(new Event(EDITOR_SAVED));
-		}
-
-
-		// Buttons
-		//---------------------------------------------
-
-		private function OnCloseButton():void
-		{
-			Close();
-		}
-
-
-		private function OnSaveButton():void
-		{
-			Save();
 		}
 
 

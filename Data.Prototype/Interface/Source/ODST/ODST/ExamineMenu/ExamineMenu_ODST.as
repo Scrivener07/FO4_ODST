@@ -4,47 +4,43 @@
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
-	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
+	import flash.ui.Keyboard;
 	import flash.utils.Timer;
 	import Shared.AS3.BSButtonHintData;
-	import Shared.AS3.BSScrollingList;
 	import Shared.AS3.BSScrollingList;
 	import Shared.AS3.Debug;
 	import Shared.AS3.Utility;
 	import Shared.Display;
-	// import Shared.F4SE.Extensions;
-	// import Shared.F4SE.Version;
 	import Emblem.*;
 
-import scaleform.gfx.Extensions;
-
-
 	// TODO: Send editor changes to papyrus via event if necessary.
-	// TODO: Find a way to suppress or hook the `ProcessUserEvent`.
+
 	/**
-	 *	Adds features to the vanilla examine menu at runtime.
+	 *	Adds features to the examine menu at runtime.
 	 */
 	public class ExamineMenu_ODST extends Display
 	{
 		public function get ExamineMenu():MovieClip { return MenuRoot.BaseInstance; }
+		private function get SupressUserEventInput():Boolean { return ExamineMenu["bEnteringText"]; }
+		private function set SupressUserEventInput(value:Boolean):void { ExamineMenu["bEnteringText"] = value; }
 
 		private var timer:Timer;
-
-		private const PerkID:uint = 167803429;
+		private const PerkID:uint = 167803429; // ODST_Emblems_CustomPerk "Preview" [PERK:00007A25]
 
 		private const ModChangedEvent:String = "ODST_Examine_OnModChanged";
 		private const EditorOpenedEvent:String = "ODST_Examine_OnEditorOpened";
-		// private const EditorSavedEvent:String = "ODST_Examine_OnEditorSaved";
-		// private const EditorClosedEvent:String = "ODST_Examine_OnEditorClosed";
 
 		private var EditButton:BSButtonHintData;
 		private var SaveButton:BSButtonHintData;
 		private var CloseButton:BSButtonHintData;
 
-
 		public var Viewer:Emblem.Viewer;
 		public var Editor:Emblem.Editor;
+
+		private const DEFAULT_MODE:int = 0;
+		private const SELECTED_MODE:int = 1;
+		private const EDITOR_MODE:int = 2;
 
 
 		// Menu
@@ -54,7 +50,6 @@ import scaleform.gfx.Extensions;
 		{
 			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(ctor)", "Constructor Code");
 			this.addEventListener(Event.ADDED_TO_STAGE, this.OnAddedToStage);
-			Extensions.enabled = false;
 		}
 
 
@@ -90,28 +85,13 @@ import scaleform.gfx.Extensions;
 		// Examine Menu
 		//---------------------------------------------
 
-		public function OnModSlotChanged(e:Event):*
-		{
-			// close editor in case tab button is used.
-			Editor.Close();
-			ExamineMenu.ModSlotListObject.removeEventListener(BSScrollingList.SELECTION_CHANGE, this.OnModSlotChanged);
-			var index:uint = ExamineMenu.ModSlotListObject.selectedIndex;
-			if(index > -1 && ExamineMenu.ModSlotListObject.entryList)
-			{
-				Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnModSlotChanged)");
-				MenuRoot.f4se.SendExternalEvent(ModChangedEvent, -1);
-			}
-		}
-
-
 		// Occurs when an OMOD is hovered in the examine menu.
 		public function OnModChanged(e:Event):*
 		{
 			timer.reset();
-			Viewer.visible = false;
-			EditButton.ButtonVisible = false;
+			SetMode(SELECTED_MODE, false);
 
-			var index:uint = ExamineMenu.ModListObject.selectedIndex;
+			var index:int = ExamineMenu.ModListObject.selectedIndex;
 			if(index > -1 && ExamineMenu.ModListObject.entryList)
 			{
 				var selected = ExamineMenu.ModListObject.entryList[index];
@@ -124,7 +104,7 @@ import scaleform.gfx.Extensions;
 							if (selected.perkData[0].perkID == PerkID)
 							{
 								Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnModChanged)", "e:"+String(e), "index:"+String(index), "Name:"+selected.text);
-								ExamineMenu.ModSlotListObject.addEventListener(BSScrollingList.SELECTION_CHANGE, this.OnModSlotChanged);
+								// ExamineMenu.ModSlotListObject.addEventListener(BSScrollingList.SELECTION_CHANGE, this.OnModSlotChanged);
 								timer.start();
 								return
 							}
@@ -153,49 +133,61 @@ import scaleform.gfx.Extensions;
 		}
 
 
+		// public function OnModSlotChanged(e:Event):*
+		// {
+		// 	ExamineMenu.ModSlotListObject.removeEventListener(BSScrollingList.SELECTION_CHANGE, this.OnModSlotChanged);
+		// 	var index:int = ExamineMenu.ModSlotListObject.selectedIndex;
+		// 	if(index > -1 && ExamineMenu.ModSlotListObject.entryList)
+		// 	{
+		// 		Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnModSlotChanged)");
+		// 		MenuRoot.f4se.SendExternalEvent(ModChangedEvent, -1);
+		// 	}
+		// }
+
+
 		private function OnSelectionTimer(e:TimerEvent):void
 		{
 			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnSelectionTimer)", e);
 			timer.reset();
-
-			Viewer.visible = true;
-			EditButton.ButtonVisible = true;
-			ExamineMenu.PerkPanel0_mc.Requires_tf.text = "Emblem";
-
-			var index:uint = ExamineMenu.ModListObject.selectedIndex;
-			MenuRoot.f4se.SendExternalEvent(ModChangedEvent, index);
+			SetMode(SELECTED_MODE);
 		}
 
 
 		// Editor
 		//---------------------------------------------
-		// TODO: The mouse click works but not the key press.
-		// TODO: EditMode the vanilla menu input events.
+
+		public function OnEditorKeyDown(e:KeyboardEvent):void
+		{
+			if(e.keyCode == Keyboard.R)
+			{
+				Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnEditorKeyDown)", "{R}", "e:"+e.toString());
+				OnEditorOpenButton();
+			}
+			if(e.keyCode == Keyboard.TAB)
+			{
+				Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnEditorKeyDown)", "{TAB}", "e:"+e.toString());
+				OnEditorCloseButton();
+			}
+			if(e.keyCode == Keyboard.E || e.keyCode == Keyboard.ENTER)
+			{
+				Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnEditorKeyDown)", "{E|ENTER}", "e:"+e.toString());
+				OnEditorSaveButton();
+			}
+		}
+
 
 		private function OnEditorOpenButton():void
 		{
 			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnEditorOpenButton)");
 			Editor.Open();
 		}
+
 		private function OnEditorOpened():void
 		{
 			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnEditorOpened)");
 			ExamineMenu.BGSCodeObj.PlaySound("UIMenuOK");
-			EditMode(true);
+			SetMode(EDITOR_MODE);
 			MenuRoot.f4se.SendExternalEvent(EditorOpenedEvent);
-		}
-
-
-		private function OnEditorSaveButton():void
-		{
-			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnEditorSaveButton)");
-			Editor.Save();
-		}
-		private function OnEditorSaved():void
-		{
-			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnEditorSaved)");
-			ExamineMenu.BGSCodeObj.PlaySound("UIMenuOK");
-			EditMode(false);
 		}
 
 
@@ -204,86 +196,136 @@ import scaleform.gfx.Extensions;
 			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnEditorCloseButton)");
 			Editor.Close();
 		}
+
 		private function OnEditorClosed():void
 		{
 			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnEditorClosed)");
 			ExamineMenu.BGSCodeObj.PlaySound("UIMenuCancel");
-			EditMode(false);
+			SetMode(SELECTED_MODE, false);
+			SetMode(EDITOR_MODE, false);
 		}
 
 
-		private function EditMode(value:Boolean):void
+		private function OnEditorSaveButton():void
 		{
-			if(value)
+			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnEditorSaveButton)");
+			Editor.Save();
+		}
+
+		private function OnEditorSaved():void
+		{
+			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnEditorSaved)");
+			ExamineMenu.BGSCodeObj.PlaySound("UIMenuOK");
+			SetMode(SELECTED_MODE, false);
+			SetMode(EDITOR_MODE, false);
+		}
+
+
+		// Modes
+		//---------------------------------------------
+
+		private function SetMode(mode:int, enable:Boolean = true):Boolean
+		{
+			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(SetMode)", "mode:"+mode, "enable:"+enable);
+
+			if(mode == DEFAULT_MODE)
 			{
-				ExamineMenu.ItemCardList_mc.visible = false;
+				return true;
+			}
+			else if(mode == SELECTED_MODE)
+			{
+				if(enable)
+				{
+					EditButton.ButtonVisible = true;
+					stage.addEventListener(KeyboardEvent.KEY_DOWN, this.OnEditorKeyDown);
+					Viewer.visible = true;
+					ExamineMenu.PerkPanel0_mc.Requires_tf.text = "Emblem";
+					var index:int = ExamineMenu.ModListObject.selectedIndex;
+					MenuRoot.f4se.SendExternalEvent(ModChangedEvent, index);
+				}
+				else
+				{
+					EditButton.ButtonVisible = false;
+					stage.removeEventListener(KeyboardEvent.KEY_DOWN, this.OnEditorKeyDown);
+					Viewer.visible = false;
+				}
+				return true;
+			}
+			else if(mode == EDITOR_MODE)
+			{
+				if(enable)
+				{
+					SupressUserEventInput = true;
+					ExamineMenu.removeEventListener(KeyboardEvent.KEY_UP, ExamineMenu.onKeyUp);
+					ExamineMenu.removeEventListener(MouseEvent.MOUSE_WHEEL, ExamineMenu.onMouseWheel);
+					ExamineMenu.removeEventListener(BSScrollingList.ITEM_PRESS, ExamineMenu.onItemPressed);
+				}
+				else
+				{
+					SupressUserEventInput = false;
+					ExamineMenu.addEventListener(KeyboardEvent.KEY_UP, ExamineMenu.onKeyUp);
+					ExamineMenu.addEventListener(MouseEvent.MOUSE_WHEEL, ExamineMenu.onMouseWheel);
+					ExamineMenu.addEventListener(BSScrollingList.ITEM_PRESS, ExamineMenu.onItemPressed);
+				}
 
-				ExamineMenu.ButtonHintBar_mc.visible = false;
-				// <-------------------------
-				this.SaveButton.ButtonVisible = true; // turn on
-				this.CloseButton.ButtonVisible = true; // turn on
-				this.EditButton.ButtonVisible = false;
-				// <-------------------------
-
-				ExamineMenu.Build.ButtonVisible = false;
-				ExamineMenu.Build.ButtonDisabled = true;
-
-				ExamineMenu.TagButton.ButtonVisible = false;
-				ExamineMenu.BackButton.ButtonVisible = false;
-
-
-				ExamineMenu.SetModsLabel("ODST Emblem Editor");
-				ExamineMenu.AdjustBracket(ExamineMenu.ModBracketBase_mc);
-				ExamineMenu.ModDescriptionBase_mc.visible = false;
-				ExamineMenu.CurrentModsBase_mc.ModSlotList_mc.disableInput = true;
-
-				ExamineMenu.ModSlotBracketBase_mc.visible = false;
-				ExamineMenu.ModSlotBase_mc.visible = false;
-				ExamineMenu.ModSlotBase_mc.ModSlotList_mc.disableInput = true;
-
-				ExamineMenu.InventoryBracketBase_mc.visible = false;
-				ExamineMenu.InventoryBase_mc.InventoryList_mc.visible = false;
-				ExamineMenu.InventoryBase_mc.InventoryList_mc.disableInput = true;
-
-				ExamineMenu.removeEventListener(KeyboardEvent.KEY_UP, ExamineMenu.onKeyUp);
-				ExamineMenu.removeEventListener(BSScrollingList.ITEM_PRESS, ExamineMenu.onItemPressed);
-				ExamineMenu.removeEventListener(MouseEvent.MOUSE_WHEEL, ExamineMenu.onMouseWheel);
-				Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(EditMode)", "Applied edit mode to vanilla menu.");
+				if(enable)
+				{
+					ExamineMenu.ItemCardList_mc.visible = false;
+					//-------------------------
+					this.SaveButton.ButtonVisible = true; // turn on
+					this.CloseButton.ButtonVisible = true; // turn on
+					this.EditButton.ButtonVisible = false;
+					//-------------------------
+					ExamineMenu.Build.ButtonVisible = false;
+					ExamineMenu.Build.ButtonDisabled = true;
+					//-------------------------
+					ExamineMenu.TagButton.ButtonVisible = false;
+					ExamineMenu.BackButton.ButtonVisible = false;
+					//-------------------------
+					ExamineMenu.SetModsLabel("ODST Emblem Editor");
+					ExamineMenu.AdjustBracket(ExamineMenu.ModBracketBase_mc);
+					ExamineMenu.ModDescriptionBase_mc.visible = false;
+					ExamineMenu.CurrentModsBase_mc.ModSlotList_mc.disableInput = true;
+					//-------------------------
+					ExamineMenu.ModSlotBracketBase_mc.visible = false;
+					ExamineMenu.ModSlotBase_mc.visible = false;
+					ExamineMenu.ModSlotBase_mc.ModSlotList_mc.disableInput = true;
+					//-------------------------
+					ExamineMenu.InventoryBracketBase_mc.visible = false;
+					ExamineMenu.InventoryBase_mc.InventoryList_mc.visible = false;
+					ExamineMenu.InventoryBase_mc.InventoryList_mc.disableInput = true;
+				}
+				else
+				{
+					ExamineMenu.ItemCardList_mc.visible = true;
+					//-------------------------
+					this.SaveButton.ButtonVisible = false;
+					this.CloseButton.ButtonVisible = false;
+					this.EditButton.ButtonVisible = true;
+					//-------------------------
+					ExamineMenu.Build.ButtonVisible = true;
+					ExamineMenu.TagButton.ButtonVisible = true;
+					ExamineMenu.BackButton.ButtonVisible = true;
+					//-------------------------
+					ExamineMenu.SetModsLabel("MODS");
+					ExamineMenu.AdjustBracket(ExamineMenu.ModBracketBase_mc);
+					ExamineMenu.ModDescriptionBase_mc.visible = true;
+					ExamineMenu.CurrentModsBase_mc.ModSlotList_mc.disableInput = false;
+					//-------------------------
+					ExamineMenu.ModSlotBracketBase_mc.visible = true;
+					ExamineMenu.ModSlotBase_mc.visible = true;
+					ExamineMenu.ModSlotBase_mc.ModSlotList_mc.disableInput = false;
+					//-------------------------
+					ExamineMenu.InventoryBracketBase_mc.visible = true;
+					ExamineMenu.InventoryBase_mc.InventoryList_mc.visible = true;
+					ExamineMenu.InventoryBase_mc.InventoryList_mc.disableInput = false;
+				}
+				return true;
 			}
 			else
 			{
-				ExamineMenu.ItemCardList_mc.visible = true;
-
-				ExamineMenu.ButtonHintBar_mc.visible = true;
-				// <-------------------------
-				this.SaveButton.ButtonVisible = false; // turn off
-				this.CloseButton.ButtonVisible = false; // turn off
-				this.EditButton.ButtonVisible = true;
-				// <-------------------------
-
-				ExamineMenu.Build.ButtonVisible = true;
-				ExamineMenu.TagButton.ButtonVisible = true;
-				ExamineMenu.BackButton.ButtonVisible = true;
-
-
-
-				ExamineMenu.SetModsLabel("MODS");
-				ExamineMenu.AdjustBracket(ExamineMenu.ModBracketBase_mc);
-				ExamineMenu.ModDescriptionBase_mc.visible = true;
-				ExamineMenu.CurrentModsBase_mc.ModSlotList_mc.disableInput = false;
-
-				ExamineMenu.ModSlotBracketBase_mc.visible = true;
-				ExamineMenu.ModSlotBase_mc.visible = true;
-				ExamineMenu.ModSlotBase_mc.ModSlotList_mc.disableInput = false;
-
-				ExamineMenu.InventoryBracketBase_mc.visible = true;
-				ExamineMenu.InventoryBase_mc.InventoryList_mc.visible = true;
-				ExamineMenu.InventoryBase_mc.InventoryList_mc.disableInput = false;
-
-				ExamineMenu.addEventListener(KeyboardEvent.KEY_UP, ExamineMenu.onKeyUp);
-				ExamineMenu.addEventListener(BSScrollingList.ITEM_PRESS, ExamineMenu.onItemPressed);
-				ExamineMenu.addEventListener(MouseEvent.MOUSE_WHEEL, ExamineMenu.onMouseWheel);
-				Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(EditMode)", "Unapplied edit mode to vanilla menu.");
+				Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(SetMode)", "The mode value of "+mode+" is unhandled.");
+				return false;
 			}
 		}
 

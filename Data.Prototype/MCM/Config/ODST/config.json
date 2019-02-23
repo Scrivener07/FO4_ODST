@@ -5,16 +5,16 @@
 	"content":
 	[
 		{
+			"text": "<b>Orbital Drop Shock Trooper (ODST)</b>",
+			"type": "text",
+			"html": true
+		},
+		{
 			"type": "image",
 			"libName": "ODST",
 			"className": "Splash",
 			"width": 100,
 			"height": 100
-		},
-		{
-			"text": "<b>Orbital Drop Shock Trooper (ODST)</b>",
-			"type": "text",
-			"html": true
 		}
 	],
 	"pages":
@@ -1326,7 +1326,7 @@
 						"sourceType": "PropertyValueBool",
 						"sourceForm": "ODST.esp|FA8",
 						"propertyName": "Condition_ODST",
-						"scriptName": "ODST:Emblems:Cheat"
+						"scriptName": "ODST:Cheat"
 					}
 				},
 				{
@@ -1338,7 +1338,7 @@
 						"sourceType": "PropertyValueBool",
 						"sourceForm": "ODST.esp|FA8",
 						"propertyName": "Condition_ODST_Helmet",
-						"scriptName": "ODST:Emblems:Cheat"
+						"scriptName": "ODST:Cheat"
 					}
 				},
 				{
@@ -1350,7 +1350,7 @@
 						"sourceType": "PropertyValueBool",
 						"sourceForm": "ODST.esp|FA8",
 						"propertyName": "Condition_ODST_Recon_Helmet",
-						"scriptName": "ODST:Emblems:Cheat"
+						"scriptName": "ODST:Cheat"
 					}
 				},
 				{
@@ -1362,7 +1362,7 @@
 						"sourceType": "PropertyValueBool",
 						"sourceForm": "ODST.esp|FA8",
 						"propertyName": "Condition_H3_ODST",
-						"scriptName": "ODST:Emblems:Cheat"
+						"scriptName": "ODST:Cheat"
 					}
 				},
 				{
@@ -1374,7 +1374,7 @@
 						"sourceType": "PropertyValueBool",
 						"sourceForm": "ODST.esp|FA8",
 						"propertyName": "Condition_H3_ODST_Helmet",
-						"scriptName": "ODST:Emblems:Cheat"
+						"scriptName": "ODST:Cheat"
 					}
 				},
 				{
@@ -1386,15 +1386,9 @@
 						"sourceType": "PropertyValueBool",
 						"sourceForm": "ODST.esp|FA8",
 						"propertyName": "Condition_H3_ODST_HelmetHaunted",
-						"scriptName": "ODST:Emblems:Cheat"
+						"scriptName": "ODST:Cheat"
 					}
 				},
-
-
-
-
-
-
 				{
 					"text": "ODST",
 					"type": "section"
@@ -1409,7 +1403,7 @@
 						"type": "CallFunction",
 						"form": "ODST.esp|FA8",
 						"function": "Armor_ODST",
-						"scriptName": "ODST:Special:Cheat"
+						"scriptName": "ODST:Cheat"
 					}
 				},
 				{
@@ -1422,7 +1416,7 @@
 						"type": "CallFunction",
 						"form": "ODST.esp|FA8",
 						"function": "Armor_ODST_Helmet",
-						"scriptName": "ODST:Special:Cheat"
+						"scriptName": "ODST:Cheat"
 					}
 				},
 				{
@@ -1435,7 +1429,7 @@
 						"type": "CallFunction",
 						"form": "ODST.esp|FA8",
 						"function": "Armor_ODST_Recon_Helmet",
-						"scriptName": "ODST:Special:Cheat"
+						"scriptName": "ODST:Cheat"
 					}
 				},
 				{
@@ -1452,7 +1446,7 @@
 						"type": "CallFunction",
 						"form": "ODST.esp|FA8",
 						"function": "Armor_H3_ODST",
-						"scriptName": "ODST:Special:Cheat"
+						"scriptName": "ODST:Cheat"
 					}
 				},
 				{
@@ -1465,7 +1459,7 @@
 						"type": "CallFunction",
 						"form": "ODST.esp|FA8",
 						"function": "Armor_H3_ODST_Helmet",
-						"scriptName": "ODST:Special:Cheat"
+						"scriptName": "ODST:Cheat"
 					}
 				},
 				{
@@ -1478,7 +1472,7 @@
 						"type": "CallFunction",
 						"form": "ODST.esp|FA8",
 						"function": "Armor_H3_ODST_HelmetHaunted",
-						"scriptName": "ODST:Special:Cheat"
+						"scriptName": "ODST:Cheat"
 					}
 				}
 			]
