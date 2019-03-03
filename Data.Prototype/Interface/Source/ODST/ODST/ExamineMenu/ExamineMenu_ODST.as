@@ -56,7 +56,7 @@
 		public override function OnAddedToStage(e:Event):void
 		{
 			super.OnAddedToStage(e);
-			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnAddedToStage)", Utility.WalkMovie(this));
+			Debug.WriteLine("[ODST]", "[ExamineMenu_ODST]", "(OnAddedToStage)", Utility.GetInstance(this));
 
 			timer = new Timer(500, 1);
 			timer.addEventListener(TimerEvent.TIMER, this.OnSelectionTimer);

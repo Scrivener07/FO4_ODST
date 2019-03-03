@@ -9,13 +9,13 @@ package Shared.AS3
 		// Instance
 		//---------------------------------------------
 
-		public static function WalkMovie(object:DisplayObject):String
+		public static function GetInstance(object:DisplayObject):String
 		{
-			return WalkMovieFrom(object, object);
+			return GetInstanceFrom(object, object);
 		}
 
 
-		public static function WalkMovieFrom(from:DisplayObject, to:DisplayObject):String
+		public static function GetInstanceFrom(from:DisplayObject, to:DisplayObject):String
 		{
 			var path:String = from.name;
 			while (from != to.root)
